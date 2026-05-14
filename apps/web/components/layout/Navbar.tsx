@@ -1,45 +1,72 @@
-﻿"use client";
+"use client";
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <nav 
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled 
+          ? 'bg-background/70 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_30px_rgba(0,0,0,0.2)]' 
+          : 'bg-transparent py-2'
+      }`}
+    >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Image src="/favicon.ico" alt="Auto Apply AI Logo" width={32} height={32} className="rounded-md" />
-            <Link href="/" className="font-bold text-xl tracking-tight text-foreground">
+          <div className="flex items-center gap-3 group">
+            <div className="relative overflow-hidden rounded-xl bg-gradient-to-tr from-primary to-blue-500 p-0.5 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]">
+              <div className="bg-background rounded-[10px] p-1.5">
+                <Image src="/favicon.ico" alt="Auto Apply AI Logo" width={24} height={24} className="rounded-md" />
+              </div>
+            </div>
+            <Link href="/" className="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
               Auto Apply AI
             </Link>
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-sm font-medium text-secondary-foreground hover:text-primary transition-colors">Features</Link>
-            <Link href="#why-us" className="text-sm font-medium text-secondary-foreground hover:text-primary transition-colors">Why Us</Link>
-            <Link href="#platforms" className="text-sm font-medium text-secondary-foreground hover:text-primary transition-colors">Platforms</Link>
+          <div className="hidden md:flex items-center gap-8 bg-secondary/50 dark:bg-secondary/30 backdrop-blur-md px-6 py-2.5 rounded-full border border-border/50">
+            <Link href="#features" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Features</Link>
+            <Link href="#why-us" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Why Us</Link>
+            <Link href="#platforms" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Platforms</Link>
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <ThemeToggle />
+            <Link href="/login" className="text-sm font-medium text-foreground hover:text-primary transition-colors px-3 py-2">
               Log in
             </Link>
-            <Link href="/signup" className="text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-full hover:opacity-90 transition-opacity shadow-sm">
-              Get Started
+            <Link href="/signup" className="relative group overflow-hidden rounded-full p-[1px]">
+              <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-500 to-primary rounded-full animate-[spin_3s_linear_infinite] opacity-70 group-hover:opacity-100 transition-opacity" />
+              <div className="relative bg-background text-foreground px-5 py-2 rounded-full font-semibold text-sm transition-all group-hover:bg-transparent group-hover:text-white">
+                Get Started
+              </div>
             </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button className="md:hidden p-2 text-foreground" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex md:hidden items-center gap-3">
+            <ThemeToggle />
+            <button className="p-2 text-foreground rounded-full hover:bg-secondary/80 transition-colors" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -47,20 +74,23 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border bg-background"
+            initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden absolute top-full left-0 w-full border-b border-border bg-background/95 backdrop-blur-xl shadow-2xl"
           >
-            <div className="flex flex-col px-4 py-6 gap-4">
-              <Link href="#features" className="text-base font-medium text-secondary-foreground" onClick={() => setIsOpen(false)}>Features</Link>
-              <Link href="#why-us" className="text-base font-medium text-secondary-foreground" onClick={() => setIsOpen(false)}>Why Us</Link>
-              <Link href="#platforms" className="text-base font-medium text-secondary-foreground" onClick={() => setIsOpen(false)}>Platforms</Link>
-              <div className="h-px bg-border my-2" />
-              <Link href="/login" className="text-base font-medium text-foreground" onClick={() => setIsOpen(false)}>Log in</Link>
-              <Link href="/signup" className="w-full text-center text-base font-medium bg-primary text-primary-foreground px-4 py-3 rounded-full" onClick={() => setIsOpen(false)}>
-                Get Started
-              </Link>
+            <div className="flex flex-col px-6 py-8 gap-6">
+              <Link href="#features" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Features</Link>
+              <Link href="#why-us" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Why Us</Link>
+              <Link href="#platforms" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Platforms</Link>
+              <div className="h-px bg-border/50 my-2" />
+              <div className="flex flex-col gap-4">
+                <Link href="/login" className="w-full py-3 text-center text-base font-semibold text-foreground rounded-xl border border-border hover:bg-secondary transition-colors" onClick={() => setIsOpen(false)}>Log in</Link>
+                <Link href="/signup" className="w-full text-center text-base font-semibold bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-3 rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all" onClick={() => setIsOpen(false)}>
+                  Get Started
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

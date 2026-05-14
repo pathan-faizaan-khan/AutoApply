@@ -1,8 +1,7 @@
-﻿'use client';
+'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
-  CheckCircle2, 
   FileText, 
   Target, 
   MousePointerClick, 
@@ -10,14 +9,18 @@ import {
   LayoutDashboard, 
   CalendarDays,
   ArrowRight,
-  PlayCircle
+  PlayCircle,
+  Sparkles,
+  Zap,
+  CheckCircle2
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRef } from 'react';
 
 // Animation variants
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
 };
 
 const staggerContainer = {
@@ -25,38 +28,66 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.15
     }
   }
 };
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity1 = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-background overflow-hidden" ref={containerRef}>
+      {/* Background Decorative Elements */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex justify-center items-start">
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px] mix-blend-screen" />
+        <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[120px] mix-blend-screen" />
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-overlay" />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-24 pb-32 md:pt-32 md:pb-40">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="container relative mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center text-center">
+      <section className="relative z-10 pt-32 pb-20 md:pt-48 md:pb-32 px-4 flex flex-col items-center justify-center min-h-[90vh]">
+        <motion.div style={{ y: y1, opacity: opacity1 }} className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -z-10" />
+        <motion.div style={{ y: y2, opacity: opacity1 }} className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px] -z-10" />
+        
+        <div className="container relative mx-auto flex flex-col items-center text-center">
           <motion.div 
             initial="hidden" animate="visible" variants={staggerContainer}
-            className="max-w-4xl space-y-8"
+            className="max-w-5xl space-y-8 flex flex-col items-center"
           >
-            <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground">
-              AUTO APPLY <span className="text-primary">AI</span>
-              <br />
-              <span className="text-3xl md:text-5xl lg:text-5xl font-bold mt-4 block text-secondary-foreground">Your Smart AI-Powered Job Application Assistant</span>
+            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 border border-border/50 backdrop-blur-sm shadow-sm mb-4">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold tracking-wide text-secondary-foreground">Next-Gen Job Application Assistant</span>
+            </motion.div>
+
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.1]">
+              Accelerate Your <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-primary animate-gradient-x">
+                Career Growth
+              </span>
             </motion.h1>
             
-            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-secondary-foreground max-w-2xl mx-auto leading-relaxed">
-              Apply to jobs faster with intelligent automation, AI resume optimization, ATS checking, smart job matching, and centralized application tracking — all in one platform.
+            <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-secondary-foreground max-w-3xl mx-auto leading-relaxed font-medium">
+              Apply to jobs faster with intelligent automation, AI resume optimization, ATS checking, and smart job matching — all from one unified platform.
             </motion.p>
             
-            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/signup" className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/25 hover:-translate-y-1">
-                Get Started <ArrowRight className="w-5 h-5" />
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 w-full sm:w-auto">
+              <Link href="/signup" className="relative group w-full sm:w-auto">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300 group-hover:duration-200" />
+                <button className="relative w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-transparent hover:text-white transition-all">
+                  Get Started Free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
               </Link>
-              <Link href="#demo" className="w-full sm:w-auto px-8 py-4 bg-secondary text-secondary-foreground rounded-full font-semibold text-lg hover:bg-secondary/80 transition-all flex items-center justify-center gap-2 border border-border">
-                <PlayCircle className="w-5 h-5" /> View Demo
+              <Link href="#demo" className="w-full sm:w-auto px-10 py-5 bg-secondary text-foreground rounded-full font-bold text-lg hover:bg-secondary/80 transition-all flex items-center justify-center gap-3 border border-border/50 backdrop-blur-sm">
+                <PlayCircle className="w-5 h-5 text-primary" /> Watch Demo
               </Link>
             </motion.div>
           </motion.div>
@@ -64,172 +95,234 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-us" className="py-20 md:py-32 bg-secondary/30">
+      <section id="why-us" className="relative z-10 py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
-              initial={{ opacity: 0, x: -30 }} 
+              initial={{ opacity: 0, x: -40 }} 
               whileInView={{ opacity: 1, x: 0 }} 
-              viewport={{ once: true }} 
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
+              viewport={{ once: true, margin: "-100px" }} 
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="space-y-8"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Why Choose Auto Apply AI?</h2>
-              <p className="text-lg text-secondary-foreground leading-relaxed">
-                Searching and applying for jobs manually takes time and effort. Auto Apply AI simplifies the entire process by automating repetitive tasks and helping users manage everything from one centralized dashboard.
+              <h2 className="text-4xl md:text-5xl font-extrabold text-foreground leading-tight">
+                Why Choose <span className="text-primary">Auto Apply AI?</span>
+              </h2>
+              <p className="text-xl text-secondary-foreground leading-relaxed">
+                Searching and applying for jobs manually takes time and effort. We simplify the entire process by automating repetitive tasks and helping you manage everything from a centralized dashboard.
               </p>
             </motion.div>
             
             <motion.div 
-              initial={{ opacity: 0, x: 30 }} 
-              whileInView={{ opacity: 1, x: 0 }} 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              whileInView={{ opacity: 1, scale: 1 }} 
               viewport={{ once: true }} 
-              transition={{ duration: 0.6 }}
-              className="bg-background rounded-2xl p-8 shadow-sm border border-border"
+              transition={{ duration: 0.8 }}
+              className="relative"
             >
-              <ul className="space-y-4">
-                {[
-                  "Save valuable time during the job application process",
-                  "Automatically apply to multiple jobs with ease",
-                  "Improve resume ATS compatibility and visibility",
-                  "Track applications, interviews, and notifications efficiently",
-                  "Receive smart AI-powered job recommendations"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-0.5" />
-                    <span className="text-foreground font-medium">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-blue-500/20 rounded-3xl transform rotate-3 scale-105 blur-xl -z-10" />
+              <div className="bg-background/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-border/50 shadow-2xl">
+                <ul className="space-y-6">
+                  {[
+                    "Save valuable time during the job application process",
+                    "Automatically apply to multiple jobs with ease",
+                    "Improve resume ATS compatibility and visibility",
+                    "Track applications, interviews, and notifications efficiently",
+                    "Receive smart AI-powered job recommendations"
+                  ].map((item, i) => (
+                    <motion.li 
+                      key={i} 
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}
+                      className="flex items-start gap-4 p-4 rounded-2xl hover:bg-secondary/50 transition-colors border border-transparent hover:border-border/50"
+                    >
+                      <div className="bg-primary/10 p-2 rounded-full shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-foreground font-semibold text-lg">{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Powerful Features */}
-      <section id="features" className="py-20 md:py-32">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">Powerful Features</h2>
-            <p className="text-lg text-secondary-foreground">Everything you need to land your dream job faster and smarter.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Highlights / Stats (Removed specific numbers as requested) */}
+      <section className="relative z-10 py-16 bg-secondary/30 border-y border-border/50 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-border/50">
             {[
-              {
-                icon: FileText,
-                title: "AI Resume Optimization",
-                desc: "Improve resume ATS compatibility using AI-powered keyword analysis and skill enhancement suggestions."
-              },
-              {
-                icon: Target,
-                title: "Smart Job Matching",
-                desc: "Get AI-based job recommendations with accurate match percentage analysis based on your skills and experience."
-              },
-              {
-                icon: MousePointerClick,
-                title: "One-Click Auto Apply",
-                desc: "Apply automatically to jobs using Chrome Extension integration without repeatedly filling forms."
-              },
-              {
-                icon: CheckSquare,
-                title: "ATS Compatibility Check",
-                desc: "Analyze resumes and improve chances of getting shortlisted by Applicant Tracking Systems used by companies."
-              },
-              {
-                icon: LayoutDashboard,
-                title: "Dashboard Analytics",
-                desc: "Track applications, interviews, notifications, pending responses, and success rate from one smart dashboard."
-              },
-              {
-                icon: CalendarDays,
-                title: "Interview Management",
-                desc: "Receive interview reminders, meeting notifications, and manage interview schedules directly from the dashboard."
-              }
-            ].map((feature, i) => (
+              { label: "Applications Successfully Automated" },
+              { label: "High ATS Match Accuracy" },
+              { label: "Interview Notifications Managed" },
+              { label: "Smart Automation Support" }
+            ].map((stat, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow group"
+                className="flex flex-col items-center justify-center p-6 space-y-3 group"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="w-7 h-7 text-primary" />
+                <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-sm border border-border/50 group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300">
+                  <Zap className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground">{feature.title}</h3>
-                <p className="text-secondary-foreground leading-relaxed">{feature.desc}</p>
+                <div className="text-base md:text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Highlights / Stats */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+      {/* Powerful Features (Bento Grid) */}
+      <section id="features" className="relative z-10 py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-primary-foreground/20">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold mb-6"
+            >
+              <LayoutDashboard className="w-4 h-4" /> Comprehensive Toolkit
+            </motion.div>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-foreground mb-6">Powerful Features</h2>
+            <p className="text-xl text-secondary-foreground font-medium">Everything you need to land your dream job faster and smarter, engineered into one beautiful platform.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
             {[
-              { val: "10,000+", label: "Applications Automated" },
-              { val: "95%", label: "ATS Match Accuracy" },
-              { val: "500+", label: "Interviews Managed" },
-              { val: "24/7", label: "Smart Automation" }
-            ].map((stat, i) => (
+              {
+                icon: FileText,
+                title: "AI Resume Optimization",
+                desc: "Improve resume ATS compatibility using AI-powered keyword analysis and skill enhancement suggestions.",
+                className: "md:col-span-2 md:row-span-1 bg-gradient-to-br from-background to-secondary/30"
+              },
+              {
+                icon: Target,
+                title: "Smart Job Matching",
+                desc: "Get AI-based job recommendations with accurate match percentage analysis.",
+                className: "md:col-span-1 md:row-span-1 bg-gradient-to-bl from-background to-blue-500/5"
+              },
+              {
+                icon: MousePointerClick,
+                title: "One-Click Auto Apply",
+                desc: "Apply automatically to jobs using Chrome Extension integration without repeatedly filling forms.",
+                className: "md:col-span-1 md:row-span-2 bg-gradient-to-t from-primary/5 to-background flex-col justify-end"
+              },
+              {
+                icon: CheckSquare,
+                title: "ATS Compatibility",
+                desc: "Analyze resumes and improve chances of getting shortlisted.",
+                className: "md:col-span-1 md:row-span-1 bg-background"
+              },
+              {
+                icon: CalendarDays,
+                title: "Interview Management",
+                desc: "Receive interview reminders and manage schedules directly from the dashboard.",
+                className: "md:col-span-1 md:row-span-1 bg-background"
+              },
+              {
+                icon: LayoutDashboard,
+                title: "Dashboard Analytics",
+                desc: "Track applications, interviews, notifications, pending responses, and success rate from one smart dashboard.",
+                className: "md:col-span-2 md:row-span-1 bg-gradient-to-r from-secondary/50 to-background"
+              }
+            ].map((feature, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="flex flex-col items-center justify-center space-y-2 p-4"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className={`relative group overflow-hidden rounded-3xl border border-border/50 p-8 flex flex-col hover:border-primary/50 transition-colors ${feature.className}`}
               >
-                <div className="text-4xl md:text-5xl font-black">{stat.val}</div>
-                <div className="text-sm md:text-base font-medium text-primary-foreground/80">{stat.label}</div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="w-14 h-14 rounded-2xl bg-background border border-border flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:shadow-primary/20 transition-all duration-300">
+                      <feature.icon className="w-7 h-7 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-foreground">{feature.title}</h3>
+                  </div>
+                  <p className="text-secondary-foreground font-medium text-lg leading-relaxed">{feature.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Supported Platforms */}
-      <section id="platforms" className="py-20 bg-background border-b border-border">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-12">Seamlessly Integrates With Top Platforms</h2>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {["LinkedIn", "Indeed", "Naukri", "Glassdoor", "Wellfound", "ZipRecruiter"].map((platform, i) => (
-              <div key={i} className="text-xl md:text-3xl font-black text-secondary-foreground">
+      {/* Supported Platforms (Infinite Ticker Style) */}
+      <section id="platforms" className="relative z-10 py-24 bg-background border-y border-border/50 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">Seamlessly Integrates With Top Platforms</h2>
+        </div>
+        
+        {/* Simple infinite scroll CSS animation structure */}
+        <div className="relative w-full flex overflow-x-hidden">
+          <div className="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-24 px-8">
+            {["LinkedIn", "Indeed", "Naukri", "Glassdoor", "Wellfound", "ZipRecruiter", "LinkedIn", "Indeed", "Naukri", "Glassdoor"].map((platform, i) => (
+              <div key={i} className="text-3xl md:text-5xl font-black text-foreground/20 hover:text-foreground/80 transition-colors duration-300 cursor-default">
                 {platform}
               </div>
             ))}
           </div>
         </div>
+        
+        {/* Fade edges */}
+        <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-background to-transparent z-10" />
+        <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-background to-transparent z-10" />
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 bg-secondary/50">
-        <div className="container mx-auto px-4 text-center max-w-4xl">
+      <section className="relative z-10 py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none" />
+        <div className="container relative mx-auto px-4 text-center max-w-4xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="bg-secondary/50 backdrop-blur-3xl border border-border/50 p-12 md:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">Start Your Smart Job Search Today</h2>
-            <p className="text-xl text-secondary-foreground leading-relaxed max-w-2xl mx-auto">
+            {/* Glow effect behind CTA */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.15),transparent_60%)] -z-10" />
+            
+            <h2 className="text-4xl md:text-6xl font-black text-foreground mb-8">Start Your Smart Job Search Today</h2>
+            <p className="text-xl md:text-2xl text-secondary-foreground leading-relaxed max-w-2xl mx-auto mb-12 font-medium">
               Simplify your entire job application journey using AI-powered automation, smart resume optimization, and centralized job management tools.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/signup" className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                Start Free <ArrowRight className="w-5 h-5" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/signup" className="relative group w-full sm:w-auto">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300" />
+                <button className="relative w-full sm:w-auto px-10 py-5 bg-foreground text-background rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform">
+                  Start Free <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
-              <Link href="/features" className="w-full sm:w-auto px-8 py-4 bg-background text-foreground rounded-full font-semibold text-lg hover:bg-secondary transition-all flex items-center justify-center border border-border">
+              <Link href="/features" className="w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg hover:bg-secondary transition-all flex items-center justify-center border border-border shadow-sm hover:shadow-md">
                 Learn More
               </Link>
             </div>
           </motion.div>
         </div>
       </section>
+
+      {/* Marquee Animation Styles */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+        }
+      `}} />
     </div>
   );
 }

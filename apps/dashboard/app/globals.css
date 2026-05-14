@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @font-face {
   font-family: 'Gilroy';
@@ -56,20 +56,18 @@
   --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Trustworthy Violet Dark Theme */
-    --background: #020617; 
-    --foreground: #f8fafc; 
-    
-    --primary: #8b5cf6; /* Violet 500 */
-    --primary-foreground: #ffffff;
-    
-    --secondary: #0f172a;
-    --secondary-foreground: #cbd5e1; 
-    
-    --border: #1e293b; 
-  }
+.dark {
+  /* Trustworthy Violet Dark Theme */
+  --background: #020617; 
+  --foreground: #f8fafc; 
+  
+  --primary: #8b5cf6; /* Violet 500 */
+  --primary-foreground: #ffffff;
+  
+  --secondary: #0f172a;
+  --secondary-foreground: #cbd5e1; 
+  
+  --border: #1e293b; 
 }
 
 body {

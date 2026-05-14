@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @font-face {
   font-family: 'Gilroy';
@@ -35,15 +35,16 @@
 :root {
   /* Trustworthy Violet Light Theme */
   --background: #ffffff;
-  --foreground: #0f172a; 
-  
-  --primary: #7c3aed; /* Violet 600 */
+  --foreground: #0f172a;
+
+  --primary: #7c3aed;
+  /* Violet 600 */
   --primary-foreground: #ffffff;
-  
-  --secondary: #f8fafc; 
+
+  --secondary: #f8fafc;
   --secondary-foreground: #334155;
-  
-  --border: #e2e8f0; 
+
+  --border: #e2e8f0;
 }
 
 @theme inline {
@@ -56,20 +57,18 @@
   --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Trustworthy Violet Dark Theme */
-    --background: #020617; 
-    --foreground: #f8fafc; 
-    
-    --primary: #8b5cf6; /* Violet 500 */
-    --primary-foreground: #ffffff;
-    
-    --secondary: #0f172a;
-    --secondary-foreground: #cbd5e1; 
-    
-    --border: #1e293b; 
-  }
+.dark {
+  /* Trustworthy Violet Dark Theme */
+  --background: #020617; 
+  --foreground: #f8fafc; 
+  
+  --primary: #8b5cf6; /* Violet 500 */
+  --primary-foreground: #ffffff;
+  
+  --secondary: #0f172a;
+  --secondary-foreground: #cbd5e1; 
+  
+  --border: #1e293b; 
 }
 
 body {
