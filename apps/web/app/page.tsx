@@ -1,12 +1,12 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  FileText, 
-  Target, 
-  MousePointerClick, 
-  CheckSquare, 
-  LayoutDashboard, 
+import {
+  FileText,
+  Target,
+  MousePointerClick,
+  CheckSquare,
+  LayoutDashboard,
   CalendarDays,
   ArrowRight,
   PlayCircle,
@@ -17,11 +17,11 @@ import {
 import Link from 'next/link';
 import { useRef } from 'react';
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } }
 };
+
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -57,9 +57,9 @@ export default function Home() {
       <section className="relative z-10 pt-32 pb-20 md:pt-48 md:pb-32 px-4 flex flex-col items-center justify-center min-h-[90vh]">
         <motion.div style={{ y: y1, opacity: opacity1 }} className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -z-10" />
         <motion.div style={{ y: y2, opacity: opacity1 }} className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px] -z-10" />
-        
+
         <div className="container relative mx-auto flex flex-col items-center text-center">
-          <motion.div 
+          <motion.div
             initial="hidden" animate="visible" variants={staggerContainer}
             className="max-w-5xl space-y-8 flex flex-col items-center"
           >
@@ -74,11 +74,11 @@ export default function Home() {
                 Career Growth
               </span>
             </motion.h1>
-            
+
             <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-secondary-foreground max-w-3xl mx-auto leading-relaxed font-medium">
               Apply to jobs faster with intelligent automation, AI resume optimization, ATS checking, and smart job matching — all from one unified platform.
             </motion.p>
-            
+
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 w-full sm:w-auto">
               <Link href="/signup" className="relative group w-full sm:w-auto">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300 group-hover:duration-200" />
@@ -98,10 +98,10 @@ export default function Home() {
       <section id="why-us" className="relative z-10 py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -40 }} 
-              whileInView={{ opacity: 1, x: 0 }} 
-              viewport={{ once: true, margin: "-100px" }} 
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="space-y-8"
             >
@@ -112,11 +112,11 @@ export default function Home() {
                 Searching and applying for jobs manually takes time and effort. We simplify the entire process by automating repetitive tasks and helping you manage everything from a centralized dashboard.
               </p>
             </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} 
-              whileInView={{ opacity: 1, scale: 1 }} 
-              viewport={{ once: true }} 
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="relative"
             >
@@ -130,8 +130,8 @@ export default function Home() {
                     "Track applications, interviews, and notifications efficiently",
                     "Receive smart AI-powered job recommendations"
                   ].map((item, i) => (
-                    <motion.li 
-                      key={i} 
+                    <motion.li
+                      key={i}
                       initial={{ opacity: 0, x: 20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1, duration: 0.5 }}
@@ -161,7 +161,7 @@ export default function Home() {
               { label: "Interview Notifications Managed" },
               { label: "Smart Automation Support" }
             ].map((stat, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -183,7 +183,7 @@ export default function Home() {
       <section id="features" className="relative z-10 py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -234,7 +234,7 @@ export default function Home() {
                 className: "md:col-span-2 md:row-span-1 bg-gradient-to-r from-secondary/50 to-background"
               }
             ].map((feature, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -263,7 +263,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground">Seamlessly Integrates With Top Platforms</h2>
         </div>
-        
+
         {/* Simple infinite scroll CSS animation structure */}
         <div className="relative w-full flex overflow-x-hidden">
           <div className="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-24 px-8">
@@ -274,7 +274,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        
+
         {/* Fade edges */}
         <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-background to-transparent z-10" />
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-background to-transparent z-10" />
@@ -293,7 +293,7 @@ export default function Home() {
           >
             {/* Glow effect behind CTA */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.15),transparent_60%)] -z-10" />
-            
+
             <h2 className="text-4xl md:text-6xl font-black text-foreground mb-8">Start Your Smart Job Search Today</h2>
             <p className="text-xl md:text-2xl text-secondary-foreground leading-relaxed max-w-2xl mx-auto mb-12 font-medium">
               Simplify your entire job application journey using AI-powered automation, smart resume optimization, and centralized job management tools.
@@ -314,7 +314,8 @@ export default function Home() {
       </section>
 
       {/* Marquee Animation Styles */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }

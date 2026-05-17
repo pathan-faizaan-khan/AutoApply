@@ -42,8 +42,8 @@ export default function Navbar() {
           
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8 bg-secondary/50 dark:bg-secondary/30 backdrop-blur-md px-6 py-2.5 rounded-full border border-border/50">
-            <Link href="#features" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Features</Link>
             <Link href="#why-us" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Why Us</Link>
+            <Link href="#features" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Features</Link>
             <Link href="#platforms" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">Platforms</Link>
           </div>
 
@@ -81,8 +81,8 @@ export default function Navbar() {
             className="md:hidden absolute top-full left-0 w-full border-b border-border bg-background/95 backdrop-blur-xl shadow-2xl"
           >
             <div className="flex flex-col px-6 py-8 gap-6">
-              <Link href="#features" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Features</Link>
               <Link href="#why-us" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Why Us</Link>
+              <Link href="#features" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Features</Link>
               <Link href="#platforms" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Platforms</Link>
               <div className="h-px bg-border/50 my-2" />
               <div className="flex flex-col gap-4">
