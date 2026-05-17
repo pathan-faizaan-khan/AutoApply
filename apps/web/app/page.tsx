@@ -267,10 +267,27 @@ export default function Home() {
         {/* Simple infinite scroll CSS animation structure */}
         <div className="relative w-full flex overflow-x-hidden">
           <div className="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-24 px-8">
-            {["LinkedIn", "Indeed", "Naukri", "Glassdoor", "Wellfound", "ZipRecruiter", "LinkedIn", "Indeed", "Naukri", "Glassdoor"].map((platform, i) => (
-              <div key={i} className="text-3xl md:text-5xl font-black text-foreground/20 hover:text-foreground/80 transition-colors duration-300 cursor-default">
-                {platform}
-              </div>
+            {[
+              { name: "LinkedIn", url: "https://www.linkedin.com/jobs" },
+              { name: "Indeed", url: "https://www.indeed.com" },
+              { name: "Naukri", url: "https://www.naukri.com" },
+              { name: "Glassdoor", url: "https://www.glassdoor.com" },
+              { name: "Wellfound", url: "https://wellfound.com" },
+              { name: "ZipRecruiter", url: "https://www.ziprecruiter.com" },
+              { name: "LinkedIn", url: "https://www.linkedin.com/jobs" },
+              { name: "Indeed", url: "https://www.indeed.com" },
+              { name: "Naukri", url: "https://www.naukri.com" },
+              { name: "Glassdoor", url: "https://www.glassdoor.com" },
+            ].map((platform, i) => (
+              <a
+                key={i}
+                href={platform.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-3xl md:text-5xl font-black text-foreground/20 hover:text-primary transition-colors duration-300 cursor-pointer"
+              >
+                {platform.name}
+              </a>
             ))}
           </div>
         </div>
