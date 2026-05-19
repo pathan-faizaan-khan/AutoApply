@@ -29,16 +29,14 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3 group">
-            <div className="relative overflow-hidden rounded-xl bg-gradient-to-tr from-primary to-blue-500 p-0.5 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]">
-              <div className="bg-background rounded-[10px] p-1.5">
-                <Image src="/favicon.ico" alt="Auto Apply AI Logo" width={24} height={24} className="rounded-md" />
-              </div>
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="relative overflow-hidden transition-transform duration-300 group-hover:scale-105">
+              <Image src="/logo.ico" alt="Auto Apply AI Logo" width={40} height={40} className="rounded-xl object-contain" />
             </div>
-            <Link href="/" className="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-              Auto Apply AI
-            </Link>
-          </div>
+            <span className="font-extrabold text-xl tracking-tight text-foreground group-hover:text-primary transition-colors">
+              AutoApplyAI
+            </span>
+          </Link>
           
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8 bg-secondary/50 dark:bg-secondary/30 backdrop-blur-md px-6 py-2.5 rounded-full border border-border/50">
