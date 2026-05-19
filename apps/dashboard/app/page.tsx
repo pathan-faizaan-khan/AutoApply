@@ -61,6 +61,7 @@ export default function DashboardHome() {
     // Since we don't have a verify route right now, we can extract from token payload or mock
     try {
       const base64Url = activeToken.split('.')[1];
+      if (!base64Url) throw new Error('Invalid token');
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
         atob(base64)
