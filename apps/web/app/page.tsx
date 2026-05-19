@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
@@ -63,10 +63,6 @@ export default function Home() {
             initial="hidden" animate="visible" variants={staggerContainer}
             className="max-w-5xl space-y-8 flex flex-col items-center"
           >
-            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 border border-border/50 backdrop-blur-sm shadow-sm mb-4">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold tracking-wide text-secondary-foreground">Next-Gen Job Application Assistant</span>
-            </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.1]">
               Accelerate Your <br />
