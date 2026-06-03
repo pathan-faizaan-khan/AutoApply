@@ -76,11 +76,11 @@ export default function Home() {
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-secondary-foreground max-w-3xl mx-auto leading-relaxed font-medium">
-              Apply to jobs faster with intelligent automation, AI resume optimization, ATS checking, and smart job matching — all from one unified platform.
+              Apply to jobs faster with intelligent automation, AI resume optimization, and smart job matching — all from one unified platform.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 w-full sm:w-auto">
-              <Link href="/signup" className="relative group w-full sm:w-auto">
+              <Link href="http://localhost:3008" className="relative group w-full sm:w-auto">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300 group-hover:duration-200" />
                 <button className="relative w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-transparent hover:text-white transition-all">
                   Get Started Free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -126,7 +126,7 @@ export default function Home() {
                   {[
                     "Save valuable time during the job application process",
                     "Automatically apply to multiple jobs with ease",
-                    "Improve resume ATS compatibility and visibility",
+                    "Improve resume compatibility and visibility for recruiters",
                     "Track applications, interviews, and notifications efficiently",
                     "Receive smart AI-powered job recommendations"
                   ].map((item, i) => (
@@ -157,7 +157,7 @@ export default function Home() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-border/50">
             {[
               { label: "Applications Successfully Automated" },
-              { label: "High ATS Match Accuracy" },
+              { label: "High Application Match Accuracy" },
               { label: "Interview Notifications Managed" },
               { label: "Smart Automation Support" }
             ].map((stat, i) => (
@@ -200,60 +200,77 @@ export default function Home() {
               {
                 icon: FileText,
                 title: "AI Resume Optimization",
-                desc: "Improve resume ATS compatibility using AI-powered keyword analysis and skill enhancement suggestions.",
-                className: "md:col-span-2 md:row-span-1 bg-gradient-to-br from-background to-secondary/30"
+                desc: "Improve resume compatibility using AI-powered keyword analysis and skill enhancement suggestions.",
+                className: "md:col-span-1 md:row-span-1 bg-gradient-to-br from-background to-secondary/30",
+                href: "http://localhost:3008/ats-checker"
               },
               {
                 icon: Target,
                 title: "Smart Job Matching",
                 desc: "Get AI-based job recommendations with accurate match percentage analysis.",
-                className: "md:col-span-1 md:row-span-1 bg-gradient-to-bl from-background to-blue-500/5"
+                className: "md:col-span-1 md:row-span-1 bg-gradient-to-bl from-background to-blue-500/5",
+                href: "http://localhost:3008"
               },
               {
                 icon: MousePointerClick,
                 title: "One-Click Auto Apply",
                 desc: "Apply automatically to jobs using Chrome Extension integration without repeatedly filling forms.",
-                className: "md:col-span-1 md:row-span-2 bg-gradient-to-t from-primary/5 to-background flex-col justify-end"
-              },
-              {
-                icon: CheckSquare,
-                title: "ATS Compatibility",
-                desc: "Analyze resumes and improve chances of getting shortlisted.",
-                className: "md:col-span-1 md:row-span-1 bg-background"
+                className: "md:col-span-1 md:row-span-1 bg-gradient-to-t from-primary/5 to-background",
+                href: "http://localhost:3008"
               },
               {
                 icon: CalendarDays,
                 title: "Interview Management",
                 desc: "Receive interview reminders and manage schedules directly from the dashboard.",
-                className: "md:col-span-1 md:row-span-1 bg-background"
+                className: "md:col-span-1 md:row-span-1 bg-background",
+                href: "http://localhost:3008/interviews"
               },
               {
                 icon: LayoutDashboard,
                 title: "Dashboard Analytics",
                 desc: "Track applications, interviews, notifications, pending responses, and success rate from one smart dashboard.",
-                className: "md:col-span-2 md:row-span-1 bg-gradient-to-r from-secondary/50 to-background"
+                className: "md:col-span-1 md:row-span-1 bg-gradient-to-r from-secondary/50 to-background",
+                href: "http://localhost:3008"
+              },
+              {
+                icon: CheckSquare,
+                title: "ATS Compatibility",
+                desc: "Analyze resumes and improve chances of getting shortlisted.",
+                className: "md:col-span-1 md:row-span-1 bg-background",
+                href: "http://localhost:3008/ats-checker"
               }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`relative group overflow-hidden rounded-3xl border border-border/50 p-8 flex flex-col hover:border-primary/50 transition-colors ${feature.className}`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div>
-                    <div className="w-14 h-14 rounded-2xl bg-background border border-border flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:shadow-primary/20 transition-all duration-300">
-                      <feature.icon className="w-7 h-7 text-primary" />
+            ].map((feature, i) => {
+              const CardContent = (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                      <div className="w-14 h-14 rounded-2xl bg-background border border-border flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:shadow-primary/20 transition-all duration-300">
+                        <feature.icon className="w-7 h-7 text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-3 text-foreground">{feature.title}</h3>
                     </div>
-                    <h3 className="text-2xl font-bold mb-3 text-foreground">{feature.title}</h3>
+                    <p className="text-secondary-foreground font-medium text-lg leading-relaxed">{feature.desc}</p>
                   </div>
-                  <p className="text-secondary-foreground font-medium text-lg leading-relaxed">{feature.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+                </>
+              );
+
+              const cardClass = `w-full relative group overflow-hidden rounded-3xl border border-border/50 p-8 flex flex-col hover:border-primary/50 transition-colors ${feature.className}`;
+
+               return (
+                <Link key={i} href={feature.href} className="flex w-full">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className={cardClass}
+                  >
+                    {CardContent}
+                  </motion.div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -316,15 +333,15 @@ export default function Home() {
               Simplify your entire job application journey using AI-powered automation, smart resume optimization, and centralized job management tools.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/signup" className="relative group w-full sm:w-auto">
+              <Link href="http://localhost:3008" className="relative group w-full sm:w-auto">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300" />
                 <button className="relative w-full sm:w-auto px-10 py-5 bg-foreground text-background rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform">
                   Start Free <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
-              <Link href="/features" className="w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg hover:bg-secondary transition-all flex items-center justify-center border border-border shadow-sm hover:shadow-md">
+              <button className="w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg hover:bg-secondary transition-all flex items-center justify-center border border-border shadow-sm hover:shadow-md">
                 Learn More
-              </Link>
+              </button>
             </div>
           </motion.div>
         </div>

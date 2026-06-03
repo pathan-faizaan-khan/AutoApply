@@ -6,7 +6,7 @@ import { ThemeProvider } from '../components/providers/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Auto Apply AI - Smart Job Application Assistant',
-  description: 'Apply to jobs faster with intelligent automation, AI resume optimization, ATS checking, and smart job matching.',
+  description: 'Apply to jobs faster with intelligent automation, AI resume optimization, and smart job matching.',
   icons: {
     icon: '/favicon.ico',
   },
