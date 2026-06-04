@@ -3,6 +3,7 @@ import './globals.css';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { ThemeProvider } from '../components/providers/ThemeProvider';
+import { AuthProvider } from '../components/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Auto Apply AI - Smart Job Application Assistant',
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Navbar />
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Navbar />
           <main className="flex-1">
             {children}
           </main>
           <Footer />
         </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
