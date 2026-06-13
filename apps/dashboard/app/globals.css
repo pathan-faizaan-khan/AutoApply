@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/fonnts.com-Gilroy-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/fonnts.com-Gilroy-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/fonnts.com-Gilroy-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/fonnts.com-Gilroy-Heavy.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Light Mode ─────────────────────────────────────────────────────────── */
+:root {
+  --background:         #f0f0f5;      /* cool off-white, not harsh */
+  --foreground:         #111118;
+  --primary:            #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary:          #e8e8f0;
+  --secondary-foreground: #3a3a5c;
+  --border:             #dcdce8;
+  --card:               #ffffff;
+  --muted:              #e4e4ee;
+  --muted-foreground:   #6b6b8a;
+}
+
+/* ─── Dark Mode ──────────────────────────────────────────────────────────── */
+.dark {
+  --background:         #0d0d12;      /* deep navy-black */
+  --foreground:         #ededf5;
+  --primary:            #8b5cf6;
+  --primary-foreground: #ffffff;
+  --secondary:          #16161e;      /* slightly lighter panel */
+  --secondary-foreground: #c4c4d8;
+  --border:             #1e1e2e;
+  --card:               #13131a;
+  --muted:              #1a1a24;
+  --muted-foreground:   #6b6b8a;
+}
+
+/* ─── Tailwind theme mapping ─────────────────────────────────────────────── */
+@theme inline {
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:          var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border:             var(--border);
+  --color-card:               var(--card);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Gilroy', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Thin scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar         { width: 4px; height: 4px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* ─── Glass card ─────────────────────────────────────────────────────────── */
+/* Light: white card with subtle shadow */
+.glass {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Dark: translucent with blur */
+.dark .glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Selection color ────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--foreground);
+}

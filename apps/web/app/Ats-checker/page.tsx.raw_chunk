@@ -1,0 +1,1671 @@
+"[project]/apps/web/app/Ats-checker/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>ATSCheckerPage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cloud$2d$upload$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UploadCloud$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/cloud-upload.mjs [app-client] (ecmascript) <export default as UploadCloud>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-text.mjs [app-client] (ecmascript) <export default as FileText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-check.mjs [app-client] (ecmascript) <export default as CheckCircle2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$x$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__XCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-x.mjs [app-client] (ecmascript) <export default as XCircle>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/loader-circle.mjs [app-client] (ecmascript) <export default as Loader2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-client] (ecmascript) <export default as Sparkles>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs [app-client] (ecmascript) <export default as RefreshCw>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/briefcase.mjs [app-client] (ecmascript) <export default as Briefcase>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.mjs [app-client] (ecmascript) <export default as Download>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-left.mjs [app-client] (ecmascript) <export default as ArrowLeft>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$code$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileCode$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-code.mjs [app-client] (ecmascript) <export default as FileCode>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/check.mjs [app-client] (ecmascript) <export default as Check>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+// Mock database of industry keywords for fallback
+const INDUSTRY_KEYWORDS = {
+    software: [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "AWS",
+        "System Design",
+        "Git",
+        "Agile",
+        "CI/CD",
+        "Docker",
+        "REST APIs",
+        "SQL",
+        "Python"
+    ],
+    marketing: [
+        "SEO",
+        "SEM",
+        "Google Analytics",
+        "Content Strategy",
+        "Copywriting",
+        "Social Media",
+        "Email Marketing",
+        "Brand Strategy",
+        "CRM",
+        "KPIs"
+    ],
+    finance: [
+        "Excel",
+        "Financial Modeling",
+        "Valuation",
+        "Forecasting",
+        "Audit",
+        "Accounting",
+        "Risk Management",
+        "SAP",
+        "Compliance",
+        "VBA"
+    ],
+    design: [
+        "Figma",
+        "Adobe XD",
+        "UI/UX",
+        "Wireframing",
+        "Prototyping",
+        "Illustrator",
+        "Photoshop",
+        "Typography",
+        "Design Systems",
+        "User Research"
+    ],
+    product: [
+        "Product Strategy",
+        "Roadmap",
+        "User Stories",
+        "Jira",
+        "A/B Testing",
+        "Scrum",
+        "Stakeholder Management",
+        "SQL",
+        "Market Research",
+        "Product Analytics"
+    ],
+    other: [
+        "Project Management",
+        "Communication",
+        "Leadership",
+        "Problem Solving",
+        "Strategy",
+        "Operations",
+        "Data Analysis",
+        "Collaboration"
+    ]
+};
+// Common ATS formatting checklist
+const FORMATTING_CHECKLIST = [
+    {
+        id: "layout",
+        title: "Single or Two-Column Layout",
+        desc: "ATS matches columns left-to-right. Simple layouts parse best.",
+        status: "pass"
+    },
+    {
+        id: "tables",
+        title: "No Invisible/Complex Tables",
+        desc: "Tables can cause parser scrambling. Use simple tabs or grids.",
+        status: "warning"
+    },
+    {
+        id: "headers",
+        title: "Standard Section Headings",
+        desc: "Use headers like 'Work Experience', not 'My Journey' or 'Where I've Been'.",
+        status: "pass"
+    },
+    {
+        id: "fonts",
+        title: "ATS-Safe Fonts Used",
+        desc: "Arial, Calibri, Helvetica, or Times New Roman are recommended.",
+        status: "pass"
+    },
+    {
+        id: "contacts",
+        title: "Contact Details Parsed",
+        desc: "Email and Phone number should be clear and located at the top.",
+        status: "pass"
+    },
+    {
+        id: "charts",
+        title: "No Graphics, Icons or Progress Bars",
+        desc: "ATS cannot parse visual elements and can disrupt text reading.",
+        status: "fail"
+    }
+];
+function ATSCheckerPage() {
+    _s();
+    const [file, setFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [resumeText, setResumeText] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [jobDescription, setJobDescription] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [industry, setIndustry] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("software");
+    const [inputType, setInputType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("file");
+    // App UI states
+    const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("idle");
+    const [progress, setProgress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [analysisStep, setAnalysisStep] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("score");
+    const [isDragging, setIsDragging] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Analysis result state
+    const [result, setResult] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const fileInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // Drag and drop handlers
+    const handleDragOver = (e)=>{
+        e.preventDefault();
+        setIsDragging(true);
+    };
+    const handleDragLeave = ()=>{
+        setIsDragging(false);
+    };
+    const handleDrop = (e)=>{
+        e.preventDefault();
+        setIsDragging(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            const droppedFile = e.dataTransfer.files[0];
+            const validExtensions = [
+                ".pdf",
+                ".docx",
+                ".txt",
+                ".rtf"
+            ];
+            const fileExt = droppedFile.name.substring(droppedFile.name.lastIndexOf(".")).toLowerCase();
+            if (validExtensions.includes(fileExt)) {
+                setFile(droppedFile);
+                // If it's a text file, try reading it
+                if (droppedFile.type === "text/plain") {
+                    const reader = new FileReader();
+                    reader.onload = (event)=>{
+                        if (event.target?.result) {
+                            setResumeText(event.target.result);
+                        }
+                    };
+                    reader.readAsText(droppedFile);
+                }
+            }
+        }
+    };
+    const handleFileSelect = (e)=>{
+        if (e.target.files && e.target.files[0]) {
+            const selectedFile = e.target.files[0];
+            setFile(selectedFile);
+            if (selectedFile.type === "text/plain") {
+                const reader = new FileReader();
+                reader.onload = (event)=>{
+                    if (event.target?.result) {
+                        setResumeText(event.target.result);
+                    }
+                };
+                reader.readAsText(selectedFile);
+            }
+        }
+    };
+    const clearFile = ()=>{
+        setFile(null);
+        setResumeText("");
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+    // Run the animated simulated analysis
+    const runAnalysis = ()=>{
+        if (inputType === "file" && !file) return;
+        if (inputType === "text" && !resumeText.trim()) return;
+        setStatus("analyzing");
+        setProgress(0);
+        setAnalysisStep(0);
+        // Simulate progress increments
+        const interval = setInterval(()=>{
+            setProgress((prev)=>{
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    generateResults();
+                    return 100;
+                }
+                // Update analysis step text based on progress
+                const newProgress = prev + Math.floor(Math.random() * 8) + 4;
+                const boundedProgress = Math.min(newProgress, 100);
+                if (boundedProgress < 20) setAnalysisStep(0);
+                else if (boundedProgress < 45) setAnalysisStep(1);
+                else if (boundedProgress < 70) setAnalysisStep(2);
+                else if (boundedProgress < 90) setAnalysisStep(3);
+                else setAnalysisStep(4);
+                return boundedProgress;
+            });
+        }, 150);
+    };
+    // Generate simulated but smart scores & tips
+    const generateResults = ()=>{
+        const textToAnalyze = inputType === "text" ? resumeText : file ? file.name : "";
+        const jobText = jobDescription.trim().toLowerCase();
+        // Determine target keywords to check
+        let targetKeywords = [];
+        if (jobText) {
+            // Extract words of length > 4 from job description as possible keywords
+            const words = jobText.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(/\s+/).filter((w)=>w.length > 3);
+            // Get unique words and filter with a mock dictionary or just select a subset + industry specifics
+            const uniqueWords = Array.from(new Set(words));
+            const potentialTechKeywords = INDUSTRY_KEYWORDS[industry] || [];
+            targetKeywords = potentialTechKeywords.filter((k)=>jobText.includes(k.toLowerCase()));
+            // If we didn't find specific industry keywords, pull some long words
+            if (targetKeywords.length < 5) {
+                targetKeywords = [
+                    ...targetKeywords,
+                    ...uniqueWords.slice(0, 8)
+                ];
+            }
+        } else {
+            // Default to chosen industry keywords
+            targetKeywords = INDUSTRY_KEYWORDS[industry] || INDUSTRY_KEYWORDS.other || [];
+        }
+        // Check for matches in resume text (or simulated check if it's a binary file)
+        let foundKeywords = [];
+        let missingKeywords = [];
+        if (inputType === "text" && resumeText) {
+            const resumeLower = resumeText.toLowerCase();
+            targetKeywords.forEach((kw)=>{
+                if (resumeLower.includes(kw.toLowerCase())) {
+                    foundKeywords.push(kw);
+                } else {
+                    missingKeywords.push(kw);
+                }
+            });
+        } else {
+            // For files (especially PDF/Docx where we don't have text), simulate realistic matches
+            // based on the filename or just random distribution for demonstration
+            const simulatedMatchRate = 0.5 + Math.random() * 0.3; // 50% to 80% match
+            targetKeywords.forEach((kw, index)=>{
+                // If filename contains something similar, or randomly based on rate
+                const filenameMatch = file ? file.name.toLowerCase().includes(kw.toLowerCase()) : false;
+                if (filenameMatch || Math.random() < simulatedMatchRate) {
+                    foundKeywords.push(kw);
+                } else {
+                    missingKeywords.push(kw);
+                }
+            });
+        }
+        // Avoid empty arrays
+        if (foundKeywords.length === 0 && targetKeywords.length > 0) {
+            foundKeywords = targetKeywords.slice(0, Math.floor(targetKeywords.length / 2));
+            missingKeywords = targetKeywords.slice(Math.floor(targetKeywords.length / 2));
+        }
+        // Calculate score
+        const keywordWeight = 0.5;
+        const formattingWeight = 0.3;
+        const experienceWeight = 0.2;
+        const keywordScore = Math.round(foundKeywords.length / Math.max(targetKeywords.length, 1) * 100);
+        const formattingScore = 75; // simulated baseline for common resumes
+        const experienceScore = 80; // simulated baseline
+        const overallScore = Math.round(keywordScore * keywordWeight + formattingScore * formattingWeight + experienceScore * experienceWeight);
+        // Dynamic feedback based on score
+        let verdict = "Bad";
+        let verdictDesc = "Your resume is missing key industry skills and formatting optimization.";
+        let verdictColor = "text-red-500 bg-red-500/10 border-red-500/20";
+        if (overallScore >= 76) {
+            verdict = "Excellent";
+            verdictDesc = "Fantastic work! Your resume is highly optimized for ATS scanners and matches the job requirements well.";
+            verdictColor = "text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
+        } else if (overallScore >= 51) {
+            verdict = "Average";
+            verdictDesc = "Your resume has a solid foundation, but adding target keywords and optimizing layout will push you past the automated filters.";
+            verdictColor = "text-amber-500 bg-amber-500/10 border-amber-500/20";
+        }
+        setResult({
+            score: overallScore,
+            keywordScore,
+            formattingScore,
+            experienceScore,
+            foundKeywords,
+            missingKeywords,
+            verdict,
+            verdictDesc,
+            verdictColor,
+            fileName: file ? file.name : "pasted-resume.txt",
+            fileSize: file ? `${(file.size / 1024).toFixed(1)} KB` : "N/A"
+        });
+        setStatus("result");
+    };
+    const resetAll = ()=>{
+        setFile(null);
+        setResumeText("");
+        setJobDescription("");
+        setStatus("idle");
+        setProgress(0);
+        setResult(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+    const loadHtml2Pdf = ()=>{
+        return new Promise((resolve, reject)=>{
+            if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
+            if (window.html2pdf) {
+                resolve(window.html2pdf);
+                return;
+            }
+            const script = document.createElement("script");
+            script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+            script.integrity = "sha512-GsLlZN/3F2ErC5IfS5QtgpiJtWd83JWQRKNurQc1B2Y1F9cIL15C81WKy/CSoECvQIygJ3OLFMwht8ReTRReMw==";
+            script.crossOrigin = "anonymous";
+            script.referrerPolicy = "no-referrer";
+            script.onload = ()=>resolve(window.html2pdf);
+            script.onerror = (err)=>reject(err);
+            document.body.appendChild(script);
+        });
+    };
+    const downloadReport = async ()=>{
+        console.log('downloadReport invoked');
+        if (!result) return;
+        try {
+            const html2pdf = await loadHtml2Pdf();
+            const element1 = document.getElementById("report-dashboard-container");
+            if (!element1) return;
+            const opt = {
+                margin: [
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2
+                ],
+                filename: `ATS_Report_${result.fileName.replace(/\.[^/.]+$/, "")}.pdf`,
+                image: {
+                    type: "jpeg",
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: "#090d16"
+                },
+                jsPDF: {
+                    unit: "in",
+                    format: "letter",
+                    orientation: "portrait"
+                }
+            };
+            await html2pdf().set(opt).from(element1).save();
+        } catch (error) {
+            console.error("PDF generation failed:", error);
+            console.log('Attempting fallback PDF generation');
+            // Fallback: ensure html2canvas and jsPDF are loaded then generate PDF
+            try {
+                const loadScript = (src)=>{
+                    return new Promise((resolve, reject)=>{
+                        if (document.querySelector(`script[src="${src}"]`)) {
+                            resolve();
+                            return;
+                        }
+                        const s = document.createElement("script");
+                        s.src = src;
+                        s.onload = ()=>resolve();
+                        s.onerror = (e)=>reject(e);
+                        document.body.appendChild(s);
+                    });
+                };
+                // Load html2canvas if not present
+                if (!window.html2canvas) {
+                    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+                }
+                // Load jsPDF if not present
+                if (!window.jsPDF) {
+                    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+                    // jsPDF UMD attaches to window.jspdf
+                    window.jsPDF = window.jspdf.jsPDF;
+                }
+                const html2canvas = window.html2canvas;
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: "#090d16"
+                });
+                const imgData = canvas.toDataURL("image/jpeg", 0.98);
+                const pdf = new window.jsPDF({
+                    unit: "in",
+                    format: "letter",
+                    orientation: "portrait"
+                });
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = imgProps.height * pdfWidth / imgProps.width;
+                pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`ATS_Report_${result.fileName.replace(/\\.[^/.]+$/, "")}.pdf`);
+            } catch (fallbackError) {
+                console.error("Fallback PDF generation failed:", fallbackError);
+                alert("Failed to generate PDF. Please try again.");
+            }
+        }
+    };
+    const steps = [
+        "Uploading and extracting file content...",
+        "Scanning document structure & font encoding...",
+        "Auditing page layout, margins, and section headings...",
+        "Extracting experience bullet points and action verbs...",
+        "Comparing skills keywords with target job profile..."
+    ];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "relative min-h-[calc(100vh-140px)] bg-slate-950 text-slate-100 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute top-20 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl -z-10 pointer-events-none"
+            }, void 0, false, {
+                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                lineNumber: 389,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute bottom-20 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -z-10 pointer-events-none"
+            }, void 0, false, {
+                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                lineNumber: 390,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "w-full max-w-5xl text-center mb-10",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 via-indigo-200 to-purple-400 bg-clip-text text-transparent mb-4",
+                        children: "ATS Compatibility Check"
+                    }, void 0, false, {
+                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                        lineNumber: 394,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-lg text-slate-400 max-w-2xl mx-auto",
+                        children: "Scan your resume for formatting errors, parse critical keywords, and measure how you rank against job descriptions before applying."
+                    }, void 0, false, {
+                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                        lineNumber: 397,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                lineNumber: 393,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
+                mode: "wait",
+                children: [
+                    status === "idle" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0,
+                            y: 15
+                        },
+                        animate: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        exit: {
+                            opacity: 0,
+                            y: -15
+                        },
+                        className: "w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "lg:col-span-7 flex flex-col gap-6",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 p-6 flex-1 flex flex-col",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between mb-4 border-b border-slate-800 pb-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-lg font-semibold flex items-center gap-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                            className: "w-5 h-5 text-violet-400"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 416,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: "Resume Input"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 417,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 415,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex bg-slate-950 p-1 rounded-lg border border-slate-800",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>setInputType("file"),
+                                                            className: `px-3 py-1 rounded-md text-xs font-medium transition-all ${inputType === "file" ? "bg-violet-600 text-white shadow-md shadow-violet-500/10" : "text-slate-400 hover:text-slate-200"}`,
+                                                            children: "Upload File"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 422,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>setInputType("text"),
+                                                            className: `px-3 py-1 rounded-md text-xs font-medium transition-all ${inputType === "text" ? "bg-violet-600 text-white shadow-md shadow-violet-500/10" : "text-slate-400 hover:text-slate-200"}`,
+                                                            children: "Paste Text"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 431,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 421,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 414,
+                                            columnNumber: 17
+                                        }, this),
+                                        inputType === "file" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex-1 flex flex-col justify-center",
+                                            children: !file ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                onDragOver: handleDragOver,
+                                                onDragLeave: handleDragLeave,
+                                                onDrop: handleDrop,
+                                                onClick: ()=>fileInputRef.current?.click(),
+                                                className: `border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${isDragging ? "border-violet-500 bg-violet-600/5 scale-[0.99]" : "border-slate-800 hover:border-slate-700 bg-slate-950/40 hover:bg-slate-950/60"}`,
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        type: "file",
+                                                        ref: fileInputRef,
+                                                        onChange: handleFileSelect,
+                                                        accept: ".pdf,.docx,.txt,.rtf",
+                                                        className: "hidden"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 457,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mb-4 text-slate-400 transition-all group-hover:scale-110",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cloud$2d$upload$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UploadCloud$3e$__["UploadCloud"], {
+                                                            className: "w-6 h-6 text-violet-400"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 465,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 464,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                        className: "font-medium text-slate-200 mb-1",
+                                                        children: "Drag and drop your resume"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 467,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-xs text-slate-500 max-w-xs mb-3",
+                                                        children: "Supports PDF, DOCX, TXT, or RTF up to 10MB"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 470,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        type: "button",
+                                                        className: "px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs font-medium text-violet-400 hover:text-violet-300 hover:bg-slate-800/80 transition-all",
+                                                        children: "Browse Files"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 473,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 447,
+                                                columnNumber: 23
+                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "border border-slate-800 bg-slate-950/60 rounded-xl p-5 flex items-center justify-between",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center gap-3 min-w-0",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0 text-violet-400",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$code$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileCode$3e$__["FileCode"], {
+                                                                    className: "w-5 h-5"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 484,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 483,
+                                                                columnNumber: 27
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "min-w-0",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                        className: "text-sm font-semibold text-slate-200 truncate pr-4",
+                                                                        children: file.name
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 487,
+                                                                        columnNumber: 29
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-xs text-slate-400",
+                                                                        children: [
+                                                                            (file.size / 1024).toFixed(1),
+                                                                            " KB"
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 490,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 486,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 482,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        onClick: clearFile,
+                                                        className: "p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all",
+                                                        title: "Remove File",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$x$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__XCircle$3e$__["XCircle"], {
+                                                            className: "w-5 h-5"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 500,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 495,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 481,
+                                                columnNumber: 23
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 445,
+                                            columnNumber: 19
+                                        }, this) : /* Paste Text Area */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex-1 flex flex-col",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                placeholder: "Paste your plain-text resume content here...",
+                                                value: resumeText,
+                                                onChange: (e)=>setResumeText(e.target.value),
+                                                className: "w-full flex-1 min-h-[220px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 resize-none transition-all"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 508,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 507,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                    lineNumber: 413,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 412,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "lg:col-span-5 flex flex-col gap-6",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 p-6 flex flex-col h-full justify-between",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex flex-col gap-5",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-lg font-semibold flex items-center gap-2 border-b border-slate-800 pb-3",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__["Briefcase"], {
+                                                            className: "w-5 h-5 text-violet-400"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 524,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: "Target Specifications"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 525,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 523,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex flex-col gap-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            className: "text-xs font-semibold text-slate-400 uppercase tracking-wider",
+                                                            children: "Industry / Sector"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 530,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                            value: industry,
+                                                            onChange: (e)=>setIndustry(e.target.value),
+                                                            className: "bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-violet-500 transition-all cursor-pointer",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "software",
+                                                                    children: "Software Engineering / Tech"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 538,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "marketing",
+                                                                    children: "Marketing & Content"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 539,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "finance",
+                                                                    children: "Finance & Investment"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 540,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "design",
+                                                                    children: "UI/UX & Product Design"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 541,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "product",
+                                                                    children: "Product Management"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 542,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "other",
+                                                                    children: "General Professional / Other"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 543,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 533,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 529,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex flex-col gap-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            className: "text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    children: "Job Description (Optional)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 550,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "text-[10px] text-slate-500 font-normal normal-case",
+                                                                    children: "For match rating"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 551,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 549,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                            placeholder: "Paste the job description or role requirements to match keywords...",
+                                                            value: jobDescription,
+                                                            onChange: (e)=>setJobDescription(e.target.value),
+                                                            className: "w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 resize-none transition-all"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 553,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 548,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 522,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pt-6 border-t border-slate-800 mt-5",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: runAnalysis,
+                                                disabled: inputType === "file" && !file || inputType === "text" && !resumeText.trim(),
+                                                className: "w-full py-3 px-4 rounded-xl font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-lg shadow-violet-600/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none transition-all flex items-center justify-center gap-2 group cursor-pointer",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: "Analyze Compatibility"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 571,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
+                                                        className: "w-5 h-5 text-violet-200 group-hover:animate-pulse"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 572,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 563,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 562,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                    lineNumber: 521,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 520,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                        lineNumber: 405,
+                        columnNumber: 11
+                    }, this),
+                    status === "analyzing" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0
+                        },
+                        animate: {
+                            opacity: 1
+                        },
+                        exit: {
+                            opacity: 0
+                        },
+                        className: "w-full max-w-xl bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 p-8 flex flex-col items-center text-center my-10",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "relative w-48 h-56 border border-slate-800 bg-slate-950/80 rounded-lg p-4 flex flex-col gap-3 overflow-hidden shadow-inner mb-8",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-4 w-2/3 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 591,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-5/6 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 592,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-4/6 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 593,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-full bg-slate-900 border border-slate-800/50 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 594,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-3/4 bg-slate-800 rounded-full mt-2"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 595,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-5/6 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 596,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-4/5 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 597,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-3 w-2/3 bg-slate-800 rounded-full"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 598,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                        className: "absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent shadow-[0_0_10px_2px_rgba(139,92,246,0.6)]",
+                                        animate: {
+                                            top: [
+                                                "0%",
+                                                "100%",
+                                                "0%"
+                                            ]
+                                        },
+                                        transition: {
+                                            duration: 2.2,
+                                            repeat: Infinity,
+                                            ease: "easeInOut"
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 601,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent pointer-events-none"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 612,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 589,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full flex items-center gap-3 justify-center text-violet-400 font-semibold mb-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                        className: "w-5 h-5 animate-spin"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 616,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        children: "Scanning Resume"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 617,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 615,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "text-xl font-bold mb-4 text-slate-100",
+                                children: [
+                                    progress,
+                                    "% Analyzed"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 620,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full bg-slate-950 border border-slate-800 rounded-full h-2.5 overflow-hidden mb-8",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                    className: "bg-gradient-to-r from-violet-600 to-indigo-500 h-full rounded-full",
+                                    style: {
+                                        width: `${progress}%`
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                    lineNumber: 626,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 625,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full text-left bg-slate-950 border border-slate-800/80 rounded-xl p-4 min-h-[140px] flex flex-col justify-center",
+                                children: steps.map((stepText, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: `flex items-start gap-2.5 py-1 text-xs transition-all duration-300 ${idx < analysisStep ? "text-emerald-400 font-medium" : idx === analysisStep ? "text-violet-400 font-medium animate-pulse" : "text-slate-600"}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-0.5",
+                                                children: idx < analysisStep ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                                    className: "w-3.5 h-3.5"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 646,
+                                                    columnNumber: 23
+                                                }, this) : idx === analysisStep ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                    className: "w-3.5 h-3.5 animate-spin"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 648,
+                                                    columnNumber: 23
+                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "w-3.5 h-3.5 rounded-full border border-slate-700"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 650,
+                                                    columnNumber: 23
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 644,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: stepText
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 653,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, idx, true, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 635,
+                                        columnNumber: 17
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 633,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                        lineNumber: 582,
+                        columnNumber: 11
+                    }, this),
+                    status === "result" && result && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0,
+                            y: 15
+                        },
+                        animate: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        exit: {
+                            opacity: 0,
+                            y: -15
+                        },
+                        className: "w-full max-w-5xl flex flex-col gap-8 print:p-0 print:m-0",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
+                                dangerouslySetInnerHTML: {
+                                    __html: `
+              .print-only {
+                display: none !important;
+              }
+              @media print {
+                * {
+                  -webkit-print-color-adjust: exact !important;
+                  print-color-adjust: exact !important;
+                }
+                nav, footer, .print-hidden {
+                  display: none !important;
+                }
+                .print-only {
+                  display: block !important;
+                }
+                body, html, main {
+                  background: #090d16 !important;
+                  color: #ffffff !important;
+                }
+                .print-card-bg {
+                  background: #0d1527 !important;
+                  border: 1px solid #1e293b !important;
+                  box-shadow: none !important;
+                  color: #ffffff !important;
+                }
+              }
+            `
+                                }
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 669,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-slate-800 pb-5 print-hidden",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-3",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: resetAll,
+                                                className: "p-2 border border-slate-800 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all cursor-pointer",
+                                                title: "Check another resume",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__["ArrowLeft"], {
+                                                    className: "w-5 h-5"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 706,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 701,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                        className: "text-xl font-bold flex items-center gap-2 text-slate-100",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: "Analysis Report:"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 710,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-slate-400 font-normal text-sm truncate max-w-[200px] sm:max-w-none",
+                                                                children: result.fileName
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 711,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 709,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-xs text-slate-500",
+                                                        children: [
+                                                            "Checked using ",
+                                                            industry.toUpperCase(),
+                                                            " criteria • Size: ",
+                                                            result.fileSize
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 715,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 708,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 700,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-3",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: resetAll,
+                                                className: "px-4 py-2 border border-slate-800 hover:border-slate-700 bg-slate-900 hover:bg-slate-800/80 rounded-xl text-xs font-semibold text-slate-300 transition-all flex items-center gap-1.5 cursor-pointer",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__["RefreshCw"], {
+                                                        className: "w-3.5 h-3.5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 726,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: "Scan New"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 727,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 722,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: downloadReport,
+                                                className: "px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-violet-600/20 transition-all flex items-center gap-2 cursor-pointer group",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
+                                                        className: "w-4 h-4 text-violet-200 group-hover:scale-110 transition-transform"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 733,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: "Download Report"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 734,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 729,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 721,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                lineNumber: 699,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                id: "report-dashboard-container",
+                                className: "p-8 bg-[#090d16] rounded-3xl border border-slate-850/80 flex flex-col gap-6",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "w-full border-b border-slate-800/60 pb-5",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex justify-between items-end",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                                            className: "text-2xl font-extrabold tracking-tight flex items-center gap-2",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent",
+                                                                    children: "AutoApplyAI"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 747,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "text-[10px] text-slate-400 font-extrabold px-2.5 py-0.5 border border-slate-800 rounded-full",
+                                                                    children: "REPORT CARD"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                    lineNumber: 748,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 746,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-[10px] text-slate-500 font-semibold tracking-wider mt-1.5 uppercase",
+                                                            children: "ATS COMPATIBILITY & OPTIMIZATION AUDIT"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 750,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 745,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-right",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-xs font-bold text-slate-300",
+                                                            children: [
+                                                                "Date: ",
+                                                                new Date().toLocaleDateString()
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 753,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-[10px] text-slate-500 font-medium mt-0.5",
+                                                            children: [
+                                                                "Resume: ",
+                                                                result.fileName
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                            lineNumber: 754,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                    lineNumber: 752,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                            lineNumber: 744,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                        lineNumber: 743,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        id: "report-dashboard",
+                                        className: "grid grid-cols-1 md:grid-cols-12 gap-6",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "md:col-span-4 bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 flex flex-col items-center justify-center text-center print-card-bg",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-xs font-bold text-slate-500 uppercase tracking-widest mb-6",
+                                                        children: "ATS Score"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 763,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "relative w-36 h-36 flex items-center justify-center mb-6",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                                className: "w-full h-full transform -rotate-90",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                                                        cx: "72",
+                                                                        cy: "72",
+                                                                        r: "60",
+                                                                        className: "stroke-slate-800 fill-transparent",
+                                                                        strokeWidth: "8"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 770,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].circle, {
+                                                                        cx: "72",
+                                                                        cy: "72",
+                                                                        r: "60",
+                                                                        className: "fill-transparent",
+                                                                        strokeWidth: "8",
+                                                                        strokeLinecap: "round",
+                                                                        stroke: result.score >= 76 ? "#10b981" : result.score >= 51 ? "#f59e0b" : "#ef4444",
+                                                                        strokeDasharray: 2 * Math.PI * 60,
+                                                                        initial: {
+                                                                            strokeDashoffset: 2 * Math.PI * 60
+                                                                        },
+                                                                        animate: {
+                                                                            strokeDashoffset: 2 * Math.PI * 60 * (1 - result.score / 100)
+                                                                        },
+                                                                        transition: {
+                                                                            duration: 1.5,
+                                                                            ease: "easeOut"
+                                                                        }
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 777,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 769,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "absolute flex flex-col items-center justify-center",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-4xl font-extrabold text-white",
+                                                                        children: result.score
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 799,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-[9px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5",
+                                                                        children: "out of 100"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 802,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 798,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 768,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex flex-col items-center gap-1.5",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-[10px] text-slate-500 uppercase font-medium",
+                                                                children: "Resume Strength"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 809,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: `px-4 py-1.5 rounded-full border text-xs font-bold uppercase tracking-wider ${result.score >= 76 ? "text-emerald-400 bg-emerald-500/5 border-emerald-500/20" : result.score >= 51 ? "text-amber-400 bg-amber-500/5 border-amber-500/20" : "text-red-400 bg-red-500/5 border-red-500/20"}`,
+                                                                children: result.verdict
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 810,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 808,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                lineNumber: 762,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "md:col-span-4 bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 flex flex-col items-center justify-center text-center print-card-bg",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-xs font-bold text-slate-500 uppercase tracking-widest mb-6",
+                                                        children: "Job Match"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 823,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "relative w-36 h-36 flex items-center justify-center mb-6",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                                className: "w-full h-full transform -rotate-90",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                                                        cx: "72",
+                                                                        cy: "72",
+                                                                        r: "60",
+                                                                        className: "stroke-slate-800 fill-transparent",
+                                                                        strokeWidth: "8"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 830,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].circle, {
+                                                                        cx: "72",
+                                                                        cy: "72",
+                                                                        r: "60",
+                                                                        className: "fill-transparent",
+                                                                        strokeWidth: "8",
+                                                                        strokeLinecap: "round",
+                                                                        stroke: "#8b5cf6",
+                                                                        strokeDasharray: 2 * Math.PI * 60,
+                                                                        initial: {
+                                                                            strokeDashoffset: 2 * Math.PI * 60
+                                                                        },
+                                                                        animate: {
+                                                                            strokeDashoffset: 2 * Math.PI * 60 * (1 - result.keywordScore / 100)
+                                                                        },
+                                                                        transition: {
+                                                                            duration: 1.5,
+                                                                            ease: "easeOut"
+                                                                        }
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 837,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 829,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "absolute flex flex-col items-center justify-center",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-4xl font-extrabold text-violet-400",
+                                                                        children: [
+                                                                            result.keywordScore,
+                                                                            "%"
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 853,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-[9px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5",
+                                                                        children: "Match Level"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                        lineNumber: 856,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                                lineNumber: 852,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/app/Ats-checker/page.tsx",
+                                                        lineNumber: 828,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "grid grid-cols-3 gap-3 w-full border-t border-slate-800/60 pt-4 mt-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex flex-col items-center",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "relative w-10 h-10 flex items-center justify-center mb-1",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                                                className: "w-full h-full transform -rotate-90",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                                                         
