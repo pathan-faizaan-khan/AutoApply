@@ -4,6 +4,9 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '10mb',
     },
+    outputFileTracingIncludes: {
+      '/api/extract-pdf': ['./node_modules/pdf-parse/**/*', '../../node_modules/pdf-parse/**/*'],
+    },
   },
   // Increase body size limit for API routes (default is ~4.5MB)
   // This is needed for base64-encoded resume files
