@@ -72,7 +72,7 @@ export default function Home() {
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-secondary-foreground max-w-3xl mx-auto leading-relaxed font-medium">
-              Apply to jobs faster with intelligent automation, AI resume optimization, and smart job matching — all from one unified platform.
+              Apply to jobs faster with intelligent automation, AI resume optimization, and smart job matching â€” all from one unified platform.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 w-full sm:w-auto">
