@@ -5,7 +5,12 @@ const nextConfig = {
       bodySizeLimit: '10mb',
     },
     outputFileTracingIncludes: {
-      '/api/extract-pdf': ['./node_modules/pdf-parse/**/*', '../../node_modules/pdf-parse/**/*'],
+      '/api/extract-pdf': [
+        './node_modules/pdf-parse/**/*', 
+        '../../node_modules/pdf-parse/**/*',
+        './node_modules/node-ensure/**/*',
+        '../../node_modules/node-ensure/**/*'
+      ],
     },
   },
   // Increase body size limit for API routes (default is ~4.5MB)
