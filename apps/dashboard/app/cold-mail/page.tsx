@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail, Sparkles, RefreshCw, Send, User, Globe, Link2,
@@ -755,7 +755,9 @@ export default function ColdMailPage() {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "missing-client-id";
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <ColdMailPageContent />
+      <Suspense fallback={<div className="flex h-full items-center justify-center p-8"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+        <ColdMailPageContent />
+      </Suspense>
     </GoogleOAuthProvider>
   );
 }

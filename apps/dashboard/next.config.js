@@ -7,7 +7,7 @@ const nextConfig = {
   },
   // Increase body size limit for API routes (default is ~4.5MB)
   // This is needed for base64-encoded resume files
-  serverExternalPackages: ['mammoth', '@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner', 'pdf-parse'],
+  serverExternalPackages: ['mammoth', 'bluebird', '@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner', 'pdf-parse'],
   transpilePackages: ['react-redux', 'recharts'],
 };
 
