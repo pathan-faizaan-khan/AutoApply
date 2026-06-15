@@ -46,10 +46,10 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
-            <Link href="http://localhost:3008" className="text-sm font-medium text-foreground hover:text-primary transition-colors px-3 py-2">
+            <Link href="/login" className="text-sm font-medium text-foreground hover:text-primary transition-colors px-3 py-2">
               Log in
             </Link>
-            <Link href="http://localhost:3008" className="relative group overflow-hidden rounded-full p-[1px]">
+            <Link href="/signup" className="relative group overflow-hidden rounded-full p-[1px]">
               <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-500 to-primary rounded-full animate-[spin_3s_linear_infinite] opacity-70 group-hover:opacity-100 transition-opacity" />
               <div className="relative bg-background text-foreground px-5 py-2 rounded-full font-semibold text-sm transition-all group-hover:bg-transparent group-hover:text-white">
                 Get Started
