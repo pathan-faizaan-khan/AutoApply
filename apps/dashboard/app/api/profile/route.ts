@@ -5,14 +5,14 @@ const NODE_BACKEND = process.env.NODE_BACKEND_URL || "https://autoapply-backend-
 export async function GET(req: Request) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
-    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
 
     const res = await fetch(`${NODE_BACKEND}/api/profile`, {
       method: "GET",
-      headers: { 
-        "Content-Type": "application/json",
-        ...authHeader
-      },
+      headers,
       cache: "no-store",
     });
     
@@ -31,15 +31,15 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
-    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
     const body = await req.json();
 
     const res = await fetch(`${NODE_BACKEND}/api/profile`, {
       method: "PUT",
-      headers: { 
-        "Content-Type": "application/json",
-        ...authHeader
-      },
+      headers,
       body: JSON.stringify(body)
     });
     

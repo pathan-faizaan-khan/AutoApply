@@ -8,7 +8,10 @@ export const runtime = "nodejs";
 export async function GET(req: NextRequest) {
   const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
 
-  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   // Fan-out all backend calls in parallel
   const [resumeResult, jobsResult, historyResult, campaignsResult] = await Promise.allSettled([
@@ -33,19 +36,19 @@ export async function GET(req: NextRequest) {
     // 2. Scraped jobs
     fetch(`${NODE_BACKEND}/api/jobs`, {
       cache: "no-store",
-      headers: { "Content-Type": "application/json", ...authHeader },
+      headers,
     }).then((r) => (r.ok ? r.json() : [])),
 
     // 3. Outreach history (cold emails sent)
     fetch(`${NODE_BACKEND}/api/outreach/history`, {
       cache: "no-store",
-      headers: { "Content-Type": "application/json", ...authHeader },
+      headers,
     }).then((r) => (r.ok ? r.json() : { history: [] })),
 
     // 4. Outreach campaigns
     fetch(`${NODE_BACKEND}/api/outreach/campaigns`, {
       cache: "no-store",
-      headers: { "Content-Type": "application/json", ...authHeader },
+      headers,
     }).then((r) => (r.ok ? r.json() : { campaigns: [] })),
   ]);
 
