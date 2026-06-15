@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Phone, MapPin, Link as LinkIcon, Github, Linkedin, Briefcase, FileText, CheckCircle2, Loader2, Save, Edit2, Shield } from "lucide-react";
+import { User, Mail, Phone, MapPin, Link as LinkIcon, Globe, GitBranch, Briefcase, FileText, CheckCircle2, Loader2, Save, Edit2, Shield } from "lucide-react";
 
 interface ProfileData {
   name: string | null;
@@ -205,7 +205,7 @@ export default function ProfilePage() {
             <div className="space-y-4">
               {/* LinkedIn */}
               <div className="flex items-center gap-3 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><Linkedin className="w-4 h-4" /></div>
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><Globe className="w-4 h-4" /></div>
                 {isEditing ? (
                   <input value={formData.linkedInUrl} onChange={e => setFormData({...formData, linkedInUrl: e.target.value})} placeholder="LinkedIn URL" className="flex-1 bg-background border border-border rounded-lg px-3 py-1.5 focus:outline-none focus:border-primary text-xs" />
                 ) : (
@@ -214,7 +214,7 @@ export default function ProfilePage() {
               </div>
               {/* GitHub */}
               <div className="flex items-center gap-3 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-foreground/10 flex items-center justify-center text-foreground shrink-0"><Github className="w-4 h-4" /></div>
+                <div className="w-8 h-8 rounded-lg bg-foreground/10 flex items-center justify-center text-foreground shrink-0"><GitBranch className="w-4 h-4" /></div>
                 {isEditing ? (
                   <input value={formData.githubUrl} onChange={e => setFormData({...formData, githubUrl: e.target.value})} placeholder="GitHub URL" className="flex-1 bg-background border border-border rounded-lg px-3 py-1.5 focus:outline-none focus:border-primary text-xs" />
                 ) : (
