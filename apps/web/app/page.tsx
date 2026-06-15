@@ -44,6 +44,8 @@ export default function Home() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const opacity1 = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://autoapply-dashboard-plum.vercel.app';
+
   return (
     <div className="flex flex-col w-full bg-background overflow-hidden" ref={containerRef}>
       {/* Background Decorative Elements */}
@@ -76,7 +78,7 @@ export default function Home() {
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 w-full sm:w-auto">
-              <Link href="http://localhost:3008" className="relative group w-full sm:w-auto">
+              <Link href="/signup" className="relative group w-full sm:w-auto">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300 group-hover:duration-200" />
                 <button className="relative w-full sm:w-auto px-10 py-5 bg-background text-foreground rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-transparent hover:text-white transition-all">
                   Get Started Free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -198,42 +200,42 @@ export default function Home() {
                 title: "AI Resume Optimization",
                 desc: "Improve resume compatibility using AI-powered keyword analysis and skill enhancement suggestions.",
                 className: "md:col-span-1 md:row-span-1 bg-gradient-to-br from-background to-secondary/30",
-                href: "http://localhost:3008/ats-checker"
+                href: `${dashboardUrl}/resume`
               },
               {
                 icon: Target,
                 title: "Smart Job Matching",
                 desc: "Get AI-based job recommendations with accurate match percentage analysis.",
                 className: "md:col-span-1 md:row-span-1 bg-gradient-to-bl from-background to-blue-500/5",
-                href: "http://localhost:3008"
+                href: dashboardUrl
               },
               {
                 icon: MousePointerClick,
                 title: "One-Click Auto Apply",
                 desc: "Apply automatically to jobs using Chrome Extension integration without repeatedly filling forms.",
                 className: "md:col-span-1 md:row-span-1 bg-gradient-to-t from-primary/5 to-background",
-                href: "http://localhost:3008"
+                href: dashboardUrl
               },
               {
                 icon: CalendarDays,
                 title: "Interview Management",
                 desc: "Receive interview reminders and manage schedules directly from the dashboard.",
                 className: "md:col-span-1 md:row-span-1 bg-background",
-                href: "http://localhost:3008/interviews"
+                href: `${dashboardUrl}/interviews`
               },
               {
                 icon: LayoutDashboard,
                 title: "Dashboard Analytics",
                 desc: "Track applications, interviews, notifications, pending responses, and success rate from one smart dashboard.",
                 className: "md:col-span-1 md:row-span-1 bg-gradient-to-r from-secondary/50 to-background",
-                href: "http://localhost:3008"
+                href: dashboardUrl
               },
               {
                 icon: CheckSquare,
                 title: "ATS Compatibility",
                 desc: "Analyze resumes and improve chances of getting shortlisted.",
                 className: "md:col-span-1 md:row-span-1 bg-background",
-                href: "http://localhost:3008/ats-checker"
+                href: `${dashboardUrl}/resume`
               }
             ].map((feature, i) => {
               const CardContent = (
@@ -329,7 +331,7 @@ export default function Home() {
               Simplify your entire job application journey using AI-powered automation, smart resume optimization, and centralized job management tools.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="http://localhost:3008" className="relative group w-full sm:w-auto">
+              <Link href="/signup" className="relative group w-full sm:w-auto">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300" />
                 <button className="relative w-full sm:w-auto px-10 py-5 bg-foreground text-background rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform">
                   Start Free <ArrowRight className="w-5 h-5" />

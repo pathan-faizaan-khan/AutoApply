@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,7 +17,6 @@ const NAV = [
   { label: "Jobs", icon: Briefcase, href: "/jobs" },
   { label: "Applications", icon: ClipboardList, href: "/applications" },
   { label: "Resume", icon: FileText, href: "/resume" },
-  { label: "Job Analysis", icon: Sparkles, href: "/job-analysis" },
   { label: "Outreach", icon: UserCheck, href: "/referrals" },
   { label: "Cold Mail", icon: Mail, href: "/cold-mail" },
   { label: "Outreach History", icon: History, href: "/history" },
@@ -75,9 +74,23 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const sidebarW = collapsed ? COLLAPSED : EXPANDED;
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get("token");
+    if (urlToken) {
+      localStorage.setItem("token", urlToken);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    const currentToken = localStorage.getItem("token");
+    if (!currentToken) {
+      window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
+    }
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "http://localhost:3000/login";
+    window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
   };
 
   return (

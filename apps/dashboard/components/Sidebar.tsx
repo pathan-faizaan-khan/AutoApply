@@ -29,7 +29,6 @@ const navItems = [
   { label: "Jobs", icon: Briefcase, href: "/jobs" },
   { label: "Applications", icon: ClipboardList, href: "/applications" },
   { label: "Resume", icon: FileText, href: "/resume" },
-  { label: "Job Analysis", icon: Sparkles, href: "/job-analysis" },
   { label: "Outreach", icon: UserCheck, href: "/referrals" },
   { label: "Cold Mail", icon: Mail, href: "/cold-mail" },
   { label: "Outreach History", icon: History, href: "/history" },
