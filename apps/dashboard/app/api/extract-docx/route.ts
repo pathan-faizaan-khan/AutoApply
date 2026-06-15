@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import mammoth from "mammoth";
 
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs"; // ensure this route always runs on Node.js
 
 export async function POST(req: NextRequest) {
@@ -13,6 +13,11 @@ export async function POST(req: NextRequest) {
     }
 
     const arrayBuffer = await (file as Blob).arrayBuffer();
+    
+    // Bypass Webpack's module system entirely using eval.
+    const nodeRequire = eval("require");
+    const mammoth = nodeRequire("mammoth");
+    
     const result = await mammoth.extractRawText({ arrayBuffer });
 
     return NextResponse.json({ text: result.value });
