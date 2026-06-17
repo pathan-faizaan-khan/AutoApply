@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   UserCheck, ChevronRight, ChevronLeft, Briefcase, Clock,
-  Building2, MapPin, DollarSign, Search, Sparkles, Check,
-  ExternalLink, Zap, Globe, RefreshCw, Send, Lock, Star, Target,
-  CheckCircle2, Plus, X
+  Building2, MapPin, DollarSign, Search, Check,
+  ExternalLink, Globe, RefreshCw, Send, Lock, Star, Target,
+  CheckCircle2, Plus, X, Settings, Activity
 } from "lucide-react";
 import Link from "next/link";
 import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -216,9 +216,7 @@ function ReferralsPageContent() {
         {/* Header */}
         <div className="mb-8 text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-400 text-xs font-bold mb-3">
-              <UserCheck className="w-3.5 h-3.5" /> Automated Outreach Engine
-            </div>
+            
             <h1 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">
               Define Your Dream Role
             </h1>
@@ -263,7 +261,7 @@ function ReferralsPageContent() {
                         />
                         <button
                           onClick={addRole}
-                          className="px-5 h-12 flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold shadow-md shadow-primary/20 hover:opacity-90 active:scale-95 transition-all"
+                          className="px-5 h-12 flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold shadow-md shadow-primary/20 hover:opacity-90 active:scale-95 transition-all"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -328,7 +326,7 @@ function ReferralsPageContent() {
                               }`}
                             >
                               {isActive && (
-                                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-600 to-indigo-500" />
+                                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-blue-500" />
                               )}
                               <div className="flex items-center justify-between">
                                 <p className={`font-bold text-sm ${isActive ? "text-foreground" : "text-foreground"}`}>{opt.label}</p>
@@ -468,7 +466,7 @@ function ReferralsPageContent() {
                     <div>
                       <div className="flex items-center gap-3 mb-2">
                         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Zap className="w-4 h-4 text-primary" />
+                          <Settings className="w-4 h-4 text-primary" />
                         </div>
                         <h2 className="text-xl font-black text-foreground">Configure Automation</h2>
                       </div>
@@ -544,7 +542,7 @@ function ReferralsPageContent() {
                 <button
                   onClick={() => canProceed() && setStep(s => s + 1)}
                   disabled={!canProceed()}
-                  className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 disabled:scale-100"
+                  className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 disabled:scale-100"
                 >
                   Continue <ChevronRight className="w-4 h-4" />
                 </button>
@@ -572,8 +570,8 @@ function ReferralsPageContent() {
             }`} />
 
             <div className="relative z-10">
-              <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-primary/30 relative">
-                <Zap className={`w-10 h-10 text-white ${campaignStatus?.automationStatus === 'running' ? 'animate-pulse' : ''}`} />
+              <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-primary/30 relative">
+                <Activity className={`w-10 h-10 text-white ${campaignStatus?.automationStatus === 'running' ? 'animate-pulse' : ''}`} />
                 {campaignStatus?.automationStatus === 'running' && (
                   <motion.div
                     className="absolute inset-0 rounded-3xl border-2 border-white/30"
@@ -612,7 +610,7 @@ function ReferralsPageContent() {
                     className={`h-full transition-all duration-1000 ease-out ${
                       campaignStatus?.automationStatus === 'completed' 
                         ? 'bg-gradient-to-r from-emerald-400 to-teal-500' 
-                        : 'bg-gradient-to-r from-violet-600 to-indigo-500'
+                        : 'bg-gradient-to-r from-primary to-blue-500'
                     }`}
                     style={{ width: `${Math.min(100, ((campaignStatus?.emailsSentCount || 0) / targetEmailCount) * 100)}%` }}
                   />

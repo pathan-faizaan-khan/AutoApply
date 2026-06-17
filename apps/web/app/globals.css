@@ -33,17 +33,13 @@
 }
 
 :root {
-  /* Trustworthy Violet Light Theme */
-  --background: #ffffff;
-  --foreground: #0f172a;
-
-  --primary: #7c3aed;
-  /* Violet 600 */
+  /* Azure Light Theme */
+  --background: #f8f9fa;
+  --foreground: #0f1115;
+  --primary: #0ea5e9;
   --primary-foreground: #ffffff;
-
-  --secondary: #f8fafc;
+  --secondary: #eef2f6;
   --secondary-foreground: #334155;
-
   --border: #e2e8f0;
 }
 
@@ -58,17 +54,14 @@
 }
 
 .dark {
-  /* Trustworthy Violet Dark Theme */
-  --background: #020617; 
-  --foreground: #f8fafc; 
-  
-  --primary: #8b5cf6; /* Violet 500 */
-  --primary-foreground: #ffffff;
-  
-  --secondary: #0f172a;
-  --secondary-foreground: #cbd5e1; 
-  
-  --border: #1e293b; 
+  /* Obsidian Dark Theme */
+  --background: #0a0a0a;
+  --foreground: #f8fafc;
+  --primary: #38bdf8;
+  --primary-foreground: #020617;
+  --secondary: #1e1e24;
+  --secondary-foreground: #cbd5e1;
+  --border: #262626;
 }
 
 body {

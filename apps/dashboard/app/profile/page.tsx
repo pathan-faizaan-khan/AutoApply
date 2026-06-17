@@ -48,6 +48,7 @@ export default function ProfilePage() {
       });
       if (res.ok) {
         const json = await res.json();
+        console.log("PROFILE API RESPONSE:", json);
         setData(json);
         if (json.profile) {
           setFormData({
@@ -135,7 +136,7 @@ export default function ProfilePage() {
               <button 
                 onClick={handleSave}
                 disabled={isSaving}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save Changes
@@ -161,7 +162,7 @@ export default function ProfilePage() {
           <motion.div variants={itemVariants} className="glass p-6 rounded-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-10 -mt-10 pointer-events-none blur-2xl" />
             
-            <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-3xl font-bold shadow-xl shadow-primary/20 mb-5">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-primary to-blue-500 flex items-center justify-center text-white text-3xl font-bold shadow-xl shadow-primary/20 mb-5">
               {data?.name?.charAt(0).toUpperCase() || <User />}
             </div>
             
@@ -240,7 +241,7 @@ export default function ProfilePage() {
           {/* Skills Map */}
           <motion.div variants={itemVariants} className="glass p-6 rounded-2xl h-full flex flex-col">
             <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2 uppercase tracking-wider">
-              <CheckCircle2 className="w-4 h-4 text-violet-500" />
+              <CheckCircle2 className="w-4 h-4 text-primary" />
               Core Skills
             </h3>
             
@@ -270,7 +271,7 @@ export default function ProfilePage() {
           {/* Master Resume Text */}
           <motion.div variants={itemVariants} className="glass p-6 rounded-2xl flex-1 flex flex-col">
             <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2 uppercase tracking-wider">
-              <FileText className="w-4 h-4 text-indigo-500" />
+              <FileText className="w-4 h-4 text-blue-500" />
               Master Background Text
             </h3>
             

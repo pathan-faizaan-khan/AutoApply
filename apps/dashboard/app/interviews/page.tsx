@@ -13,7 +13,7 @@ import {
   Trash2,
   ExternalLink,
   ChevronRight,
-  Sparkles,
+  Target,
   Search,
   CheckCircle2,
   Timer,
@@ -236,7 +236,7 @@ export default function InterviewsPage() {
       );
     }
     return (
-      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 border border-violet-500/30 flex items-center justify-center font-bold text-violet-400 text-base flex-shrink-0">
+      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 flex items-center justify-center font-bold text-primary text-base flex-shrink-0">
         {companyName ? companyName.charAt(0).toUpperCase() : "I"}
       </div>
     );
@@ -248,17 +248,17 @@ export default function InterviewsPage() {
       <div className="flex justify-between items-start flex-wrap gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <CalendarDays className="w-5 h-5 text-violet-400" />
-            <h1 className="text-2xl font-bold text-white">Interview Schedule & Notifications</h1>
+            <CalendarDays className="w-5 h-5 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">Interview Schedule & Notifications</h1>
           </div>
-          <p className="text-slate-400 text-sm">
+          <p className="text-muted-foreground text-sm">
             Keep track of your active job application interviews, details, links, and reminders.
           </p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-violet-600/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="bg-gradient-to-r from-primary to-blue-500 text-white font-bold text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <Plus className="w-4 h-4" /> Schedule Interview
         </button>
@@ -267,9 +267,9 @@ export default function InterviewsPage() {
       <div className="grid lg:grid-cols-2 gap-6 w-full">
         {/* Left Column: Upcoming Interviews */}
         <div className="space-y-6">
-          <div className="bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-6 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-violet-400" /> Upcoming Interviews
+          <div className="glass rounded-2xl p-6 border border-border">
+            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" /> Upcoming Interviews
             </h2>
 
             <AnimatePresence mode="wait">
@@ -281,7 +281,7 @@ export default function InterviewsPage() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -12 }}
-                      className="bg-[#0e1424]/90 border border-slate-800/60 hover:border-violet-500/30 rounded-2xl p-5 flex flex-col gap-4 transition-all"
+                      className="bg-card/90 border border-border hover:border-primary/30 rounded-2xl p-5 flex flex-col gap-4 transition-all shadow-sm"
                     >
                       {/* Top: Logo + Company Info + Delete */}
                       <div className="flex items-start justify-between">
@@ -289,19 +289,19 @@ export default function InterviewsPage() {
                           {renderLogo(item.logoType, item.company)}
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                              <span className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
                                 Upcoming Interview
                               </span>
                               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                             </div>
-                            <h3 className="text-white font-bold text-base leading-tight mt-0.5">
+                            <h3 className="text-foreground font-bold text-base leading-tight mt-0.5">
                               {item.company}
                             </h3>
                           </div>
                         </div>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/40 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 text-slate-500 transition-all flex-shrink-0"
+                          className="p-2 rounded-lg bg-muted border border-border hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 text-muted-foreground transition-all flex-shrink-0"
                           title="Delete Interview"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -310,23 +310,23 @@ export default function InterviewsPage() {
 
                       {/* Middle: Role + Details */}
                       <div className="space-y-2">
-                        <p className="text-slate-300 font-semibold text-sm">
+                        <p className="text-foreground font-semibold text-sm">
                           {item.role}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-400">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1.5">
-                            <CalendarDays className="w-3.5 h-3.5 text-violet-400" />
+                            <CalendarDays className="w-3.5 h-3.5 text-primary" />
                             {item.displayDateTime || formatReadableDate(item.dateTime)}
                           </span>
                           <span className="flex items-center gap-1.5">
-                            <Video className="w-3.5 h-3.5 text-violet-400" />
+                            <Video className="w-3.5 h-3.5 text-primary" />
                             {item.platform}
                           </span>
                         </div>
 
                         {item.notes && (
-                          <p className="text-slate-500 text-xs italic leading-relaxed">
+                          <p className="text-muted-foreground/80 text-xs italic leading-relaxed">
                             📝 {item.notes}
                           </p>
                         )}
@@ -337,11 +337,11 @@ export default function InterviewsPage() {
                         const { label, urgency } = getCountdown(item.dateTime);
                         if (!label) return null;
                         const urgencyStyles = {
-                          now:    "bg-red-500/15 border-red-500/30 text-red-400",
-                          high:   "bg-orange-500/15 border-orange-500/30 text-orange-400",
-                          medium: "bg-amber-500/12 border-amber-500/25 text-amber-400",
-                          low:    "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
-                          none:   "bg-slate-800/50 border-slate-700/40 text-slate-400",
+                          now:    "bg-red-500/15 border-red-500/30 text-red-600 dark:text-red-400",
+                          high:   "bg-orange-500/15 border-orange-500/30 text-orange-600 dark:text-orange-400",
+                          medium: "bg-amber-500/12 border-amber-500/25 text-amber-600 dark:text-amber-400",
+                          low:    "bg-emerald-500/10 border-emerald-500/25 text-emerald-600 dark:text-emerald-400",
+                          none:   "bg-muted border-border text-muted-foreground",
                         };
                         return (
                           <div
@@ -357,7 +357,7 @@ export default function InterviewsPage() {
                       })()}
 
                       {/* Bottom: Join Button (full width) */}
-                      <div className="border-t border-slate-800/40 pt-3 mt-auto">
+                      <div className="border-t border-border/60 pt-3 mt-auto">
                         {(() => {
                           const branding = getPlatformBranding(item.platform);
                           if (branding) {
@@ -381,7 +381,7 @@ export default function InterviewsPage() {
                               href={item.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-full text-center bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm px-5 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-violet-600/15"
+                              className="w-full text-center bg-primary hover:bg-primary/90 text-white font-bold text-sm px-5 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-primary/15"
                             >
                               Join Interview <ExternalLink className="w-3.5 h-3.5" />
                             </a>
@@ -395,11 +395,11 @@ export default function InterviewsPage() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-center py-12 border border-dashed border-slate-800 rounded-xl"
+                  className="text-center py-12 border border-dashed border-border rounded-xl"
                 >
-                  <CalendarDays className="w-10 h-10 mx-auto text-slate-600 mb-2" />
-                  <p className="text-slate-400 font-semibold text-sm">No interviews scheduled yet</p>
-                  <p className="text-slate-600 text-xs mt-1">Use the "Schedule Interview" button to get started.</p>
+                  <CalendarDays className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
+                  <p className="text-muted-foreground font-semibold text-sm">No interviews scheduled yet</p>
+                  <p className="text-muted-foreground/60 text-xs mt-1">Use the "Schedule Interview" button to get started.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -409,27 +409,27 @@ export default function InterviewsPage() {
         {/* Right Column: Remaining 3 Boxes */}
         <div className="space-y-6">
           {/* Box 2: Notifications & Reminders */}
-          <div className="bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Bell className="w-4 h-4 text-violet-400" /> Notifications & Reminders
+          <div className="glass border border-border rounded-2xl p-6">
+            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
+              <Bell className="w-4 h-4 text-primary" /> Notifications & Reminders
             </h2>
 
             <div className="space-y-4">
               {/* Alert Toggle 1 */}
-              <div className="flex justify-between items-center p-3.5 bg-slate-950/40 border border-slate-800/40 rounded-xl">
+              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
                 <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-200">Email Reminders</h4>
-                    <p className="text-[11px] text-slate-500">Send invite confirmations & briefs</p>
+                    <h4 className="text-sm font-bold text-foreground">Email Reminders</h4>
+                    <p className="text-[11px] text-muted-foreground">Send invite confirmations & briefs</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setEmailAlerts(!emailAlerts)}
                   className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    emailAlerts ? "bg-violet-600" : "bg-slate-800"
+                    emailAlerts ? "bg-primary" : "bg-slate-800"
                   }`}
                 >
                   <div
@@ -441,20 +441,20 @@ export default function InterviewsPage() {
               </div>
 
               {/* Alert Toggle 2 */}
-              <div className="flex justify-between items-center p-3.5 bg-slate-950/40 border border-slate-800/40 rounded-xl">
+              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
                 <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                     <Bell className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-200">Push Notifications</h4>
-                    <p className="text-[11px] text-slate-500">Reminders 15 minutes before call</p>
+                    <h4 className="text-sm font-bold text-foreground">Push Notifications</h4>
+                    <p className="text-[11px] text-muted-foreground">Reminders 15 minutes before call</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setPushAlerts(!pushAlerts)}
                   className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    pushAlerts ? "bg-violet-600" : "bg-slate-800"
+                    pushAlerts ? "bg-primary" : "bg-slate-800"
                   }`}
                 >
                   <div
@@ -466,20 +466,20 @@ export default function InterviewsPage() {
               </div>
 
               {/* Alert Toggle 3 */}
-              <div className="flex justify-between items-center p-3.5 bg-slate-950/40 border border-slate-800/40 rounded-xl">
+              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
                 <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                     <MessageSquare className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-200">SMS Notifications</h4>
-                    <p className="text-[11px] text-slate-500">Receive schedule text reminders</p>
+                    <h4 className="text-sm font-bold text-foreground">SMS Notifications</h4>
+                    <p className="text-[11px] text-muted-foreground">Receive schedule text reminders</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setSmsAlerts(!smsAlerts)}
                   className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    smsAlerts ? "bg-violet-600" : "bg-slate-800"
+                    smsAlerts ? "bg-primary" : "bg-slate-800"
                   }`}
                 >
                   <div
@@ -491,15 +491,15 @@ export default function InterviewsPage() {
               </div>
             </div>
 
-            <p className="text-[11px] text-slate-500 mt-5 text-center leading-relaxed">
+            <p className="text-[11px] text-muted-foreground mt-5 text-center leading-relaxed">
               💡 You will receive reminders, alerts and interview schedule. We sync with your calendar settings automatically.
             </p>
           </div>
 
           {/* ── Join Interview Platforms Widget ── */}
-          <div className="bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Monitor className="w-4 h-4 text-violet-400" /> Join Interview Platforms
+          <div className="glass border border-border rounded-2xl p-6">
+            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
+              <Monitor className="w-4 h-4 text-primary" /> Join Interview Platforms
             </h2>
 
             <div className="space-y-2.5">
@@ -508,7 +508,7 @@ export default function InterviewsPage() {
                 href="https://teams.microsoft.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-slate-800/50 bg-slate-950/30 hover:bg-[rgba(123,131,235,0.08)] hover:border-[rgba(123,131,235,0.3)] transition-all group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(123,131,235,0.08)] hover:border-[rgba(123,131,235,0.3)] transition-all group cursor-pointer"
               >
                 <div className="w-9 h-9 rounded-lg bg-[rgba(123,131,235,0.12)] border border-[rgba(123,131,235,0.2)] flex items-center justify-center flex-shrink-0">
                   <TeamsLogo className="w-5 h-5" />
@@ -522,7 +522,7 @@ export default function InterviewsPage() {
                 href="https://zoom.us/join"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-slate-800/50 bg-slate-950/30 hover:bg-[rgba(45,140,255,0.08)] hover:border-[rgba(45,140,255,0.3)] transition-all group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(45,140,255,0.08)] hover:border-[rgba(45,140,255,0.3)] transition-all group cursor-pointer"
               >
                 <div className="w-9 h-9 rounded-lg bg-[rgba(45,140,255,0.12)] border border-[rgba(45,140,255,0.2)] flex items-center justify-center flex-shrink-0">
                   <ZoomLogo className="w-5 h-5" />
@@ -536,7 +536,7 @@ export default function InterviewsPage() {
                 href="https://meet.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-slate-800/50 bg-slate-950/30 hover:bg-[rgba(0,137,123,0.08)] hover:border-[rgba(0,137,123,0.3)] transition-all group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(0,137,123,0.08)] hover:border-[rgba(0,137,123,0.3)] transition-all group cursor-pointer"
               >
                 <div className="w-9 h-9 rounded-lg bg-[rgba(0,137,123,0.12)] border border-[rgba(0,137,123,0.2)] flex items-center justify-center flex-shrink-0">
                   <MeetLogo className="w-5 h-5" />
@@ -546,18 +546,18 @@ export default function InterviewsPage() {
               </a>
             </div>
 
-            <p className="text-[11px] text-slate-500 mt-4 text-center leading-relaxed">
+            <p className="text-[11px] text-muted-foreground mt-4 text-center leading-relaxed">
               Click &quot;Join Interview&quot; on any card and the app opens the respective platform.
             </p>
           </div>
 
           {/* Quick Stats/Tips */}
-          <div className="bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-violet-400" /> Interview Preparation
+          <div className="glass border border-border rounded-2xl p-6">
+            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Target className="w-4 h-4 text-primary" /> Interview Preparation
             </h2>
             
-            <div className="space-y-3 text-xs text-slate-400 leading-relaxed">
+            <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex gap-2">
                 <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
                 <span>Test your mic, camera, and internet connection beforehand.</span>
@@ -589,16 +589,16 @@ export default function InterviewsPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="relative w-full max-w-lg bg-[#0e1424] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10"
+            className="relative w-full max-w-lg bg-card border border-border rounded-3xl overflow-hidden shadow-2xl z-10"
           >
             {/* Header */}
-            <div className="px-6 py-5 border-b border-slate-800/80 flex justify-between items-center bg-slate-950/20">
-              <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                <CalendarDays className="w-5 h-5 text-violet-400" /> Schedule New Interview
+            <div className="px-6 py-5 border-b border-border flex justify-between items-center bg-muted/50">
+              <h3 className="text-foreground font-bold text-lg flex items-center gap-2">
+                <CalendarDays className="w-5 h-5 text-primary" /> Schedule New Interview
               </h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-slate-400 hover:text-white font-bold text-sm"
+                className="text-muted-foreground hover:text-foreground font-bold text-sm"
               >
                 ✕
               </button>
@@ -608,7 +608,7 @@ export default function InterviewsPage() {
             <form onSubmit={handleAddInterview} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Company Name
                   </label>
                   <input
@@ -617,11 +617,11 @@ export default function InterviewsPage() {
                     placeholder="e.g. Microsoft"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Role / Job Title
                   </label>
                   <input
@@ -630,14 +630,14 @@ export default function InterviewsPage() {
                     placeholder="e.g. Software Engineer"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Date
                   </label>
                   <input
@@ -645,11 +645,11 @@ export default function InterviewsPage() {
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50 [color-scheme:dark]"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Time
                   </label>
                   <input
@@ -657,20 +657,20 @@ export default function InterviewsPage() {
                     required
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50 [color-scheme:dark]"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Platform
                   </label>
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50 appearance-none"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 appearance-none"
                   >
                     <option value="Microsoft Teams">Microsoft Teams</option>
                     <option value="Google Meet">Google Meet</option>
@@ -681,7 +681,7 @@ export default function InterviewsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                     Interview URL Link
                   </label>
                   <input
@@ -689,35 +689,35 @@ export default function InterviewsPage() {
                     placeholder="e.g. https://teams.microsoft.com/..."
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm focus:outline-none focus:border-violet-500/50"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
                   Preps & Notes
                 </label>
                 <textarea
                   placeholder="Keep reference links, checklist, or preparation plans here..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full h-20 px-3 py-2.5 bg-slate-950/50 border border-slate-700/60 rounded-xl text-white text-sm resize-none focus:outline-none focus:border-violet-500/50"
+                  className="w-full h-20 px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm resize-none focus:outline-none focus:border-primary/50"
                 />
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3 justify-end pt-3 border-t border-slate-800/80 mt-2">
+              <div className="flex gap-3 justify-end pt-3 border-t border-border mt-2">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-4 py-2.5 rounded-xl transition-all"
+                  className="bg-muted hover:bg-muted/80 text-muted-foreground font-semibold text-sm px-4 py-2.5 rounded-xl transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-violet-600/20"
+                  className="bg-gradient-to-r from-primary to-blue-500 hover:opacity-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-primary/20"
                 >
                   Schedule
                 </button>

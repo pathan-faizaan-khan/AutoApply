@@ -7,8 +7,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Briefcase, FileText, ClipboardList,
-  CalendarDays, BarChart2, User, Settings, MessageSquare,
-  LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, Sparkles, History
+  CalendarDays, User, MessageSquare,
+  LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
@@ -22,12 +22,10 @@ const NAV = [
   { label: "Outreach History", icon: History, href: "/history" },
   { label: "Interviews", icon: CalendarDays, href: "/interviews" },
   { label: "AI Practice", icon: MessageSquare, href: "/mock-interviews" },
-  { label: "Analytics", icon: BarChart2, href: "/analytics" },
 ];
 
 const BOTTOM = [
   { label: "Profile", icon: User, href: "/profile" },
-  { label: "Settings", icon: Settings, href: "/settings" },
 ];
 
 const EXPANDED = 240;
@@ -49,7 +47,7 @@ function NavLink({ item, collapsed, isActive }: { item: (typeof NAV)[0]; collaps
         />
       )}
       {!isActive && (
-        <div className="absolute inset-0 bg-muted rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-black/5 dark:bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
       )}
       <item.icon className={`w-[18px] h-[18px] relative z-10 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
       <AnimatePresence>
@@ -94,15 +92,19 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <div className="flex h-full">
-      {/* ── Sidebar ── */}
+    <div className="flex h-full bg-background relative overflow-hidden">
+      {/* ── Background Gradients ── */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* ── Desktop Sidebar (Floating Glass Pill) ── */}
       <motion.aside
         animate={{ width: sidebarW }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 h-full z-50 flex flex-col glass border-r border-border overflow-hidden hidden md:flex shrink-0"
+        className="fixed left-4 top-4 bottom-4 z-50 flex-col glass rounded-[32px] overflow-hidden hidden md:flex shrink-0 shadow-2xl"
       >
-        {/* Logo — name only, no electric icon, theme toggle pinned top-right */}
-        <div className="flex items-center h-16 px-4 border-b border-border shrink-0">
+        {/* Logo */}
+        <div className="flex items-center h-[72px] px-5 border-b border-black/5 dark:border-white/5 shrink-0">
           <AnimatePresence>
             {!collapsed ? (
               <motion.div
@@ -112,16 +114,10 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
                 transition={{ duration: 0.18 }}
                 className="flex items-center justify-between w-full gap-2 overflow-hidden"
               >
-                {/* Project name — no icon */}
-                <span className="font-black text-base tracking-tight text-foreground whitespace-nowrap leading-none">
+                <span className="font-bold text-[17px] tracking-tight text-foreground whitespace-nowrap leading-none">
                   Auto<span className="text-primary">Apply</span>
-                  <span className="text-primary font-black">.AI</span>
                 </span>
-
-                {/* Theme toggle — top right next to name */}
-                <div className="shrink-0">
-                  <ThemeToggle />
-                </div>
+                <div className="shrink-0"><ThemeToggle /></div>
               </motion.div>
             ) : (
               <motion.div
@@ -139,14 +135,14 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Main Nav */}
-        <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto overflow-x-hidden">
+        <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto overflow-x-hidden hide-scrollbar">
           {NAV.map((item) => (
             <NavLink key={item.href} item={item} collapsed={collapsed} isActive={pathname === item.href} />
           ))}
         </nav>
 
         {/* Bottom */}
-        <div className="px-2 pb-3 pt-3 border-t border-border shrink-0 space-y-0.5">
+        <div className="px-3 pb-4 pt-4 border-t border-black/5 dark:border-white/5 shrink-0 space-y-1">
           {BOTTOM.map((item) => (
             <NavLink key={item.href} item={item} collapsed={collapsed} isActive={pathname === item.href} />
           ))}
@@ -176,23 +172,45 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
           {/* Collapse toggle */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="w-full flex items-center justify-center py-2 mt-1 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
+            className="w-full flex items-center justify-center py-2 mt-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-all"
           >
-            {collapsed
-              ? <ChevronRight className="w-4 h-4" />
-              : <ChevronLeft className="w-4 h-4" />
-            }
+            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
         </div>
       </motion.aside>
 
+      {/* ── Mobile Top Bar ── */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 ios-tab-bar z-50 flex items-center justify-between px-4">
+        <span className="font-bold text-[17px] tracking-tight text-foreground whitespace-nowrap leading-none">
+          Auto<span className="text-primary">Apply</span>
+        </span>
+        <ThemeToggle />
+      </div>
+
+      {/* ── Mobile Bottom Tab Bar ── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-[84px] ios-tab-bar z-50 flex items-center justify-around px-2 pb-6 pt-2">
+        {[NAV[0], NAV[1], NAV[2], BOTTOM[0]].map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link key={item.href} href={item.href} className="flex flex-col items-center justify-center gap-1 w-16">
+              <item.icon className={`w-[22px] h-[22px] ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+              <span className={`text-[10px] font-medium ${isActive ? "text-primary" : "text-muted-foreground"}`}>
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+
       {/* ── Main Content ── */}
       <motion.div
-        animate={{ marginLeft: sidebarW }}
+        animate={{ marginLeft: typeof window !== 'undefined' && window.innerWidth >= 768 ? sidebarW + 16 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="flex-1 h-full overflow-y-auto min-w-0"
+        className="flex-1 h-full overflow-y-auto min-w-0 pt-16 pb-[84px] md:pt-0 md:pb-0 z-10"
       >
-        {children}
+        <div className="p-4 md:p-8 md:pl-6 h-full max-w-[1600px] mx-auto">
+          {children}
+        </div>
       </motion.div>
     </div>
   );

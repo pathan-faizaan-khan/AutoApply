@@ -3,11 +3,11 @@
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Mail, Sparkles, RefreshCw, Send, User, Globe, Link2,
-  GitBranch, ChevronRight, Check, Copy, ExternalLink, Zap,
+  Mail, RefreshCw, Send, User, Globe, Link2,
+  GitBranch, ChevronRight, Check, Copy, ExternalLink, Activity,
   FileText, Eye, Edit3, AlertCircle, Search, Building2,
   Shield, Clock, CheckCircle2, Users, ArrowRight, Loader2,
-  Star, Info, XCircle, X,
+  Star, Info, XCircle, X, Bot
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -63,11 +63,11 @@ function ContactCard({ contact, selected, onClick }: {
       }`}
     >
       {selected && (
-        <div className="absolute inset-y-0 left-0 w-0.5 bg-gradient-to-b from-violet-600 to-indigo-500 rounded-r-full" />
+        <div className="absolute inset-y-0 left-0 w-0.5 bg-gradient-to-b from-primary to-blue-500 rounded-r-full" />
       )}
       <div className="flex items-start gap-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md ${
-          selected ? "bg-gradient-to-br from-violet-600 to-indigo-500" : "bg-gradient-to-br from-slate-500 to-slate-600"
+          selected ? "bg-gradient-to-br from-primary to-blue-500" : "bg-gradient-to-br from-slate-500 to-slate-600"
         }`}>
           {contact.name ? contact.name.charAt(0).toUpperCase() : "?"}
         </div>
@@ -107,10 +107,10 @@ function SearchingState({ company }: { company: string }) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full py-10 px-4 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center mb-6 shadow-xl shadow-primary/25 relative">
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center mb-6 shadow-xl shadow-primary/25 relative">
         <Search className="w-7 h-7 text-white" />
         <motion.div
-          className="absolute inset-0 rounded-2xl border-2 border-violet-400/50"
+          className="absolute inset-0 rounded-2xl border-2 border-primary/50"
           animate={{ scale: [1, 1.3, 1], opacity: [0.7, 0, 0.7] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -146,10 +146,10 @@ function SearchingState({ company }: { company: string }) {
 function GeneratingState({ contactName }: { contactName: string }) {
   return (
     <div className="h-full flex flex-col items-center justify-center text-center p-8">
-      <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center mb-6 shadow-2xl shadow-primary/30 relative">
-        <Sparkles className="w-9 h-9 text-white" />
+      <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center mb-6 shadow-2xl shadow-primary/30 relative">
+        <Bot className="w-9 h-9 text-white" />
         <motion.div
-          className="absolute inset-0 rounded-3xl border-2 border-violet-400/40"
+          className="absolute inset-0 rounded-3xl border-2 border-primary/40"
           animate={{ scale: [1, 1.2, 1], opacity: [0.8, 0, 0.8] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
@@ -243,7 +243,7 @@ function EmailEditorPanel({ draft, onChange, onSend, sending, tailoring, onTailo
               disabled={tailoring}
               className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold text-primary bg-primary/10 hover:bg-primary/20 transition-all disabled:opacity-50 border border-primary/20"
             >
-              {tailoring ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+              {tailoring ? <Loader2 className="w-3 h-3 animate-spin" /> : <Bot className="w-3 h-3" />}
               {tailoredResumeData ? "Re-tailor Resume" : "AI-Tailor Resume"}
             </button>
           )}
@@ -275,7 +275,7 @@ function EmailEditorPanel({ draft, onChange, onSend, sending, tailoring, onTailo
       <button
         onClick={onSend}
         disabled={sending || !draft.subject || !draft.body}
-        className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 active:scale-[0.98]"
+        className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 active:scale-[0.98]"
       >
         {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
         {sending ? "Sending via Gmail..." : "Send via Gmail"}
@@ -333,7 +333,7 @@ function StepBadge({ step, label, done }: { step: number; label: string; done?: 
 function TrustBar() {
   const items = [
     { icon: Shield, label: "Privacy First" },
-    { icon: Zap, label: "AI Powered" },
+    { icon: Activity, label: "AI Powered" },
     { icon: CheckCircle2, label: "Gmail OAuth" },
     { icon: Star, label: "High Deliverability" },
   ];
@@ -530,9 +530,7 @@ function ColdMailPageContent() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 text-xs font-bold mb-3">
-            <Mail className="w-3.5 h-3.5" /> Cold Outreach Engine
-          </div>
+          
           <h1 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">Cold Email Outreach</h1>
           <p className="text-sm text-muted-foreground mt-1">Find decision makers, craft AI personalised emails & track replies — all in one flow.</p>
         </div>
@@ -583,7 +581,7 @@ function ColdMailPageContent() {
             <button
               onClick={handleFindContacts}
               disabled={!company || !domain || findingContacts}
-              className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-md shadow-primary/20 active:scale-[0.98]"
+              className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-md shadow-primary/20 active:scale-[0.98]"
             >
               {findingContacts ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
               {findingContacts ? "Searching..." : "Find Contacts"}
@@ -678,9 +676,9 @@ function ColdMailPageContent() {
               <button
                 onClick={handleGenerateEmail}
                 disabled={generating}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 active:scale-[0.98]"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-xs font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 active:scale-[0.98]"
               >
-                {generating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+                {generating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Bot className="w-3.5 h-3.5" />}
                 {generating ? "Generating..." : `Generate Email for ${selectedContact.name.split(" ")[0]}`}
               </button>
             </div>
@@ -720,7 +718,7 @@ function ColdMailPageContent() {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-md">
                   {[
-                    { icon: Sparkles, title: "AI Personalised", desc: "Crafted using your resume" },
+                    { icon: Bot, title: "AI Personalised", desc: "Crafted using your resume" },
                     { icon: Shield, title: "Non-Generic", desc: "Unique for each contact" },
                     { icon: CheckCircle2, title: "High Open Rate", desc: "Subject lines that work" },
                   ].map(({ icon: Icon, title, desc }) => (

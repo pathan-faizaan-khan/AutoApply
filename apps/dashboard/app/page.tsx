@@ -3,11 +3,12 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useCachedFetch } from "../hooks/useCachedFetch";
 import {
   FileText,
   Briefcase,
   Send,
-  Zap,
+  Activity,
   ArrowUpRight,
   Mail,
   ExternalLink,
@@ -17,7 +18,7 @@ import {
   ChevronRight,
   Inbox,
   UploadCloud,
-  Sparkles,
+  Lightbulb,
   TrendingUp,
 } from "lucide-react";
 
@@ -309,10 +310,8 @@ function getGreeting() {
 
 export default function DashboardHome() {
   const [user, setUser] = useState<User | null>(null);
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  
+  const { data, loading, error, refetch, isRefreshing } = useCachedFetch<DashboardData>("/api/dashboard", null);
 
   const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || "http://localhost:3000";
 
@@ -344,30 +343,6 @@ export default function DashboardHome() {
     }
   }, [landingUrl]);
 
-  const fetchDashboard = async (showRefreshing = false) => {
-    if (showRefreshing) setRefreshing(true);
-    try {
-      const token = localStorage.getItem("token") ?? "";
-      const res = await fetch("/api/dashboard", {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        cache: "no-store",
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      setData(json);
-      setError(null);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load dashboard data");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
-
   // ─── Stats config ────────────────────────────────────────────────────────
 
   const stats = [
@@ -376,8 +351,8 @@ export default function DashboardHome() {
       value: data?.stats.resumesUploaded ?? 0,
       icon: FileText,
       sub: "Stored in your vault",
-      iconClass: "bg-violet-500/10 text-violet-500 border-violet-500/20",
-      accent: "bg-gradient-to-r from-violet-500 to-indigo-500",
+      iconClass: "bg-primary/10 text-primary border-primary/20",
+      accent: "bg-gradient-to-r from-primary to-blue-500",
       href: "/resume",
       delay: 0,
     },
@@ -386,8 +361,8 @@ export default function DashboardHome() {
       value: data?.stats.jobsAvailable ?? 0,
       icon: Briefcase,
       sub: "From live job boards",
-      iconClass: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      accent: "bg-gradient-to-r from-blue-500 to-cyan-400",
+      iconClass: "bg-sky-500/10 text-sky-500 border-sky-500/20",
+      accent: "bg-gradient-to-r from-sky-500 to-cyan-400",
       href: "/jobs",
       delay: 0.07,
     },
@@ -406,8 +381,8 @@ export default function DashboardHome() {
       value: data?.stats.activeCampaigns ?? 0,
       icon: TrendingUp,
       sub: "Outreach campaigns running",
-      iconClass: "bg-purple-500/10 text-purple-500 border-purple-500/20",
-      accent: "bg-gradient-to-r from-purple-500 to-pink-500",
+      iconClass: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20",
+      accent: "bg-gradient-to-r from-indigo-500 to-blue-600",
       href: "/referrals",
       delay: 0.21,
     },
@@ -419,8 +394,8 @@ export default function DashboardHome() {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-primary/30">
-            <Zap className="w-5 h-5 text-white fill-white animate-pulse" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-lg shadow-primary/30">
+            <Activity className="w-5 h-5 text-white animate-pulse" />
           </div>
           <p className="text-sm font-semibold text-muted-foreground">Loading dashboard…</p>
         </div>
@@ -453,12 +428,12 @@ export default function DashboardHome() {
         </div>
 
         <button
-          onClick={() => fetchDashboard(true)}
-          disabled={refreshing}
+          onClick={refetch}
+          disabled={isRefreshing}
           className="flex items-center gap-2 px-3.5 py-2 glass rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground border border-border hover:border-primary/30 transition-all disabled:opacity-50"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
-          {refreshing ? "Refreshing…" : "Refresh"}
+          <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+          {isRefreshing ? "Refreshing…" : "Refresh"}
         </button>
       </motion.div>
 
@@ -537,8 +512,8 @@ export default function DashboardHome() {
             className="glass rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-4">
-              <div className="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
-                <FileText className="w-3.5 h-3.5 text-violet-500" />
+              <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
+                <FileText className="w-3.5 h-3.5 text-primary" />
               </div>
               <h2 className="text-sm font-bold text-foreground">Your Resume</h2>
             </div>
@@ -552,8 +527,8 @@ export default function DashboardHome() {
             ) : data?.latestResume ? (
               <>
                 <div className="flex items-start gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4 text-violet-500" />
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4 text-primary" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold text-foreground truncate">
@@ -605,11 +580,11 @@ export default function DashboardHome() {
             className="glass rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shadow-md shadow-primary/30">
-                <Sparkles className="w-3.5 h-3.5 text-white" />
+              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center shadow-md shadow-primary/30">
+                <Lightbulb className="w-3.5 h-3.5 text-white" />
               </div>
               <p className="text-xs font-bold text-foreground uppercase tracking-wider">
-                AI Insight
+                Insight
               </p>
             </div>
             <p className="text-sm text-foreground font-semibold leading-relaxed">
@@ -687,10 +662,10 @@ export default function DashboardHome() {
         className="grid grid-cols-2 sm:grid-cols-4 gap-3"
       >
         {[
-          { label: "Upload Resume", icon: UploadCloud, href: "/resume", color: "text-violet-500" },
+          { label: "Upload Resume", icon: UploadCloud, href: "/resume", color: "text-primary" },
           { label: "Browse Jobs", icon: Briefcase, href: "/jobs", color: "text-blue-500" },
           { label: "Send Cold Mail", icon: Mail, href: "/cold-mail", color: "text-green-500" },
-          { label: "Mock Interview", icon: Sparkles, href: "/mock-interviews", color: "text-purple-500" },
+          { label: "Mock Interview", icon: Activity, href: "/mock-interviews", color: "text-indigo-500" },
         ].map((item) => (
           <Link
             key={item.href}

@@ -2,11 +2,17 @@ import { NextResponse } from "next/server";
 
 const NODE_BACKEND = process.env.NODE_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const res = await fetch(`${NODE_BACKEND}/api/jobs`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers,
       // Important to skip caching for real-time DB queries in Next.js App Router
       cache: "no-store", 
     });

@@ -23,7 +23,6 @@ import {
   Database,
   Network,
   Cloud,
-  Zap,
   ChevronRight,
   Target,
   Star,
@@ -286,7 +285,7 @@ export default function MockInterviewsPage() {
         className="flex flex-col sm:flex-row sm:items-end justify-between gap-4"
       >
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-400 text-xs font-bold mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold mb-3">
             <MessageSquare className="w-3.5 h-3.5" /> AI Practice Arena
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">Practice & Mock Interviews</h1>
@@ -296,9 +295,9 @@ export default function MockInterviewsPage() {
         </div>
         <button
           onClick={handleQuickPractice}
-          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all shrink-0"
+          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all shrink-0"
         >
-          <Zap className="w-4 h-4" /> Quick Practice
+          <PlayCircle className="w-4 h-4" /> Quick Practice
         </button>
       </motion.div>
 
@@ -358,7 +357,7 @@ export default function MockInterviewsPage() {
 
             <div className="flex items-center gap-2 mb-5 relative z-10">
               <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                <Target className="w-3.5 h-3.5 text-primary" />
               </div>
               <h2 className="text-sm font-black text-foreground uppercase tracking-wide">
                 {activeDomain ? "2. Interactive Quiz" : "Select a Domain"}
@@ -425,7 +424,7 @@ export default function MockInterviewsPage() {
                   <div className="flex flex-col gap-2.5 w-full max-w-xs">
                     <button
                       onClick={() => handleDifficultySelect(selectedDifficulty as string)}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white font-bold text-sm transition-all hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98]"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-blue-500 text-white font-bold text-sm transition-all hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98]"
                     >
                       <RotateCcw className="w-4 h-4" /> Try Again
                     </button>

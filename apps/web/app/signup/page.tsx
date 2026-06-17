@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Mail, Lock, User, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Mail, Lock, User, CheckCircle2 } from 'lucide-react';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -15,7 +15,6 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://autoapply-backend-wkqq.onrender.com';
   const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3001';
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -34,7 +33,7 @@ export default function SignupPage() {
       if (!res.ok) throw new Error(data.error || 'Registration failed');
 
       setStep('otp');
-      setMessage('Account created successfully! A verification code has been sent to your email.');
+      setMessage('A verification code has been sent to your email.');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -57,7 +56,6 @@ export default function SignupPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'OTP verification failed');
 
-      // Redirect to dashboard with token
       window.location.href = `${dashboardUrl}?token=${data.token}`;
     } catch (err: any) {
       setError(err.message);
@@ -80,7 +78,6 @@ export default function SignupPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Google signup failed');
 
-      // Redirect to dashboard with token
       window.location.href = `${dashboardUrl}?token=${data.token}`;
     } catch (err: any) {
       setError(err.message);
@@ -90,82 +87,78 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden px-4">
-      {/* Decorative Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px] pointer-events-none" />
+    <div className="min-h-screen flex items-center justify-center bg-background relative px-4">
+      {/* Subtle Mesh Gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
 
-      <div className="w-full max-w-md bg-secondary/30 backdrop-blur-xl border border-border/50 p-8 md:p-10 rounded-3xl shadow-2xl relative z-10">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
-            <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-          </div>
-          <h2 className="text-3xl font-black text-foreground text-center">
-            {step === 'signup' ? 'Get Started' : 'Verify Email'}
+      <div className="w-full max-w-[420px] bg-white/5 dark:bg-[#121212]/50 backdrop-blur-3xl border border-black/5 dark:border-white/10 p-8 sm:p-10 rounded-[32px] shadow-2xl relative z-10">
+        <div className="flex flex-col items-center mb-10">
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground text-center">
+            {step === 'signup' ? 'Create Account' : 'Verify Email'}
           </h2>
-          <p className="text-secondary-foreground text-center mt-2 font-medium">
+          <p className="text-muted-foreground text-center mt-2 text-sm">
             {step === 'signup' 
-              ? 'Create a free account to automate your applications' 
+              ? 'Enter your details to get started.' 
               : 'Enter the 6-digit OTP code sent to your email.'}
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl mb-6 text-sm font-semibold">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 px-4 py-3 rounded-2xl mb-6 text-sm font-medium">
             {error}
           </div>
         )}
 
         {message && (
-          <div className="bg-primary/10 border border-primary/30 text-primary p-4 rounded-2xl mb-6 text-sm font-semibold flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+          <div className="bg-primary/10 border border-primary/20 text-primary px-4 py-3 rounded-2xl mb-6 text-sm font-medium flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>{message}</span>
           </div>
         )}
 
         {step === 'signup' ? (
-          <form onSubmit={handleSignup} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-foreground">Full Name</label>
+          <form onSubmit={handleSignup} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground ml-1 uppercase tracking-wider">Full Name</label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/60" />
                 <input
                   type="text"
                   required
                   placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-background/50 border border-border/50 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-semibold"
+                  className="w-full pl-11 pr-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.03] border border-transparent rounded-[20px] focus:bg-background focus:border-primary/30 focus:ring-4 focus:ring-primary/10 outline-none transition-all text-[15px]"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-foreground">Email Address</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground ml-1 uppercase tracking-wider">Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/60" />
                 <input
                   type="email"
                   required
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-background/50 border border-border/50 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-semibold"
+                  className="w-full pl-11 pr-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.03] border border-transparent rounded-[20px] focus:bg-background focus:border-primary/30 focus:ring-4 focus:ring-primary/10 outline-none transition-all text-[15px]"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-foreground">Password</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground ml-1 uppercase tracking-wider">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/60" />
                 <input
                   type="password"
                   required
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-background/50 border border-border/50 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-semibold"
+                  className="w-full pl-11 pr-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.03] border border-transparent rounded-[20px] focus:bg-background focus:border-primary/30 focus:ring-4 focus:ring-primary/10 outline-none transition-all text-[15px]"
                 />
               </div>
             </div>
@@ -173,38 +166,39 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 transition-all rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-lg"
+              className="w-full py-3.5 mt-2 bg-foreground text-background hover:opacity-90 disabled:opacity-50 transition-all rounded-[20px] font-medium flex items-center justify-center gap-2 text-[15px]"
             >
-              {loading ? 'Creating account...' : 'Create Account'} <ArrowRight className="w-5 h-5" />
+              {loading ? 'Creating account...' : 'Continue'} <ArrowRight className="w-4 h-4" />
             </button>
 
-            <div className="relative flex py-2 items-center">
-              <div className="flex-grow border-t border-border/50"></div>
-              <span className="flex-shrink mx-4 text-muted-foreground text-sm font-bold">or connect with</span>
-              <div className="flex-grow border-t border-border/50"></div>
+            <div className="relative flex py-4 items-center">
+              <div className="flex-grow border-t border-border"></div>
+              <span className="flex-shrink mx-4 text-muted-foreground text-xs uppercase tracking-wider font-medium">or</span>
+              <div className="flex-grow border-t border-border"></div>
             </div>
 
             <div className="flex justify-center w-full">
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={() => setError('Google Sign In failed')}
-                theme="filled_black"
+                theme="outline"
                 shape="pill"
+                size="large"
                 width="100%"
               />
             </div>
 
-            <p className="text-center text-muted-foreground font-semibold mt-8 text-sm">
+            <p className="text-center text-muted-foreground font-medium mt-6 text-[14px]">
               Already have an account?{' '}
-              <Link href="/login" className="text-primary hover:underline">
-                Sign In
+              <Link href="/login" className="text-foreground hover:text-primary transition-colors font-semibold">
+                Sign in
               </Link>
             </p>
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-bold text-foreground">6-Digit Verification Code</label>
+              <label className="text-xs font-semibold text-muted-foreground ml-1 uppercase tracking-wider">Verification Code</label>
               <input
                 type="text"
                 required
@@ -212,24 +206,24 @@ export default function SignupPage() {
                 placeholder="123456"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-4 py-4 text-center tracking-[1em] text-2xl font-bold bg-background/50 border border-border/50 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                className="w-full px-4 py-4 text-center tracking-[0.75em] text-2xl font-medium bg-black/[0.03] dark:bg-white/[0.03] border border-transparent rounded-[20px] focus:bg-background focus:border-primary/30 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 transition-all rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-lg"
+              className="w-full py-3.5 bg-foreground text-background hover:opacity-90 disabled:opacity-50 transition-all rounded-[20px] font-medium flex items-center justify-center gap-2 text-[15px]"
             >
-              {loading ? 'Verifying...' : 'Verify OTP & Log In'} <ArrowRight className="w-5 h-5" />
+              {loading ? 'Verifying...' : 'Verify'} <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               type="button"
               onClick={() => setStep('signup')}
-              className="w-full text-center text-primary font-semibold hover:underline text-sm"
+              className="w-full text-center text-muted-foreground hover:text-foreground font-medium transition-colors text-[14px]"
             >
-              Back to Signup
+              Back to Sign Up
             </button>
           </form>
         )}

@@ -294,8 +294,8 @@ export default function ResumeProfilePage() {
                     </div>
                     <div className="space-y-6">
                       {activeResume.projects.map((proj, i) => (
-                        <div key={i} className="relative pl-4 border-l-2 border-green-500/20">
-                          <div className="absolute w-2 h-2 rounded-full bg-green-500 -left-[5px] top-1.5" />
+                        <div key={i} className="relative pl-4 border-l-2 border-sky-500/20">
+                          <div className="absolute w-2 h-2 rounded-full bg-sky-500 -left-[5px] top-1.5" />
                           <div className="flex items-center justify-between">
                             <h4 className="font-bold text-sm">{proj.name}</h4>
                             {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline">View link</a>}
