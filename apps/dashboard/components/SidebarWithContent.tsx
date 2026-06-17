@@ -191,9 +191,10 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
       <div className="md:hidden fixed bottom-0 left-0 right-0 h-[84px] ios-tab-bar z-50 flex items-center justify-around px-2 pb-6 pt-2">
         {[NAV[0], NAV[1], NAV[2], BOTTOM[0]].map((item) => {
           const isActive = pathname === item.href;
+          const Icon = item.icon;
           return (
             <Link key={item.href} href={item.href} className="flex flex-col items-center justify-center gap-1 w-16">
-              <item.icon className={`w-[22px] h-[22px] ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+              <Icon className={`w-[22px] h-[22px] ${isActive ? "text-primary" : "text-muted-foreground"}`} />
               <span className={`text-[10px] font-medium ${isActive ? "text-primary" : "text-muted-foreground"}`}>
                 {item.label}
               </span>
