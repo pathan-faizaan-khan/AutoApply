@@ -15,16 +15,22 @@ export async function GET(req: NextRequest) {
 
   // Fan-out all backend calls in parallel
   const [resumeResult, jobsResult, historyResult, campaignsResult] = await Promise.allSettled([
-    // 1. S3 resume list
-    listResumes().then(async (objects) => {
+    // 1. User's resumes
+    fetch(`${NODE_BACKEND}/api/resumes`, {
+      cache: "no-store",
+      headers,
+    }).then(async (r) => {
+      if (!r.ok) return [];
+      const data = await r.json();
+      const userResumes = data.resumes || [];
       const items = await Promise.all(
-        objects.map(async (obj) => {
-          const url = await getResumeDownloadUrl(obj.key);
+        userResumes.map(async (resObj: any) => {
+          const url = await getResumeDownloadUrl(resObj.s3Url);
           return {
-            key: obj.key,
-            fileName: obj.key.replace(RESUMES_PREFIX, ""),
-            size: obj.size,
-            lastModified: obj.lastModified.toISOString(),
+            key: resObj.s3Url,
+            fileName: resObj.fileName,
+            size: 0,
+            lastModified: resObj.createdAt,
             downloadUrl: url,
           };
         })

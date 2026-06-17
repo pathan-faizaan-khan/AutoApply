@@ -41,7 +41,8 @@ export default function ResumeProfilePage() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("token") || "";
-      const res = await fetch("https://autoapply-backend-wkqq.onrender.com/api/resumes", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
+      const res = await fetch(`${backendUrl}/api/resumes`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.ok) {
@@ -95,7 +96,8 @@ export default function ResumeProfilePage() {
         : parseData.result;
 
       setUploadProgressMsg("Saving to Database...");
-      const dbRes = await fetch("https://autoapply-backend-wkqq.onrender.com/api/resumes", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
+      const dbRes = await fetch(`${backendUrl}/api/resumes`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -105,7 +107,8 @@ export default function ResumeProfilePage() {
           s3Url: s3Data.key,
           fileName: file.name,
           atsScore: Math.floor(Math.random() * 30) + 60, // Mock ATS until ATS endpoint exists
-          parsedData: parsed
+          parsedData: parsed,
+          rawText: text
         })
       });
 
@@ -137,7 +140,8 @@ export default function ResumeProfilePage() {
       });
       
       // 2. Delete from DB via Express backend
-      const res = await fetch(`https://autoapply-backend-wkqq.onrender.com/api/resumes/${id}`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
+      const res = await fetch(`${backendUrl}/api/resumes/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
