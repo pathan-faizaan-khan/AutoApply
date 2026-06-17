@@ -189,7 +189,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
 
       {/* ── Mobile Bottom Tab Bar ── */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 h-[84px] ios-tab-bar z-50 flex items-center justify-around px-2 pb-6 pt-2">
-        {[NAV[0], NAV[1], NAV[2], BOTTOM[0]].map((item) => {
+        {([NAV[0], NAV[1], NAV[2], BOTTOM[0]] as typeof NAV).filter((item): item is typeof NAV[0] => item !== undefined).map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (
