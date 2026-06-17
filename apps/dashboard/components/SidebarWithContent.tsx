@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   LayoutDashboard, Briefcase, FileText, ClipboardList,
   CalendarDays, User, MessageSquare,
@@ -12,26 +13,36 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
-const NAV = [
-  { label: "Overview", icon: LayoutDashboard, href: "/" },
-  { label: "Jobs", icon: Briefcase, href: "/jobs" },
-  { label: "Applications", icon: ClipboardList, href: "/applications" },
-  { label: "Resume", icon: FileText, href: "/resume" },
-  { label: "Outreach", icon: UserCheck, href: "/referrals" },
-  { label: "Cold Mail", icon: Mail, href: "/cold-mail" },
-  { label: "Outreach History", icon: History, href: "/history" },
-  { label: "Interviews", icon: CalendarDays, href: "/interviews" },
-  { label: "AI Practice", icon: MessageSquare, href: "/mock-interviews" },
+interface NavItem {
+  label: string;
+  icon: LucideIcon;
+  href: string;
+}
+
+const NAV: NavItem[] = [
+  { label: "Overview",         icon: LayoutDashboard, href: "/" },
+  { label: "Jobs",             icon: Briefcase,       href: "/jobs" },
+  { label: "Applications",    icon: ClipboardList,   href: "/applications" },
+  { label: "Resume",          icon: FileText,        href: "/resume" },
+  { label: "Outreach",        icon: UserCheck,       href: "/referrals" },
+  { label: "Cold Mail",       icon: Mail,            href: "/cold-mail" },
+  { label: "Outreach History",icon: History,         href: "/history" },
+  { label: "Interviews",      icon: CalendarDays,    href: "/interviews" },
+  { label: "AI Practice",     icon: MessageSquare,   href: "/mock-interviews" },
 ];
 
-const BOTTOM = [
+const BOTTOM: NavItem[] = [
   { label: "Profile", icon: User, href: "/profile" },
 ];
 
 const EXPANDED = 240;
 const COLLAPSED = 68;
 
-function NavLink({ item, collapsed, isActive }: { item: (typeof NAV)[0]; collapsed: boolean; isActive: boolean }) {
+// Mobile tabs shown in bottom bar
+const MOBILE_TABS: NavItem[] = [NAV[0]!, NAV[1]!, NAV[2]!, BOTTOM[0]!];
+
+function NavLink({ item, collapsed, isActive }: { item: NavItem; collapsed: boolean; isActive: boolean }) {
+  const Icon = item.icon;
   return (
     <Link
       href={item.href}
@@ -49,7 +60,7 @@ function NavLink({ item, collapsed, isActive }: { item: (typeof NAV)[0]; collaps
       {!isActive && (
         <div className="absolute inset-0 bg-black/5 dark:bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
       )}
-      <item.icon className={`w-[18px] h-[18px] relative z-10 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
+      <Icon className={`w-[18px] h-[18px] relative z-10 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
       <AnimatePresence>
         {!collapsed && (
           <motion.span
@@ -69,9 +80,20 @@ function NavLink({ item, collapsed, isActive }: { item: (typeof NAV)[0]; collaps
 
 export function SidebarWithContent({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
   const sidebarW = collapsed ? COLLAPSED : EXPANDED;
 
+  // Detect desktop after mount to avoid SSR mismatch
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Auth check — runs only on client
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlToken = urlParams.get("token");
@@ -79,7 +101,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
       localStorage.setItem("token", urlToken);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-    
+
     const currentToken = localStorage.getItem("token");
     if (!currentToken) {
       window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
@@ -90,6 +112,9 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
     localStorage.removeItem("token");
     window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
   };
+
+  // Only offset on desktop — avoids window.innerWidth during SSR
+  const contentMargin = isDesktop ? sidebarW + 16 : 0;
 
   return (
     <div className="flex h-full bg-background relative overflow-hidden">
@@ -189,7 +214,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
 
       {/* ── Mobile Bottom Tab Bar ── */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 h-[84px] ios-tab-bar z-50 flex items-center justify-around px-2 pb-6 pt-2">
-        {([NAV[0], NAV[1], NAV[2], BOTTOM[0]] as typeof NAV).filter((item): item is typeof NAV[0] => item !== undefined).map((item) => {
+        {MOBILE_TABS.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (
@@ -205,7 +230,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
 
       {/* ── Main Content ── */}
       <motion.div
-        animate={{ marginLeft: typeof window !== 'undefined' && window.innerWidth >= 768 ? sidebarW + 16 : 0 }}
+        animate={{ marginLeft: contentMargin }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="flex-1 h-full overflow-y-auto min-w-0 pt-16 pb-[84px] md:pt-0 md:pb-0 z-10"
       >
