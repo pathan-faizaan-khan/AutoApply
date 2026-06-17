@@ -83,8 +83,8 @@ export default function Navbar() {
               <Link href="/#platforms" className="text-lg font-semibold text-foreground/90 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>Platforms</Link>
               <div className="h-px bg-border/50 my-2" />
               <div className="flex flex-col gap-4">
-                <Link href="http://localhost:3008" className="w-full py-3 text-center text-base font-semibold text-foreground rounded-xl border border-border hover:bg-secondary transition-colors" onClick={() => setIsOpen(false)}>Log in</Link>
-                <Link href="http://localhost:3008" className="w-full text-center text-base font-semibold bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-3 rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all" onClick={() => setIsOpen(false)}>
+                <Link href="/login" className="w-full py-3 text-center text-base font-semibold text-foreground rounded-xl border border-border hover:bg-secondary transition-colors" onClick={() => setIsOpen(false)}>Log in</Link>
+                <Link href="/signup" className="w-full text-center text-base font-semibold bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-3 rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all" onClick={() => setIsOpen(false)}>
                   Get Started
                 </Link>
               </div>
