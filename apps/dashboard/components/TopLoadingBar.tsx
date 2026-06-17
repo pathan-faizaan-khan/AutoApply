@@ -1,25 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function TopLoadingBar() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Start loading state
     setLoading(true);
-
-    // After a tiny delay, if the route change was instant, this clears it
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500); // adjust this depending on perceived load time
-
+    const timer = setTimeout(() => setLoading(false), 500);
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <AnimatePresence>

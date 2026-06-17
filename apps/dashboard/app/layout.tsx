@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import { ThemeProvider } from "../components/providers/ThemeProvider";
 import { CacheProvider } from "../components/providers/CacheProvider";
@@ -24,7 +25,9 @@ export default function RootLayout({
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <TopLoadingBar />
+            <Suspense fallback={null}>
+              <TopLoadingBar />
+            </Suspense>
             <div className="h-full">
               <SidebarWithContent>
                 {children}
