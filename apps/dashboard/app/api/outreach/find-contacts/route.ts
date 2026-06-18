@@ -8,6 +8,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { company_name, domain, target_role, campaign_id } = body;
 
+    const token = req.headers.get("authorization") || "";
+
     // Call FastAPI multi-layer contact discovery
     const fastapiRes = await fetch(`${FASTAPI_URL}/api/jobs/find-contacts`, {
       method: "POST",
@@ -22,7 +24,7 @@ export async function POST(req: NextRequest) {
       const best = contacts[0];
       await fetch(`${NODE_BACKEND}/api/outreach/targets/${body.target_id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
         body: JSON.stringify({
           contactName: best.name,
           contactEmail: best.email,
