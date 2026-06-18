@@ -32,7 +32,13 @@ export function useCachedFetch<T>(url: string, defaultData: T | null = null): Ca
       if (!forceRefresh) setLoading(true);
       setError(null);
       
-      const res = await fetch(url);
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await fetch(url, { headers });
       
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
