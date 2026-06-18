@@ -117,7 +117,8 @@ function ReferralsPageContent() {
     if (automationStarted && campaignId && campaignStatus?.automationStatus !== 'completed' && campaignStatus?.automationStatus !== 'failed') {
       interval = setInterval(async () => {
         try {
-          const res = await fetch(`/api/outreach/campaign/${campaignId}`);
+          const token = localStorage.getItem("token") || "";
+          const res = await fetch(`/api/outreach/campaign/${campaignId}`, { headers: { Authorization: `Bearer ${token}` } });
           if (res.ok) {
             const result = await res.json();
             setCampaignStatus(result.campaign);
@@ -163,10 +164,11 @@ function ReferralsPageContent() {
     if (!googleToken) return;
     setSearching(true);
     try {
+      const token = localStorage.getItem("token") || "";
       // Save campaign to backend
       const campRes = await fetch("/api/outreach/campaign", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           targetRoles: data.targetRoles,
           companyTypes: data.companyTypes,
@@ -185,7 +187,7 @@ function ReferralsPageContent() {
         // Start Automation
         const autoRes = await fetch(`/api/outreach/campaign/${campData.campaign.id}/automate`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
             targetEmailCount,
             googleAccessToken: googleToken

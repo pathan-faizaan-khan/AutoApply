@@ -414,9 +414,10 @@ function ColdMailPageContent() {
     setContacts([]);
     setSelectedContact(null);
     try {
+      const token = localStorage.getItem("token") || "";
       const res = await fetch("/api/outreach/find-contacts", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ company_name: company, domain, target_role: role }),
       });
       const data = await res.json();
@@ -433,12 +434,13 @@ function ColdMailPageContent() {
     if (!selectedContact) return;
     setGenerating(true);
     try {
-      const resumeRes = await fetch("/api/outreach/resume-context");
+      const token = localStorage.getItem("token") || "";
+      const resumeRes = await fetch("/api/outreach/resume-context", { headers: { Authorization: `Bearer ${token}` } });
       const resumeCtx = await resumeRes.json();
 
       const res = await fetch("/api/outreach/generate-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           contact_name: selectedContact.name,
           contact_title: selectedContact.title || "",
@@ -468,9 +470,10 @@ function ColdMailPageContent() {
   const handleTailorResume = async () => {
     setTailoring(true);
     try {
+      const token = localStorage.getItem("token") || "";
       const res = await fetch("/api/outreach/tailor-resume", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ job_title: role, job_description: jobDescription, email_id: draft.id }),
       });
       const data = await res.json();
@@ -503,9 +506,10 @@ function ColdMailPageContent() {
     }
     setSending(true);
     try {
+      const appToken = localStorage.getItem("token") || "";
       const res = await fetch(`/api/outreach/emails/${draft.id}/send`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${appToken}` },
         body: JSON.stringify({ googleAccessToken: token, toEmail: selectedContact?.email || "target@example.com" }),
       });
       if (!res.ok) {

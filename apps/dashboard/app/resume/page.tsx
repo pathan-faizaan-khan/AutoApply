@@ -40,7 +40,8 @@ export default function ResumeProfilePage() {
   const fetchResumes = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/resumes/db`);
+      const token = localStorage.getItem("token") || "";
+      const res = await fetch(`/api/resumes/db`, { headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) {
         const data = await res.json();
         setResumes(data.resumes || []);
@@ -75,14 +76,15 @@ export default function ResumeProfilePage() {
       setUploadProgressMsg("Uploading to S3 Cloud...");
       const form = new FormData();
       form.append("file", file);
-      const s3Res = await fetch("/api/resumes", { method: "POST", body: form });
+      const token = localStorage.getItem("token") || "";
+      const s3Res = await fetch("/api/resumes", { method: "POST", body: form, headers: { Authorization: `Bearer ${token}` } });
       const s3Data = await s3Res.json();
       if (!s3Res.ok) throw new Error("S3 Upload Failed");
 
       setUploadProgressMsg("AI Deep Parsing Resume...");
       const parseRes = await fetch("/api/parse-resume", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ text }),
       });
       const parseData = await parseRes.json();
@@ -94,7 +96,8 @@ export default function ResumeProfilePage() {
       const dbRes = await fetch(`/api/resumes/db`, {
         method: "POST",
         headers: { 
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           s3Url: s3Data.key,
@@ -124,16 +127,18 @@ export default function ResumeProfilePage() {
   const handleDelete = async (id: number, s3Url: string) => {
     if (!confirm("Delete this resume and its connected profile data?")) return;
     try {
+      const token = localStorage.getItem("token") || "";
       // 1. Delete from S3 via Next.js backend
       await fetch("/api/resumes", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ key: s3Url })
       });
       
       // 2. Delete from DB via Next.js proxy
       const res = await fetch(`/api/resumes/db/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
       });
 
       if (res.ok) {

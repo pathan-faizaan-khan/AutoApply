@@ -33,8 +33,9 @@ export default function HistoryPage() {
   const [activeTab, setActiveTab] = useState<"email" | "resume">("email");
 
   useEffect(() => {
+    const token = localStorage.getItem("token") || "";
     fetch("/api/outreach/history", {
-      headers: { Authorization: localStorage.getItem("token") || "" }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => {
