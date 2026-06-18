@@ -26,8 +26,8 @@ import { ThemeToggle } from "./ui/ThemeToggle";
 
 const navItems = [
   { label: "Overview", icon: LayoutDashboard, href: "/" },
+  { label: "Resume", icon: FileText, href: "/resume" },
   { label: "Jobs", icon: Briefcase, href: "/jobs" },
-  { label: "Applications", icon: ClipboardList, href: "/applications" },
   { label: "Resume", icon: FileText, href: "/resume" },
   { label: "Outreach", icon: UserCheck, href: "/referrals" },
   { label: "Cold Mail", icon: Mail, href: "/cold-mail" },
