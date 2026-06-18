@@ -32,10 +32,7 @@ export function useCachedFetch<T>(url: string, defaultData: T | null = null): Ca
       if (!forceRefresh) setLoading(true);
       setError(null);
       
-      const token = localStorage.getItem("token") ?? "";
-      const res = await fetch(url, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
+      const res = await fetch(url);
       
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();

@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 const NODE_BACKEND = process.env.NODE_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
 
 export async function GET(req: Request) {
   try {
-    const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
+    const cookieStore = await cookies();
+    const token = req.headers.get("authorization")?.replace("Bearer ", "") || cookieStore.get("token")?.value || "";
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
@@ -30,7 +32,8 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
+    const cookieStore = await cookies();
+    const token = req.headers.get("authorization")?.replace("Bearer ", "") || cookieStore.get("token")?.value || "";
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;

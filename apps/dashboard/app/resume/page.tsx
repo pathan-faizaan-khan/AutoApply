@@ -40,11 +40,7 @@ export default function ResumeProfilePage() {
   const fetchResumes = useCallback(async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
-      const res = await fetch(`${backendUrl}/api/resumes`, {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
+      const res = await fetch(`/api/resumes/db`);
       if (res.ok) {
         const data = await res.json();
         setResumes(data.resumes || []);
@@ -66,7 +62,6 @@ export default function ResumeProfilePage() {
   const handleUploadFlow = async (file: File) => {
     setIsUploading(true);
     try {
-      const token = localStorage.getItem("token") || "";
       // Allow testing without authentication token if disabled locally
 
       setUploadProgressMsg("Extracting text from file...");
@@ -96,12 +91,10 @@ export default function ResumeProfilePage() {
         : parseData.result;
 
       setUploadProgressMsg("Saving to Database...");
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
-      const dbRes = await fetch(`${backendUrl}/api/resumes`, {
+      const dbRes = await fetch(`/api/resumes/db`, {
         method: "POST",
         headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           s3Url: s3Data.key,
@@ -131,7 +124,6 @@ export default function ResumeProfilePage() {
   const handleDelete = async (id: number, s3Url: string) => {
     if (!confirm("Delete this resume and its connected profile data?")) return;
     try {
-      const token = localStorage.getItem("token") || "";
       // 1. Delete from S3 via Next.js backend
       await fetch("/api/resumes", {
         method: "DELETE",
@@ -139,11 +131,9 @@ export default function ResumeProfilePage() {
         body: JSON.stringify({ key: s3Url })
       });
       
-      // 2. Delete from DB via Express backend
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
-      const res = await fetch(`${backendUrl}/api/resumes/${id}`, {
-        method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
+      // 2. Delete from DB via Next.js proxy
+      const res = await fetch(`/api/resumes/db/${id}`, {
+        method: "DELETE"
       });
 
       if (res.ok) {

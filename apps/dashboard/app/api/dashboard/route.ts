@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { listResumes, RESUMES_PREFIX, getResumeDownloadUrl } from "../../../lib/s3";
+import { cookies } from "next/headers";
 
 const NODE_BACKEND = process.env.NODE_BACKEND_URL || "https://autoapply-backend-wkqq.onrender.com";
 
 export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "") ?? "";
+  const cookieStore = await cookies();
+  const token = req.headers.get("authorization")?.replace("Bearer ", "") || cookieStore.get("token")?.value || "";
 
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (token) {
@@ -67,12 +69,10 @@ export async function GET(req: NextRequest) {
   const campaignsData = campaignsResult.status === "fulfilled" ? campaignsResult.value : { campaigns: [] };
   const campaigns: any[] = campaignsData?.campaigns ?? [];
 
-  // Derive stats
   const emailsSent = history.filter((h: any) => h?.email?.status === "sent").length;
   const emailsDraft = history.filter((h: any) => h?.email?.status === "draft").length;
   const activeCampaigns = campaigns.filter((c: any) => c.status === "active").length;
 
-  // Latest 5 jobs
   const recentJobs = jobs.slice(0, 6).map((j: any) => ({
     id: j.id,
     title: j.title,
