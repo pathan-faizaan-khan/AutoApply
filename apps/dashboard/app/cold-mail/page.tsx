@@ -433,8 +433,7 @@ function ColdMailPageContent() {
     if (!selectedContact) return;
     setGenerating(true);
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-      const resumeRes = await fetch(`${backendUrl}/api/outreach/resume-context`);
+      const resumeRes = await fetch("/api/outreach/resume-context");
       const resumeCtx = await resumeRes.json();
 
       const res = await fetch("/api/outreach/generate-email", {
@@ -504,8 +503,7 @@ function ColdMailPageContent() {
     }
     setSending(true);
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-      const res = await fetch(`${backendUrl}/api/outreach/emails/${draft.id}/send`, {
+      const res = await fetch(`/api/outreach/emails/${draft.id}/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ googleAccessToken: token, toEmail: selectedContact?.email || "target@example.com" }),
