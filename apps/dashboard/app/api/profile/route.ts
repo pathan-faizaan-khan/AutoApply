@@ -19,7 +19,9 @@ export async function GET(req: Request) {
     });
     
     if (!res.ok) {
-      throw new Error(`Backend returned ${res.status}`);
+      const text = await res.text();
+      console.error(`Backend returned ${res.status}: ${text}`);
+      return NextResponse.json({ error: `Backend returned ${res.status}`, details: text }, { status: res.status });
     }
 
     const data = await res.json();

@@ -393,7 +393,8 @@ function ColdMailPageContent() {
   const handleScrapeJob = async (url: string) => {
     setFetchingJob(true);
     try {
-      const res = await fetch("https://autoapply-scraper-backend.onrender.com/api/jobs/scrape-description", {
+      const fastApiUrl = process.env.NEXT_PUBLIC_FASTAPI_URL || "https://autoapply-scraper-backend.onrender.com";
+      const res = await fetch(`${fastApiUrl}/api/jobs/scrape-description`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
@@ -432,7 +433,8 @@ function ColdMailPageContent() {
     if (!selectedContact) return;
     setGenerating(true);
     try {
-      const resumeRes = await fetch("https://autoapply-backend-wkqq.onrender.com/api/outreach/resume-context");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const resumeRes = await fetch(`${backendUrl}/api/outreach/resume-context`);
       const resumeCtx = await resumeRes.json();
 
       const res = await fetch("/api/outreach/generate-email", {
@@ -502,7 +504,8 @@ function ColdMailPageContent() {
     }
     setSending(true);
     try {
-      const res = await fetch(`https://autoapply-backend-wkqq.onrender.com/api/outreach/emails/${draft.id}/send`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${backendUrl}/api/outreach/emails/${draft.id}/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ googleAccessToken: token, toEmail: selectedContact?.email || "target@example.com" }),

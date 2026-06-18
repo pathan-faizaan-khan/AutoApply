@@ -335,7 +335,8 @@ export default function JobsPortalPage() {
   const handleTriggerScrape = async () => {
     setScraping(true);
     try {
-      await fetch("https://autoapply-scraper-backend.onrender.com/api/scrape/run", { method: "POST" });
+      const fastApiUrl = process.env.NEXT_PUBLIC_FASTAPI_URL || "https://autoapply-scraper-backend.onrender.com";
+      await fetch(`${fastApiUrl}/api/scrape/run`, { method: "POST" });
     } finally {
       setScraping(false);
     }
