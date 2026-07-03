@@ -21,6 +21,7 @@ import {
   UserCheck,
   Mail,
   History,
+  Trophy,
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
@@ -33,6 +34,7 @@ const navItems = [
   { label: "Cold Mail", icon: Mail, href: "/cold-mail" },
   { label: "Outreach History", icon: History, href: "/history" },
   { label: "Interviews", icon: CalendarDays, href: "/interviews" },
+  { label: "Selected", icon: Trophy, href: "/selected" },
   { label: "AI Practice", icon: MessageSquare, href: "/mock-interviews" },
   { label: "Analytics", icon: BarChart2, href: "/analytics" },
 ];

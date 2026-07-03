@@ -8,17 +8,13 @@ import {
   Clock,
   Video,
   Plus,
-  Bell,
-  Mail,
-  MessageSquare,
   Trash2,
   ExternalLink,
-  ChevronRight,
-  Target,
-  Search,
+  ChevronDown,
   CheckCircle2,
   Timer,
-  Monitor,
+  Layers,
+  X,
 } from "lucide-react";
 
 // ── Platform SVG Logos ──────────────────────────────────────────────
@@ -50,20 +46,11 @@ const MeetLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 );
 
-const SkypeLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="white">
-    <circle cx="12" cy="12" r="9" opacity="0.85" />
-    <text x="12" y="15.5" textAnchor="middle" fill="#0ea5e9" fontSize="10" fontWeight="bold" fontFamily="sans-serif">S</text>
-  </svg>
-);
-
-// Helper: get the right SVG logo + colors for a platform name
 const getPlatformBranding = (platform: string) => {
-  const p = platform.toLowerCase();
-  if (p.includes("teams")) return { Logo: TeamsLogo, color: "#ffffff", bg: "linear-gradient(135deg, #4f46e5, #7c3aed)", border: "rgba(123,131,235,0.3)", label: "Microsoft Teams" };
-  if (p.includes("zoom"))  return { Logo: ZoomLogo,  color: "#ffffff", bg: "linear-gradient(135deg, #2563eb, #0ea5e9)", border: "rgba(45,140,255,0.3)",  label: "Zoom" };
-  if (p.includes("meet") || p.includes("google"))  return { Logo: MeetLogo,  color: "#ffffff", bg: "linear-gradient(135deg, #059669, #0d9488)", border: "rgba(0,137,123,0.3)",  label: "Google Meet" };
-  if (p.includes("skype")) return { Logo: SkypeLogo, color: "#ffffff", bg: "linear-gradient(135deg, #0ea5e9, #0284c7)", border: "rgba(0,175,240,0.3)",  label: "Skype" };
+  const p = (platform || "").toLowerCase();
+  if (p.includes("teams"))  return { Logo: TeamsLogo, bg: "linear-gradient(135deg, #4f46e5, #7c3aed)", border: "rgba(123,131,235,0.3)", label: "Microsoft Teams" };
+  if (p.includes("zoom"))   return { Logo: ZoomLogo,  bg: "linear-gradient(135deg, #2563eb, #0ea5e9)", border: "rgba(45,140,255,0.3)",  label: "Zoom" };
+  if (p.includes("meet") || p.includes("google")) return { Logo: MeetLogo, bg: "linear-gradient(135deg, #059669, #0d9488)", border: "rgba(0,137,123,0.3)", label: "Google Meet" };
   return null;
 };
 
@@ -71,12 +58,12 @@ interface Interview {
   id: string;
   company: string;
   role: string;
-  dateTime: string; // ISO date string for countdown
-  displayDateTime?: string; // human-readable fallback
+  dateTime: string;
   platform: string;
   link: string;
   notes?: string;
-  logoType?: "microsoft" | "google" | "default";
+  status?: string;
+  targetId?: string;
 }
 
 // ── Countdown helper ──────────────────────────────────────────────────
@@ -98,618 +85,514 @@ const getCountdown = (isoDate: string) => {
   if (hours > 0 || days > 0) label += `${hours}h `;
   label += `${minutes}m ${seconds}s`;
 
-  let urgency: "none" | "low" | "medium" | "high" | "now" = "low";
-  if (diff < 1000 * 60 * 15) urgency = "now";        // < 15 min
-  else if (diff < 1000 * 60 * 60) urgency = "high";   // < 1 hour
-  else if (diff < 1000 * 60 * 60 * 6) urgency = "medium"; // < 6 hours
+  const urgency: "none" | "low" | "medium" | "high" | "now" =
+    diff < 1000 * 60 * 15 ? "now" :
+    diff < 1000 * 60 * 60 ? "high" :
+    diff < 1000 * 60 * 60 * 6 ? "medium" : "low";
 
   return { label, urgency };
 };
 
-// Helper to format ISO date into a pretty readable string
 const formatReadableDate = (isoDate: string) => {
   const d = new Date(isoDate);
   if (isNaN(d.getTime())) return isoDate;
   return d.toLocaleString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
+    weekday: "short", month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit", hour12: true,
   });
 };
 
-// Generate sample dates relative to right now
-const tomorrow10AM = () => {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(10, 0, 0, 0);
-  return d.toISOString();
-};
-const in3Days230PM = () => {
-  const d = new Date();
-  d.setDate(d.getDate() + 3);
-  d.setHours(14, 30, 0, 0);
-  return d.toISOString();
+// Group interviews by company (for multi-round detection)
+const groupByCompany = (interviews: Interview[]) => {
+  const groups: Record<string, Interview[]> = {};
+  for (const iv of interviews) {
+    const key = iv.company.trim().toLowerCase();
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(iv);
+  }
+  // Sort each group by date
+  for (const key in groups) {
+    groups[key].sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+  }
+  return groups;
 };
 
+// ── Company Avatar ───────────────────────────────────────────────────────────
+const CompanyAvatar = ({ name }: { name: string }) => {
+  const initials = name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  const colors = [
+    ["#6366f1", "#8b5cf6"], ["#0ea5e9", "#6366f1"], ["#10b981", "#0ea5e9"],
+    ["#f59e0b", "#ef4444"], ["#ec4899", "#8b5cf6"],
+  ];
+  const idx = name.charCodeAt(0) % colors.length;
+  const [from, to] = colors[idx];
+  return (
+    <div
+      className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-base flex-shrink-0 shadow-md"
+      style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
+    >
+      {initials}
+    </div>
+  );
+};
+
+// ── Interview Round Row ────────────────────────────────────────────────────────
+const RoundRow = ({
+  interview, roundNum, isLast, tick,
+}: { interview: Interview; roundNum: number; isLast: boolean; tick: number }) => {
+  const { label, urgency } = getCountdown(interview.dateTime);
+  const branding = getPlatformBranding(interview.platform);
+  const isPast = new Date(interview.dateTime).getTime() < Date.now();
+
+  const urgencyStyles: Record<string, string> = {
+    now:    "bg-red-500/15 border-red-400/40 text-red-400",
+    high:   "bg-orange-500/15 border-orange-400/40 text-orange-400",
+    medium: "bg-amber-500/12 border-amber-400/30 text-amber-400",
+    low:    "bg-emerald-500/10 border-emerald-400/30 text-emerald-400",
+    none:   "bg-muted border-border text-muted-foreground",
+  };
+
+  return (
+    <div className="flex gap-3">
+      {/* Timeline spine */}
+      <div className="flex flex-col items-center">
+        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0 z-10 border-2 ${
+          isPast
+            ? "bg-emerald-500/20 border-emerald-500/60 text-emerald-400"
+            : "bg-primary/20 border-primary/60 text-primary"
+        }`}>
+          {isPast ? <CheckCircle2 className="w-3.5 h-3.5" /> : roundNum}
+        </div>
+        {!isLast && <div className="w-px flex-1 bg-border/60 mt-1 mb-1" />}
+      </div>
+
+      {/* Round content */}
+      <div className={`flex-1 pb-4 ${isLast ? "pb-0" : ""}`}>
+        <div className={`rounded-xl border p-4 transition-all ${
+          isPast ? "bg-muted/30 border-border/40 opacity-70" : "bg-card/80 border-border/60 hover:border-primary/30"
+        }`}>
+          <div className="flex items-start justify-between gap-3 flex-wrap">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-black uppercase tracking-wider text-muted-foreground">
+                  Round {roundNum}
+                </span>
+                {isPast && (
+                  <span className="text-[10px] font-bold bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
+                    Completed
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <CalendarDays className="w-3.5 h-3.5 text-primary" />
+                  {formatReadableDate(interview.dateTime)}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Video className="w-3.5 h-3.5 text-primary" />
+                  {interview.platform}
+                </span>
+              </div>
+              {interview.notes && (
+                <p className="text-xs text-muted-foreground/70 italic mt-2">📝 {interview.notes}</p>
+              )}
+            </div>
+
+            {/* Join button */}
+            {interview.link && !isPast && (
+              branding ? (
+                <a
+                  href={interview.link.startsWith("http") ? interview.link : `https://${interview.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ background: branding.bg, borderColor: branding.border }}
+                  className="flex items-center gap-2 text-white font-bold text-xs px-3 py-2 rounded-xl border hover:brightness-125 transition-all flex-shrink-0"
+                >
+                  <branding.Logo className="w-4 h-4" />
+                  Join on {branding.label}
+                  <ExternalLink className="w-3 h-3 opacity-60" />
+                </a>
+              ) : (
+                <a
+                  href={interview.link.startsWith("http") ? interview.link : `https://${interview.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-primary text-white font-bold text-xs px-3 py-2 rounded-xl hover:bg-primary/90 transition-all flex-shrink-0"
+                >
+                  Join Interview <ExternalLink className="w-3 h-3" />
+                </a>
+              )
+            )}
+          </div>
+
+          {/* Countdown */}
+          {label && !isPast && (
+            <div className={`mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold tabular-nums w-fit ${urgencyStyles[urgency]}`}>
+              <Timer className="w-3.5 h-3.5" />
+              {label}
+              {(urgency === "now" || urgency === "high") && (
+                <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse ml-1" />
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── Company Interview Card ─────────────────────────────────────────────────────
+const CompanyCard = ({
+  companyName, interviews, onDelete, tick,
+}: {
+  companyName: string;
+  interviews: Interview[];
+  onDelete: (id: string) => void;
+  tick: number;
+}) => {
+  const [expanded, setExpanded] = useState(true);
+  const isMultiRound = interviews.length > 1;
+  const nextInterview = interviews.find(iv => new Date(iv.dateTime).getTime() > Date.now()) || interviews[0];
+  const allCompleted = interviews.every(iv => new Date(iv.dateTime).getTime() < Date.now());
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 transition-all shadow-sm"
+    >
+      {/* Card Header */}
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-4">
+            <CompanyAvatar name={companyName} />
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-black text-foreground text-base">{companyName}</h3>
+                {isMultiRound && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
+                    <Layers className="w-3 h-3" /> {interviews.length} Rounds
+                  </span>
+                )}
+                {allCompleted && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                    <CheckCircle2 className="w-3 h-3" /> All Done
+                  </span>
+                )}
+              </div>
+              <p className="text-muted-foreground text-sm font-medium mt-0.5">{nextInterview?.role}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="p-2 rounded-lg bg-muted border border-border hover:bg-muted/80 text-muted-foreground transition-all"
+            >
+              <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                <ChevronDown className="w-4 h-4" />
+              </motion.div>
+            </button>
+            <button
+              onClick={() => interviews.forEach(iv => onDelete(iv.id))}
+              className="p-2 rounded-lg bg-muted border border-border hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 text-muted-foreground transition-all"
+              title="Delete all rounds"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Rounds Timeline */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 pt-1 border-t border-border/50">
+              <div className="ml-2 mt-3 space-y-0">
+                {interviews.map((iv, idx) => (
+                  <RoundRow
+                    key={iv.id}
+                    interview={iv}
+                    roundNum={idx + 1}
+                    isLast={idx === interviews.length - 1}
+                    tick={tick}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
+// ── Add Modal ─────────────────────────────────────────────────────────────────
+const AddModal = ({ onClose, onAdd }: { onClose: () => void; onAdd: () => void }) => {
+  const [company, setCompany] = useState("");
+  const [role, setRole] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [platform, setPlatform] = useState("Google Meet");
+  const [link, setLink] = useState("");
+  const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!company || !role || !date || !time) return;
+    setLoading(true);
+    try {
+      await fetch("/api/interviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token") || ""}` },
+        body: JSON.stringify({ company, role, dateTime: new Date(`${date}T${time}`).toISOString(), platform, link, notes }),
+      });
+      onAdd();
+      onClose();
+    } catch (err) { console.error(err); }
+    setLoading(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="relative w-full max-w-lg bg-card border border-border rounded-3xl overflow-hidden shadow-2xl z-10"
+      >
+        <div className="px-6 py-5 border-b border-border flex justify-between items-center bg-muted/30">
+          <h3 className="text-foreground font-black text-lg flex items-center gap-2">
+            <CalendarDays className="w-5 h-5 text-primary" /> Schedule Interview
+          </h3>
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground transition-all">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Company</label>
+              <input type="text" required value={company} onChange={e => setCompany(e.target.value)} placeholder="e.g. Google"
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Role</label>
+              <input type="text" required value={role} onChange={e => setRole(e.target.value)} placeholder="e.g. Software Engineer"
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Date</label>
+              <input type="date" required value={date} onChange={e => setDate(e.target.value)}
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Time</label>
+              <input type="time" required value={time} onChange={e => setTime(e.target.value)}
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Platform</label>
+              <select value={platform} onChange={e => setPlatform(e.target.value)}
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50">
+                <option>Google Meet</option>
+                <option>Microsoft Teams</option>
+                <option>Zoom</option>
+                <option>Phone Interview</option>
+                <option>In Person</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Meeting Link</label>
+              <input type="text" value={link} onChange={e => setLink(e.target.value)} placeholder="https://meet.google.com/..."
+                className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Notes (optional)</label>
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Preparation notes, checklist..."
+              className="w-full h-16 px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm resize-none focus:outline-none focus:border-primary/50" />
+          </div>
+          <div className="flex gap-3 justify-end pt-2 border-t border-border mt-1">
+            <button type="button" onClick={onClose}
+              className="bg-muted hover:bg-muted/80 text-muted-foreground font-semibold text-sm px-4 py-2.5 rounded-xl transition-all">
+              Cancel
+            </button>
+            <button type="submit" disabled={loading}
+              className="bg-gradient-to-r from-primary to-blue-500 hover:opacity-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-primary/20 disabled:opacity-50">
+              {loading ? "Scheduling..." : "Schedule"}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
+// ── Main Page ─────────────────────────────────────────────────────────────────
 export default function InterviewsPage() {
-  // Live tick — updates every second for the countdown
   const [tick, setTick] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 1000);
+    const id = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(id);
   }, []);
 
   const { data, loading, refetch } = useCachedFetch<{ interviews: Interview[] }>("/api/interviews", null);
   const interviews = data?.interviews || [];
 
-  // Notifications State
-  const [emailAlerts, setEmailAlerts] = useState(true);
-  const [pushAlerts, setPushAlerts] = useState(true);
-  const [smsAlerts, setSmsAlerts] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [activeTab, setActiveTab] = useState<"upcoming" | "completed">("upcoming");
 
-  // Form State
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [company, setCompany] = useState("");
-  const [role, setRole] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [platform, setPlatform] = useState("Microsoft Teams");
-  const [link, setLink] = useState("");
-  const [notes, setNotes] = useState("");
+  const now = Date.now();
+  const upcoming = interviews.filter(iv => new Date(iv.dateTime).getTime() > now);
+  const completed = interviews.filter(iv => new Date(iv.dateTime).getTime() <= now);
 
-  const handleAddInterview = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!company || !role || !date || !time) return;
-
-    // Combine the date + time inputs into an ISO string
-    const isoDateTime = new Date(`${date}T${time}`).toISOString();
-    let logoType: "microsoft" | "google" | "default" = "default";
-    if (company.toLowerCase().includes("microsoft")) logoType = "microsoft";
-    else if (company.toLowerCase().includes("google")) logoType = "google";
-
-    try {
-      await fetch('/api/interviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token") || ""}` },
-        body: JSON.stringify({ company, role, dateTime: isoDateTime, platform, link, notes })
-      });
-      refetch();
-    } catch(err) { console.error(err); }
-
-    setShowAddModal(false);
-    
-    // Reset Form
-    setCompany("");
-    setRole("");
-    setDate("");
-    setTime("");
-    setLink("");
-    setNotes("");
-  };
+  // Group by company for multi-round display
+  const upcomingGroups = groupByCompany(upcoming);
+  const completedGroups = groupByCompany(completed);
 
   const handleDelete = async (id: string) => {
     try {
       await fetch(`/api/interviews?id=${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem("token") || ""}` }
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` },
       });
       refetch();
-    } catch(err) { console.error(err); }
+    } catch (err) { console.error(err); }
   };
 
-  // Helper to render company logo
-  const renderLogo = (type?: "microsoft" | "google" | "default", companyName?: string) => {
-    if (type === "microsoft") {
-      return (
-        <div className="grid grid-cols-2 gap-0.5 w-10 h-10 p-2 bg-slate-900 border border-slate-800 rounded-xl flex-shrink-0">
-          <div className="bg-[#f25022] w-2.5 h-2.5" />
-          <div className="bg-[#7fba00] w-2.5 h-2.5" />
-          <div className="bg-[#00a4ef] w-2.5 h-2.5" />
-          <div className="bg-[#ffb900] w-2.5 h-2.5" />
-        </div>
-      );
-    }
-    if (type === "google") {
-      return (
-        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-bold text-white text-base bg-gradient-to-tr from-red-500 via-yellow-500 to-blue-500 flex-shrink-0">
-          G
-        </div>
-      );
-    }
-    return (
-      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 flex items-center justify-center font-bold text-primary text-base flex-shrink-0">
-        {companyName ? companyName.charAt(0).toUpperCase() : "I"}
-      </div>
-    );
-  };
+  const currentGroups = activeTab === "upcoming" ? upcomingGroups : completedGroups;
 
   return (
-    <div className="p-8 space-y-8 min-h-screen">
-      {/* Header */}
-      <div className="flex justify-between items-start flex-wrap gap-4">
+    <div className="p-6 md:p-8 min-h-screen">
+      {/* ── Header ─────────────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+      >
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <CalendarDays className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Interview Schedule & Notifications</h1>
+            <div className="w-8 h-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <CalendarDays className="w-4 h-4 text-primary" />
+            </div>
+            <h1 className="text-2xl font-black text-foreground">Interviews</h1>
           </div>
           <p className="text-muted-foreground text-sm">
-            Keep track of your active job application interviews, details, links, and reminders.
+            Track your interview rounds and join sessions with one click.
           </p>
         </div>
 
         <button
-          onClick={() => setShowAddModal(true)}
+          onClick={() => setShowAdd(true)}
           className="bg-gradient-to-r from-primary to-blue-500 text-white font-bold text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <Plus className="w-4 h-4" /> Schedule Interview
         </button>
-      </div>
+      </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-6 w-full">
-        {/* Left Column: Upcoming Interviews */}
-        <div className="space-y-6">
-          <div className="glass rounded-2xl p-6 border border-border">
-            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary" /> Upcoming Interviews
-            </h2>
-
-            <AnimatePresence mode="wait">
-              {interviews.length > 0 ? (
-                <div className="space-y-4">
-                  {interviews.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -12 }}
-                      className="bg-card/90 border border-border hover:border-primary/30 rounded-2xl p-5 flex flex-col gap-4 transition-all shadow-sm"
-                    >
-                      {/* Top: Logo + Company Info + Delete */}
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3.5">
-                          {renderLogo(item.logoType, item.company)}
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
-                                Upcoming Interview
-                              </span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            </div>
-                            <h3 className="text-foreground font-bold text-base leading-tight mt-0.5">
-                              {item.company}
-                            </h3>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="p-2 rounded-lg bg-muted border border-border hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 text-muted-foreground transition-all flex-shrink-0"
-                          title="Delete Interview"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-
-                      {/* Middle: Role + Details */}
-                      <div className="space-y-2">
-                        <p className="text-foreground font-semibold text-sm">
-                          {item.role}
-                        </p>
-
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <CalendarDays className="w-3.5 h-3.5 text-primary" />
-                            {item.displayDateTime || formatReadableDate(item.dateTime)}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <Video className="w-3.5 h-3.5 text-primary" />
-                            {item.platform}
-                          </span>
-                        </div>
-
-                        {item.notes && (
-                          <p className="text-muted-foreground/80 text-xs italic leading-relaxed">
-                            📝 {item.notes}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Countdown Timer */}
-                      {(() => {
-                        const { label, urgency } = getCountdown(item.dateTime);
-                        if (!label) return null;
-                        const urgencyStyles = {
-                          now:    "bg-red-500/15 border-red-500/30 text-red-600 dark:text-red-400",
-                          high:   "bg-orange-500/15 border-orange-500/30 text-orange-600 dark:text-orange-400",
-                          medium: "bg-amber-500/12 border-amber-500/25 text-amber-600 dark:text-amber-400",
-                          low:    "bg-emerald-500/10 border-emerald-500/25 text-emerald-600 dark:text-emerald-400",
-                          none:   "bg-muted border-border text-muted-foreground",
-                        };
-                        return (
-                          <div
-                            className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold tabular-nums ${urgencyStyles[urgency]}`}
-                          >
-                            <Timer className="w-3.5 h-3.5" />
-                            {label}
-                            {(urgency === "now" || urgency === "high") && (
-                              <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                            )}
-                          </div>
-                        );
-                      })()}
-
-                      {/* Bottom: Join Button (full width) */}
-                      <div className="border-t border-border/60 pt-3 mt-auto">
-                        {(() => {
-                          const branding = getPlatformBranding(item.platform);
-                          if (branding) {
-                            const { Logo, color, bg, border: brBorder } = branding;
-                            return (
-                              <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{ background: bg, borderColor: brBorder, color }}
-                                className="w-full text-center font-bold text-sm px-5 py-2.5 rounded-xl flex items-center justify-center gap-2.5 transition-all border hover:brightness-125 hover:scale-[1.01] active:scale-[0.98]"
-                              >
-                                <Logo className="w-5 h-5" />
-                                Join on {branding.label}
-                                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                              </a>
-                            );
-                          }
-                          return (
-                            <a
-                              href={item.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-full text-center bg-primary hover:bg-primary/90 text-white font-bold text-sm px-5 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-primary/15"
-                            >
-                              Join Interview <ExternalLink className="w-3.5 h-3.5" />
-                            </a>
-                          );
-                        })()}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-12 border border-dashed border-border rounded-xl"
-                >
-                  <CalendarDays className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
-                  <p className="text-muted-foreground font-semibold text-sm">No interviews scheduled yet</p>
-                  <p className="text-muted-foreground/60 text-xs mt-1">Use the "Schedule Interview" button to get started.</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+      {/* ── Stats Strip ────────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="grid grid-cols-3 gap-3 mb-6"
+      >
+        {[
+          { label: "Total", value: interviews.length, color: "text-foreground" },
+          { label: "Upcoming", value: upcoming.length, color: "text-primary" },
+          { label: "Completed", value: completed.length, color: "text-emerald-400" },
+        ].map(s => (
+          <div key={s.label} className="bg-card border border-border rounded-2xl p-4 text-center">
+            <div className={`text-2xl font-black ${s.color}`}>{s.value}</div>
+            <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">{s.label}</div>
           </div>
-        </div>
+        ))}
+      </motion.div>
 
-        {/* Right Column: Remaining 3 Boxes */}
-        <div className="space-y-6">
-          {/* Box 2: Notifications & Reminders */}
-          <div className="glass border border-border rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Bell className="w-4 h-4 text-primary" /> Notifications & Reminders
-            </h2>
-
-            <div className="space-y-4">
-              {/* Alert Toggle 1 */}
-              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
-                <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground">Email Reminders</h4>
-                    <p className="text-[11px] text-muted-foreground">Send invite confirmations & briefs</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setEmailAlerts(!emailAlerts)}
-                  className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    emailAlerts ? "bg-primary" : "bg-slate-800"
-                  }`}
-                >
-                  <div
-                    className={`w-4.5 h-4.5 rounded-full bg-white transition-all absolute ${
-                      emailAlerts ? "right-1" : "left-1"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Alert Toggle 2 */}
-              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
-                <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <Bell className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground">Push Notifications</h4>
-                    <p className="text-[11px] text-muted-foreground">Reminders 15 minutes before call</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setPushAlerts(!pushAlerts)}
-                  className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    pushAlerts ? "bg-primary" : "bg-slate-800"
-                  }`}
-                >
-                  <div
-                    className={`w-4.5 h-4.5 rounded-full bg-white transition-all absolute ${
-                      pushAlerts ? "right-1" : "left-1"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Alert Toggle 3 */}
-              <div className="flex justify-between items-center p-3.5 bg-card border border-border/40 rounded-xl">
-                <div className="flex gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <MessageSquare className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground">SMS Notifications</h4>
-                    <p className="text-[11px] text-muted-foreground">Receive schedule text reminders</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSmsAlerts(!smsAlerts)}
-                  className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${
-                    smsAlerts ? "bg-primary" : "bg-slate-800"
-                  }`}
-                >
-                  <div
-                    className={`w-4.5 h-4.5 rounded-full bg-white transition-all absolute ${
-                      smsAlerts ? "right-1" : "left-1"
-                    }`}
-                  />
-                </button>
-              </div>
-            </div>
-
-            <p className="text-[11px] text-muted-foreground mt-5 text-center leading-relaxed">
-              💡 You will receive reminders, alerts and interview schedule. We sync with your calendar settings automatically.
-            </p>
-          </div>
-
-          {/* ── Join Interview Platforms Widget ── */}
-          <div className="glass border border-border rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Monitor className="w-4 h-4 text-primary" /> Join Interview Platforms
-            </h2>
-
-            <div className="space-y-2.5">
-              {/* Microsoft Teams */}
-              <a
-                href="https://teams.microsoft.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(123,131,235,0.08)] hover:border-[rgba(123,131,235,0.3)] transition-all group cursor-pointer"
-              >
-                <div className="w-9 h-9 rounded-lg bg-[rgba(123,131,235,0.12)] border border-[rgba(123,131,235,0.2)] flex items-center justify-center flex-shrink-0">
-                  <TeamsLogo className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors">Join on Microsoft Teams</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 ml-auto transition-colors" />
-              </a>
-
-              {/* Zoom */}
-              <a
-                href="https://zoom.us/join"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(45,140,255,0.08)] hover:border-[rgba(45,140,255,0.3)] transition-all group cursor-pointer"
-              >
-                <div className="w-9 h-9 rounded-lg bg-[rgba(45,140,255,0.12)] border border-[rgba(45,140,255,0.2)] flex items-center justify-center flex-shrink-0">
-                  <ZoomLogo className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors">Join on Zoom</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 ml-auto transition-colors" />
-              </a>
-
-              {/* Google Meet */}
-              <a
-                href="https://meet.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-[rgba(0,137,123,0.08)] hover:border-[rgba(0,137,123,0.3)] transition-all group cursor-pointer"
-              >
-                <div className="w-9 h-9 rounded-lg bg-[rgba(0,137,123,0.12)] border border-[rgba(0,137,123,0.2)] flex items-center justify-center flex-shrink-0">
-                  <MeetLogo className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors">Join on Google Meet</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 ml-auto transition-colors" />
-              </a>
-            </div>
-
-            <p className="text-[11px] text-muted-foreground mt-4 text-center leading-relaxed">
-              Click &quot;Join Interview&quot; on any card and the app opens the respective platform.
-            </p>
-          </div>
-
-          {/* Quick Stats/Tips */}
-          <div className="glass border border-border rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Target className="w-4 h-4 text-primary" /> Interview Preparation
-            </h2>
-            
-            <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
-              <div className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span>Test your mic, camera, and internet connection beforehand.</span>
-              </div>
-              <div className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span>Reread the Job Description and match key skills with your experiences.</span>
-              </div>
-              <div className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span>Keep a digital copy of your parsed resume open to refer back to.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Add Interview Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <div
-            onClick={() => setShowAddModal(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-          />
-
-          {/* Dialog */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="relative w-full max-w-lg bg-card border border-border rounded-3xl overflow-hidden shadow-2xl z-10"
+      {/* ── Tabs ───────────────────────────────────────────────────── */}
+      <div className="flex gap-1 p-1 bg-muted rounded-xl border border-border mb-6 w-fit">
+        {(["upcoming", "completed"] as const).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
+              activeTab === tab
+                ? "bg-card text-foreground shadow-sm border border-border"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
           >
-            {/* Header */}
-            <div className="px-6 py-5 border-b border-border flex justify-between items-center bg-muted/50">
-              <h3 className="text-foreground font-bold text-lg flex items-center gap-2">
-                <CalendarDays className="w-5 h-5 text-primary" /> Schedule New Interview
-              </h3>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="text-muted-foreground hover:text-foreground font-bold text-sm"
-              >
-                ✕
-              </button>
-            </div>
+            {tab === "upcoming" ? `Upcoming (${upcoming.length})` : `Completed (${completed.length})`}
+          </button>
+        ))}
+      </div>
 
-            {/* Form */}
-            <form onSubmit={handleAddInterview} className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Microsoft"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Role / Job Title
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Software Engineer"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Time
-                  </label>
-                  <input
-                    type="time"
-                    required
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 dark:[color-scheme:dark]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Platform
-                  </label>
-                  <select
-                    value={platform}
-                    onChange={(e) => setPlatform(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50 appearance-none"
-                  >
-                    <option value="Microsoft Teams">Microsoft Teams</option>
-                    <option value="Google Meet">Google Meet</option>
-                    <option value="Zoom">Zoom</option>
-                    <option value="Skype">Skype</option>
-                    <option value="Phone Interview">Phone Interview</option>
-                    <option value="In Person">In Person</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                    Interview URL Link
-                  </label>
-                  <input
-                    type="url"
-                    placeholder="e.g. https://teams.microsoft.com/..."
-                    value={link}
-                    onChange={(e) => setLink(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm focus:outline-none focus:border-primary/50"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                  Preps & Notes
-                </label>
-                <textarea
-                  placeholder="Keep reference links, checklist, or preparation plans here..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full h-20 px-3 py-2.5 bg-background border border-border rounded-xl text-foreground text-sm resize-none focus:outline-none focus:border-primary/50"
-                />
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-3 justify-end pt-3 border-t border-border mt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="bg-muted hover:bg-muted/80 text-muted-foreground font-semibold text-sm px-4 py-2.5 rounded-xl transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-gradient-to-r from-primary to-blue-500 hover:opacity-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-primary/20"
-                >
-                  Schedule
-                </button>
-              </div>
-            </form>
+      {/* ── Content ────────────────────────────────────────────────── */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+            {[1, 2].map(i => (
+              <div key={i} className="h-32 bg-card border border-border rounded-2xl animate-pulse" />
+            ))}
           </motion.div>
-        </div>
-      )}
+        ) : Object.keys(currentGroups).length === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="text-center py-20 border border-dashed border-border rounded-2xl"
+          >
+            <CalendarDays className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
+            <p className="text-muted-foreground font-bold text-sm">
+              {activeTab === "upcoming" ? "No upcoming interviews" : "No completed interviews yet"}
+            </p>
+            {activeTab === "upcoming" && (
+              <p className="text-muted-foreground/60 text-xs mt-1">
+                Once a recruiter replies positively, your interview will appear here automatically.
+              </p>
+            )}
+          </motion.div>
+        ) : (
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="space-y-4"
+          >
+            {Object.entries(currentGroups).map(([key, ivs]) => (
+              <CompanyCard
+                key={key}
+                companyName={ivs[0].company}
+                interviews={ivs}
+                onDelete={handleDelete}
+                tick={tick}
+              />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Add Modal ────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showAdd && <AddModal onClose={() => setShowAdd(false)} onAdd={refetch} />}
+      </AnimatePresence>
     </div>
   );
 }
