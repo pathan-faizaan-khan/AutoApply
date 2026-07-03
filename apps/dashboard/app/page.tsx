@@ -39,7 +39,6 @@ interface DashboardStats {
   acceptedProfiles: number;
   repliedSelected: number;
   repliedNotSelected: number;
-  repliedNeutral: number;
 }
 
 interface RecentJob {
@@ -390,16 +389,6 @@ export default function DashboardHome() {
       delay: 0.21,
     },
     {
-      label: "Accepted Profiles",
-      value: data?.stats.acceptedProfiles ?? 0,
-      icon: TrendingUp, // Will use Activity or CheckCircle if imported, TrendingUp is fine.
-      sub: "Interviews scheduled",
-      iconClass: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-      accent: "bg-gradient-to-r from-emerald-500 to-teal-400",
-      href: "/interviews",
-      delay: 0.28,
-    },
-    {
       label: "Selected",
       value: data?.stats.repliedSelected ?? 0,
       icon: TrendingUp,
@@ -407,7 +396,7 @@ export default function DashboardHome() {
       iconClass: "bg-green-500/10 text-green-500 border-green-500/20",
       accent: "bg-gradient-to-r from-green-500 to-emerald-400",
       href: "/history",
-      delay: 0.35,
+      delay: 0.28,
     },
     {
       label: "Not Selected",
@@ -417,17 +406,7 @@ export default function DashboardHome() {
       iconClass: "bg-red-500/10 text-red-500 border-red-500/20",
       accent: "bg-gradient-to-r from-red-500 to-rose-400",
       href: "/history",
-      delay: 0.42,
-    },
-    {
-      label: "Replied",
-      value: data?.stats.repliedNeutral ?? 0,
-      icon: Mail,
-      sub: "Neutral replies received",
-      iconClass: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      accent: "bg-gradient-to-r from-blue-500 to-indigo-400",
-      href: "/history",
-      delay: 0.49,
+      delay: 0.35,
     },
   ];
 
@@ -481,7 +460,7 @@ export default function DashboardHome() {
       </motion.div>
 
       {/* ── Stat cards ────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
         {stats.map((s, i) => (
           <StatCard key={i} {...s} loading={loading} />
         ))}

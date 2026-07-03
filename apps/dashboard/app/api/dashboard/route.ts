@@ -84,7 +84,6 @@ export async function GET(req: NextRequest) {
   
   const repliedSelected = history.filter((h: any) => h?.target?.status === "replied_positive").length;
   const repliedNotSelected = history.filter((h: any) => h?.target?.status === "replied_negative").length;
-  const repliedNeutral = history.filter((h: any) => h?.target?.status === "replied").length;
 
   const recentJobs = jobs.slice(0, 6).map((j: any) => ({
     id: j.id,
@@ -118,7 +117,6 @@ export async function GET(req: NextRequest) {
       acceptedProfiles,
       repliedSelected,
       repliedNotSelected,
-      repliedNeutral,
     },
     recentJobs,
     recentActivity,
