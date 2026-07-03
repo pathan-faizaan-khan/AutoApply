@@ -190,7 +190,6 @@ function ReferralsPageContent() {
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
             targetEmailCount,
-            googleAccessToken: googleToken
           }),
         });
         

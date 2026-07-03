@@ -487,19 +487,42 @@ function ColdMailPageContent() {
   };
 
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      setGoogleAccessToken(tokenResponse.access_token);
-      await sendEmailWithToken(tokenResponse.access_token);
+    flow: 'auth-code',
+    onSuccess: async (codeResponse) => {
+      try {
+        const res = await fetch("/api/outreach/connect-gmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+          body: JSON.stringify({ code: codeResponse.code }),
+        });
+        
+        if (res.ok) {
+          alert("Gmail connected successfully!");
+          await sendEmailWithToken();
+        } else {
+          alert("Failed to connect Gmail.");
+        }
+      } catch (e) {
+        console.error("Failed to connect Gmail:", e);
+      }
     },
     scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly",
   });
 
   const handleSendEmail = async () => {
-    if (!googleAccessToken) { login(); return; }
-    await sendEmailWithToken(googleAccessToken);
+    try {
+      await sendEmailWithToken();
+    } catch (e: any) {
+      if (e.message === 'User has not connected Gmail') {
+        login();
+      }
+    }
   };
 
-  const sendEmailWithToken = async (token: string) => {
+  const sendEmailWithToken = async () => {
     if (!draft.id) {
       alert("Error: Please generate the email again before sending.");
       return;
@@ -510,7 +533,7 @@ function ColdMailPageContent() {
       const res = await fetch(`/api/outreach/emails/${draft.id}/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${appToken}` },
-        body: JSON.stringify({ googleAccessToken: token, toEmail: selectedContact?.email || "target@example.com" }),
+        body: JSON.stringify({ toEmail: selectedContact?.email || "target@example.com" }),
       });
       if (!res.ok) {
         const err = await res.json();
