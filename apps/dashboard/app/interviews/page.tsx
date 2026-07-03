@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCachedFetch } from "../hooks/useCachedFetch";
+import { useCachedFetch } from "../../hooks/useCachedFetch";
 import {
   CalendarDays,
   Clock,
