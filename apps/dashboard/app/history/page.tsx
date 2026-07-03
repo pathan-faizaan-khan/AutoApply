@@ -20,6 +20,8 @@ interface HistoryRecord {
     contactName: string | null;
     contactEmail: string | null;
     jobTitle: string | null;
+    status: string;
+    responseSentiment: string | null;
   } | null;
   campaign: {
     id: number;
@@ -81,9 +83,21 @@ export default function HistoryPage() {
                     <h3 className={`font-bold text-sm ${isSelected ? "text-primary" : "text-foreground group-hover:text-primary"}`}>
                       {record.target?.companyName || "Manual Outreach"}
                     </h3>
-                    {record.email.status === "sent" ? (
+                    {record.target?.status === "replied_positive" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-200">
+                        <CheckCircle2 className="w-3 h-3" /> Interview
+                      </span>
+                    ) : record.target?.status === "replied_negative" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-200">
+                        <X className="w-3 h-3" /> Rejected
+                      </span>
+                    ) : record.target?.status === "replied" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-200">
+                        <Mail className="w-3 h-3" /> Replied
+                      </span>
+                    ) : record.email.status === "sent" ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                        <CheckCircle2 className="w-3 h-3" /> Sent
+                        <Send className="w-3 h-3" /> Sent
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-600 bg-amber-500/10 px-2 py-0.5 rounded-full">
