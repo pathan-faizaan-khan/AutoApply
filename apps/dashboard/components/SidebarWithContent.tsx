@@ -9,7 +9,8 @@ import type { LucideIcon } from "lucide-react";
 import {
   LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
-  LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History
+  LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History,
+  Trophy
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
@@ -25,6 +26,7 @@ const NAV: NavItem[] = [
   { label: "Jobs",             icon: Briefcase,       href: "/jobs" },
   { label: "Outreach",        icon: UserCheck,       href: "/referrals" },
   { label: "Cold Mail",       icon: Mail,            href: "/cold-mail" },
+  { label: "Selected", icon: Trophy, href: "/selected" },
   { label: "Outreach History",icon: History,         href: "/history" },
   { label: "Interviews",      icon: CalendarDays,    href: "/interviews" },
   { label: "AI Practice",     icon: MessageSquare,   href: "/mock-interviews" },
