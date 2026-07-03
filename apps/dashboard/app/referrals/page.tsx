@@ -108,7 +108,7 @@ function ReferralsPageContent() {
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/outreach/connect-gmail`, {
+        const res = await fetch("/api/outreach/connect-gmail", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
