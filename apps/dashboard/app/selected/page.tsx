@@ -226,8 +226,7 @@ export default function SelectedPage() {
       <motion.div
         initial={{ opacity: 0, y: -14 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative rounded-3xl overflow-hidden mb-8 border border-yellow-500/20"
-        style={{ background: "linear-gradient(135deg, #1a1200 0%, #100c00 50%, #0a0a0a 100%)" }}
+        className="relative rounded-3xl overflow-hidden mb-8 bg-card border border-border"
       >
         {selected.length > 0 && <ConfettiCanvas />}
 
@@ -236,18 +235,18 @@ export default function SelectedPage() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-            className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-2xl shadow-yellow-500/40 mb-5"
+            className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-xl shadow-yellow-500/20 mb-5"
           >
             <Trophy className="w-10 h-10 text-white" />
           </motion.div>
 
-          <h1 className="text-4xl font-black text-white mb-2 tracking-tight">
-            {selected.length > 0 ? "You Got Offers! 🎉" : "Offer Letters"}
+          <h1 className="text-3xl font-black text-foreground mb-2 tracking-tight">
+            {selected.length > 0 ? "Job Offers 🎉" : "Offer Letters"}
           </h1>
-          <p className="text-yellow-300/75 text-base font-semibold max-w-lg mx-auto">
+          <p className="text-muted-foreground text-sm font-medium max-w-md mx-auto">
             {selected.length > 0
-              ? `${selected.length} ${selected.length === 1 ? "company has" : "companies have"} extended a job offer to you. Congratulations on your hard work!`
-              : "When a company sends you a formal job offer or selection email, it will automatically appear here — separate from interview invites."}
+              ? `You have received ${selected.length} job ${selected.length === 1 ? "offer" : "offers"}.`
+              : "Your job offers will automatically appear here."}
           </p>
 
           {/* Company pill badges */}
@@ -284,11 +283,7 @@ export default function SelectedPage() {
             <PartyPopper className="w-8 h-8 text-yellow-400/60" />
           </div>
           <p className="text-muted-foreground font-bold text-sm mb-2">No offer letters yet</p>
-          <p className="text-muted-foreground/60 text-xs max-w-sm mx-auto leading-relaxed">
-            This page is separate from interview invites. Only{" "}
-            <strong className="text-muted-foreground">formal job offers</strong>{" "}
-            (e.g., &ldquo;We&apos;d like to extend an offer&rdquo;, &ldquo;Joining date&rdquo;, &ldquo;Offer Letter&rdquo;) will appear here.
-          </p>
+          
         </motion.div>
       )}
 
