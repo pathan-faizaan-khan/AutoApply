@@ -22,6 +22,7 @@ interface HistoryRecord {
     jobTitle: string | null;
     status: string;
     responseSentiment: string | null;
+    replyBody: string | null;
   } | null;
   campaign: {
     id: number;
@@ -168,10 +169,12 @@ export default function HistoryPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="max-w-3xl mx-auto"
+                    className="max-w-3xl mx-auto space-y-4"
                   >
+                    {/* Sent Email */}
                     <div className="bg-white border border-border rounded-2xl p-6 shadow-sm">
-                      <div className="mb-6 pb-6 border-b border-border space-y-3">
+                      <h4 className="text-xs font-black text-muted-foreground uppercase tracking-wider mb-4 pb-2 border-b border-border">Your Cold Email</h4>
+                      <div className="mb-4 space-y-2">
                         <div className="flex gap-4 items-center">
                           <span className="w-16 text-xs font-bold text-muted-foreground uppercase tracking-wider">To:</span>
                           <span className="text-sm font-medium">{selectedRecord.target?.contactEmail || "Unknown"}</span>
@@ -181,10 +184,22 @@ export default function HistoryPage() {
                           <span className="text-sm font-bold text-foreground">{selectedRecord.email.subject}</span>
                         </div>
                       </div>
-                      <div className="whitespace-pre-wrap font-sans text-sm text-foreground/90 leading-relaxed">
+                      <div className="whitespace-pre-wrap font-sans text-sm text-foreground/90 leading-relaxed p-4 bg-muted/20 rounded-xl border border-border/50">
                         {selectedRecord.email.body}
                       </div>
                     </div>
+
+                    {/* Reply Email */}
+                    {selectedRecord.target?.replyBody && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm">
+                        <h4 className="text-xs font-black text-primary uppercase tracking-wider mb-4 pb-2 border-b border-primary/10 flex items-center gap-2">
+                          <Mail className="w-4 h-4" /> Recruiter&apos;s Reply
+                        </h4>
+                        <div className="whitespace-pre-wrap font-sans text-sm text-foreground/90 leading-relaxed bg-white p-4 rounded-xl border border-border shadow-sm">
+                          {selectedRecord.target.replyBody}
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.div
