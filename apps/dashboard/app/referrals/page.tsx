@@ -105,8 +105,26 @@ function ReferralsPageContent() {
   const [campaignStatus, setCampaignStatus] = useState<any>(null);
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      setGoogleToken(tokenResponse.access_token);
+    flow: 'auth-code',
+    onSuccess: async (codeResponse) => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/outreach/connect-gmail`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+          body: JSON.stringify({ code: codeResponse.code }),
+        });
+        
+        if (res.ok) {
+          setGoogleToken("connected");
+        } else {
+          alert("Failed to connect Gmail.");
+        }
+      } catch (e) {
+        console.error("Failed to connect Gmail:", e);
+      }
     },
     scope: 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly',
   });
