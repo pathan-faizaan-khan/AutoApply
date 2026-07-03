@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
-  LayoutDashboard, Briefcase, FileText, ClipboardList,
+  LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
   LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History
 } from "lucide-react";

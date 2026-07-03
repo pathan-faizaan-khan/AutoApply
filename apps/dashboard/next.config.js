@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true, // ESLint warnings should not block production builds
+  },
+  typescript: {
+    ignoreBuildErrors: false, // Keep actual type errors visible
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb',

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCachedFetch } from "../../hooks/useCachedFetch";
-import { Trophy, Star, Mail, User2, Briefcase, PartyPopper, Building2 } from "lucide-react";
+import { Trophy, Star, Mail, User2, Briefcase, PartyPopper } from "lucide-react";
 
 interface SelectionRecord {
   selection: {
@@ -41,7 +41,7 @@ const ConfettiCanvas = () => {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    const colors = ["#6366f1", "#f59e0b", "#10b981", "#ec4899", "#0ea5e9", "#f97316", "#a855f7"];
+    const colors: string[] = ["#6366f1", "#f59e0b", "#10b981", "#ec4899", "#0ea5e9", "#f97316", "#a855f7"];
     const particles: {
       x: number; y: number; vx: number; vy: number;
       color: string; size: number; alpha: number; decay: number; angle: number; spin: number;
@@ -53,7 +53,7 @@ const ConfettiCanvas = () => {
         y: -20 - Math.random() * 300,
         vx: (Math.random() - 0.5) * 2.5,
         vy: 1.5 + Math.random() * 3,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: colors[Math.floor(Math.random() * colors.length)] ?? "#6366f1",
         size: 4 + Math.random() * 7,
         alpha: 1,
         decay: 0.004 + Math.random() * 0.008,
@@ -99,12 +99,13 @@ const ConfettiCanvas = () => {
 // ── Company Avatar ─────────────────────────────────────────────────────────────
 const CompanyAvatar = ({ name }: { name: string }) => {
   const initials = name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
-  const palettes = [
+  const palettes: [string, string][] = [
     ["#f59e0b", "#f97316"], ["#6366f1", "#8b5cf6"],
     ["#10b981", "#0ea5e9"], ["#ec4899", "#8b5cf6"], ["#0ea5e9", "#6366f1"],
   ];
   const idx = name.charCodeAt(0) % palettes.length;
-  const [from, to] = palettes[idx];
+  const pair = palettes[idx] ?? ["#f59e0b", "#f97316"];
+  const [from, to] = pair;
   return (
     <div
       className="w-16 h-16 rounded-2xl flex items-center justify-center font-black text-white text-xl flex-shrink-0 shadow-lg"
@@ -284,7 +285,9 @@ export default function SelectedPage() {
           </div>
           <p className="text-muted-foreground font-bold text-sm mb-2">No offer letters yet</p>
           <p className="text-muted-foreground/60 text-xs max-w-sm mx-auto leading-relaxed">
-            This page is separate from interview invites. Only <strong className="text-muted-foreground">formal job offers</strong> (e.g., "We'd like to extend an offer", "Joining date", "Offer Letter") will appear here.
+            This page is separate from interview invites. Only{" "}
+            <strong className="text-muted-foreground">formal job offers</strong>{" "}
+            (e.g., &ldquo;We&apos;d like to extend an offer&rdquo;, &ldquo;Joining date&rdquo;, &ldquo;Offer Letter&rdquo;) will appear here.
           </p>
         </motion.div>
       )}

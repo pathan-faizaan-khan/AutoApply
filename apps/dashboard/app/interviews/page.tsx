@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCachedFetch } from "../../hooks/useCachedFetch";
 import {
   CalendarDays,
-  Clock,
   Video,
   Plus,
   Trash2,
@@ -112,7 +111,10 @@ const groupByCompany = (interviews: Interview[]) => {
   }
   // Sort each group by date
   for (const key in groups) {
-    groups[key].sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+    const group = groups[key];
+    if (group) {
+      group.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+    }
   }
   return groups;
 };
@@ -120,12 +122,13 @@ const groupByCompany = (interviews: Interview[]) => {
 // ── Company Avatar ───────────────────────────────────────────────────────────
 const CompanyAvatar = ({ name }: { name: string }) => {
   const initials = name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
-  const colors = [
+  const colors: [string, string][] = [
     ["#6366f1", "#8b5cf6"], ["#0ea5e9", "#6366f1"], ["#10b981", "#0ea5e9"],
     ["#f59e0b", "#ef4444"], ["#ec4899", "#8b5cf6"],
   ];
   const idx = name.charCodeAt(0) % colors.length;
-  const [from, to] = colors[idx];
+  const pair = colors[idx] ?? ["#6366f1", "#8b5cf6"];
+  const [from, to] = pair;
   return (
     <div
       className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-base flex-shrink-0 shadow-md"
@@ -138,8 +141,8 @@ const CompanyAvatar = ({ name }: { name: string }) => {
 
 // ── Interview Round Row ────────────────────────────────────────────────────────
 const RoundRow = ({
-  interview, roundNum, isLast, tick,
-}: { interview: Interview; roundNum: number; isLast: boolean; tick: number }) => {
+  interview, roundNum, isLast,
+}: { interview: Interview; roundNum: number; isLast: boolean; tick?: number }) => {
   const { label, urgency } = getCountdown(interview.dateTime);
   const branding = getPlatformBranding(interview.platform);
   const isPast = new Date(interview.dateTime).getTime() < Date.now();
@@ -576,10 +579,12 @@ export default function InterviewsPage() {
             exit={{ opacity: 0, y: -8 }}
             className="space-y-4"
           >
-            {Object.entries(currentGroups).map(([key, ivs]) => (
+            {Object.entries(currentGroups)
+              .filter(([, ivs]) => ivs && ivs.length > 0)
+              .map(([key, ivs]) => (
               <CompanyCard
                 key={key}
-                companyName={ivs[0].company}
+                companyName={ivs[0]?.company ?? key}
                 interviews={ivs}
                 onDelete={handleDelete}
                 tick={tick}
