@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCachedFetch } from "../hooks/useCachedFetch";
 import {
   CalendarDays,
   Clock,
@@ -141,28 +142,8 @@ export default function InterviewsPage() {
     return () => clearInterval(id);
   }, []);
 
-  const [interviews, setInterviews] = useState<Interview[]>([
-    {
-      id: "1",
-      company: "Microsoft",
-      role: "Software Engineer Interview",
-      dateTime: tomorrow10AM(),
-      platform: "Microsoft Teams",
-      link: "https://teams.microsoft.com",
-      notes: "Focus on System Design and Coding principles.",
-      logoType: "microsoft",
-    },
-    {
-      id: "2",
-      company: "Google",
-      role: "Frontend Developer Interview",
-      dateTime: in3Days230PM(),
-      platform: "Google Meet",
-      link: "https://meet.google.com",
-      notes: "Prepare for JavaScript performance and React questions.",
-      logoType: "google",
-    },
-  ]);
+  const { data, loading, refetch } = useCachedFetch<{ interviews: Interview[] }>("/api/interviews", null);
+  const interviews = data?.interviews || [];
 
   // Notifications State
   const [emailAlerts, setEmailAlerts] = useState(true);
@@ -179,7 +160,7 @@ export default function InterviewsPage() {
   const [link, setLink] = useState("");
   const [notes, setNotes] = useState("");
 
-  const handleAddInterview = (e: React.FormEvent) => {
+  const handleAddInterview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!company || !role || !date || !time) return;
 
@@ -189,18 +170,15 @@ export default function InterviewsPage() {
     if (company.toLowerCase().includes("microsoft")) logoType = "microsoft";
     else if (company.toLowerCase().includes("google")) logoType = "google";
 
-    const newInterview: Interview = {
-      id: Date.now().toString(),
-      company,
-      role,
-      dateTime: isoDateTime,
-      platform,
-      link: link || "https://google.com",
-      notes,
-      logoType,
-    };
+    try {
+      await fetch('/api/interviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token") || ""}` },
+        body: JSON.stringify({ company, role, dateTime: isoDateTime, platform, link, notes })
+      });
+      refetch();
+    } catch(err) { console.error(err); }
 
-    setInterviews([newInterview, ...interviews]);
     setShowAddModal(false);
     
     // Reset Form
@@ -212,8 +190,14 @@ export default function InterviewsPage() {
     setNotes("");
   };
 
-  const handleDelete = (id: string) => {
-    setInterviews(interviews.filter((item) => item.id !== id));
+  const handleDelete = async (id: string) => {
+    try {
+      await fetch(`/api/interviews?id=${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem("token") || ""}` }
+      });
+      refetch();
+    } catch(err) { console.error(err); }
   };
 
   // Helper to render company logo

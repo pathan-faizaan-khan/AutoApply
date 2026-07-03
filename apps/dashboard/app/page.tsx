@@ -36,6 +36,7 @@ interface DashboardStats {
   emailsSent: number;
   emailsDraft: number;
   activeCampaigns: number;
+  acceptedProfiles: number;
 }
 
 interface RecentJob {
@@ -268,7 +269,6 @@ function ActivityRow({ item, delay = 0 }: { item: ActivityItem; delay?: number }
   );
 }
 
-// ─── Empty State ──────────────────────────────────────────────────────────────
 
 function EmptyState({
   icon: Icon,
@@ -386,6 +386,16 @@ export default function DashboardHome() {
       href: "/referrals",
       delay: 0.21,
     },
+    {
+      label: "Accepted Profiles",
+      value: data?.stats.acceptedProfiles ?? 0,
+      icon: TrendingUp, // Will use Activity or CheckCircle if imported, TrendingUp is fine.
+      sub: "Interviews scheduled",
+      iconClass: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+      accent: "bg-gradient-to-r from-emerald-500 to-teal-400",
+      href: "/interviews",
+      delay: 0.28,
+    },
   ];
 
   // ─── Skeleton full-page loader ──────────────────────────────────────────
@@ -437,8 +447,8 @@ export default function DashboardHome() {
         </button>
       </motion.div>
 
-      {/* ── 4 Stat cards ────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+      {/* ── 5 Stat cards ────────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-2 xl:grid-cols-5 gap-3">
         {stats.map((s, i) => (
           <StatCard key={i} {...s} loading={loading} />
         ))}

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Fan-out all backend calls in parallel
-  const [resumeResult, jobsResult, historyResult, campaignsResult] = await Promise.allSettled([
+  const [resumeResult, jobsResult, historyResult, campaignsResult, interviewsResult] = await Promise.allSettled([
     // 1. User's resumes
     fetch(`${NODE_BACKEND}/api/resumes`, {
       cache: "no-store",
@@ -58,6 +58,12 @@ export async function GET(req: NextRequest) {
       cache: "no-store",
       headers,
     }).then((r) => (r.ok ? r.json() : { campaigns: [] })),
+
+    // 5. Scheduled interviews
+    fetch(`${NODE_BACKEND}/api/interviews`, {
+      cache: "no-store",
+      headers,
+    }).then((r) => (r.ok ? r.json() : { interviews: [] })),
   ]);
 
   // Safely extract results
@@ -68,10 +74,13 @@ export async function GET(req: NextRequest) {
   const history: any[] = historyData?.history ?? [];
   const campaignsData = campaignsResult.status === "fulfilled" ? campaignsResult.value : { campaigns: [] };
   const campaigns: any[] = campaignsData?.campaigns ?? [];
+  const interviewsData = interviewsResult.status === "fulfilled" ? interviewsResult.value : { interviews: [] };
+  const interviewsList: any[] = interviewsData?.interviews ?? [];
 
   const emailsSent = history.filter((h: any) => h?.email?.status === "sent").length;
   const emailsDraft = history.filter((h: any) => h?.email?.status === "draft").length;
   const activeCampaigns = campaigns.filter((c: any) => c.status === "active").length;
+  const acceptedProfiles = interviewsList.length;
 
   const recentJobs = jobs.slice(0, 6).map((j: any) => ({
     id: j.id,
@@ -102,6 +111,7 @@ export async function GET(req: NextRequest) {
       emailsSent,
       emailsDraft,
       activeCampaigns,
+      acceptedProfiles,
     },
     recentJobs,
     recentActivity,
