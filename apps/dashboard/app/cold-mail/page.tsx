@@ -491,7 +491,7 @@ function ColdMailPageContent() {
       setGoogleAccessToken(tokenResponse.access_token);
       await sendEmailWithToken(tokenResponse.access_token);
     },
-    scope: "https://www.googleapis.com/auth/gmail.send",
+    scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly",
   });
 
   const handleSendEmail = async () => {

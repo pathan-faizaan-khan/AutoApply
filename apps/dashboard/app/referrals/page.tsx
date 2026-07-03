@@ -108,7 +108,7 @@ function ReferralsPageContent() {
     onSuccess: (tokenResponse) => {
       setGoogleToken(tokenResponse.access_token);
     },
-    scope: 'https://www.googleapis.com/auth/gmail.send',
+    scope: 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly',
   });
 
   // Poll automation status
