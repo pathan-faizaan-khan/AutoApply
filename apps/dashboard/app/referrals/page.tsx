@@ -104,6 +104,24 @@ function ReferralsPageContent() {
   const [campaignId, setCampaignId] = useState<number | null>(null);
   const [campaignStatus, setCampaignStatus] = useState<any>(null);
 
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const token = localStorage.getItem("token") || "";
+        const res = await fetch("/api/profile", { headers: { Authorization: `Bearer ${token}` } });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.hasGmailConnected) {
+            setGoogleToken("connected");
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch profile:", e);
+      }
+    };
+    checkConnection();
+  }, []);
+
   const login = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
