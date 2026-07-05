@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { History, Mail, Building2, User, ChevronRight, CheckCircle2, Clock, X, FileText, Send } from "lucide-react";
+import { History, Mail, Building2, User, ChevronRight, CheckCircle2, Clock, X, FileText, Send, Star, MessageSquare } from "lucide-react";
 import { ResumePreview } from "../../components/ResumePreview";
 
 interface HistoryRecord {
@@ -84,13 +84,17 @@ export default function HistoryPage() {
                     <h3 className={`font-bold text-sm ${isSelected ? "text-primary" : "text-foreground group-hover:text-primary"}`}>
                       {record.target?.companyName || "Manual Outreach"}
                     </h3>
-                    {record.target?.status === "replied_positive" ? (
+                    {record.target?.status === "interview" ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-200">
                         <CheckCircle2 className="w-3 h-3" /> Interview
                       </span>
-                    ) : record.target?.status === "replied_negative" ? (
+                    ) : record.target?.status === "selected" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-yellow-600 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-200">
+                        <Star className="w-3 h-3" /> Selected
+                      </span>
+                    ) : record.target?.status === "not_selected" ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-200">
-                        <X className="w-3 h-3" /> Rejected
+                        <X className="w-3 h-3" /> Not Selected
                       </span>
                     ) : record.target?.status === "replied" ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-200">
@@ -189,16 +193,21 @@ export default function HistoryPage() {
                       </div>
                     </div>
 
-                    {/* Reply Email */}
+                    {/* Replies / Threads */}
                     {selectedRecord.target?.replyBody && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm">
-                        <h4 className="text-xs font-black text-primary uppercase tracking-wider mb-4 pb-2 border-b border-primary/10 flex items-center gap-2">
-                          <Mail className="w-4 h-4" /> Recruiter&apos;s Reply
-                        </h4>
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-6"
+                      >
+                        <div className="flex items-center gap-2 mb-3 px-1">
+                          <MessageSquare className="w-4 h-4 text-primary" />
+                          <h4 className="text-sm font-bold text-foreground">Email Thread</h4>
+                        </div>
                         <div className="whitespace-pre-wrap font-sans text-sm text-foreground/90 leading-relaxed bg-white p-4 rounded-xl border border-border shadow-sm">
                           {selectedRecord.target.replyBody}
                         </div>
-                      </div>
+                      </motion.div>
                     )}
                   </motion.div>
                 ) : (

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCachedFetch } from "../../hooks/useCachedFetch";
-import { Trophy, Star, Mail, User2, Briefcase, PartyPopper } from "lucide-react";
+import { Trophy, Star, Mail, User2, Briefcase, PartyPopper, FileText } from "lucide-react";
 
 interface SelectionRecord {
   selection: {
@@ -11,6 +11,7 @@ interface SelectionRecord {
     company: string;
     role: string | null;
     offerBody: string | null;
+    offerUrl?: string | null;
     recruiterName: string | null;
     recruiterEmail: string | null;
     receivedAt: string;
@@ -190,20 +191,31 @@ const SelectionCard = ({ record, index }: { record: SelectionRecord; index: numb
           </div>
         )}
 
-        {/* Offer Letter Body */}
-        {selection.offerBody ? (
-          <div className="rounded-2xl border border-yellow-500/20 bg-yellow-500/5 overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-yellow-500/15 flex items-center gap-2 bg-yellow-500/5">
-              <Mail className="w-3.5 h-3.5 text-yellow-400" />
-              <span className="text-xs font-black uppercase tracking-wider text-yellow-400">
-                Offer / Selection Email
-              </span>
-            </div>
-            <div className="px-4 py-4">
-              <p className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap font-sans">
-                {selection.offerBody}
-              </p>
-            </div>
+        {/* Offer Body */}
+        {(selection.offerBody || selection.offerUrl) ? (
+          <div className="space-y-4">
+            {selection.offerBody && (
+              <div className="bg-foreground/5 rounded-2xl p-5 border border-foreground/5">
+                <p className="text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap font-mono">
+                  {selection.offerBody.length > 500 ? selection.offerBody.slice(0, 500) + '...' : selection.offerBody}
+                </p>
+              </div>
+            )}
+            
+            {/* Offer PDF Action */}
+            {selection.offerUrl && (
+              <div className="pt-2">
+                <a 
+                  href={selection.offerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all shadow-md shadow-primary/20"
+                >
+                  <FileText className="w-4 h-4" />
+                  View Offer Letter
+                </a>
+              </div>
+            )}
           </div>
         ) : (
           <div className="rounded-2xl border border-border/40 bg-muted/20 px-4 py-3 text-sm text-muted-foreground italic">

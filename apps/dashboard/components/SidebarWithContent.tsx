@@ -10,7 +10,7 @@ import {
   LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
   LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History,
-  Trophy
+  Trophy, MoreHorizontal, X
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
@@ -39,8 +39,8 @@ const BOTTOM: NavItem[] = [
 const EXPANDED = 240;
 const COLLAPSED = 68;
 
-// Mobile tabs shown in bottom bar
-const MOBILE_TABS: NavItem[] = [NAV[0]!, NAV[1]!, NAV[2]!, BOTTOM[0]!];
+// Mobile tabs shown in bottom bar (limit to 3 important ones, plus the "More" button)
+const MOBILE_TABS: NavItem[] = [NAV[0]!, NAV[2]!, BOTTOM[0]!]; // Overview, Jobs, Profile
 
 function NavLink({ item, collapsed, isActive }: { item: NavItem; collapsed: boolean; isActive: boolean }) {
   const Icon = item.icon;
@@ -81,6 +81,7 @@ function NavLink({ item, collapsed, isActive }: { item: NavItem; collapsed: bool
 
 export function SidebarWithContent({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
   const sidebarW = collapsed ? COLLAPSED : EXPANDED;
@@ -227,7 +228,79 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
             </Link>
           );
         })}
+        
+        {/* More Button */}
+        <button 
+          onClick={() => setIsMobileDrawerOpen(true)}
+          className="flex flex-col items-center justify-center gap-1 w-16"
+        >
+          <MoreHorizontal className="w-[22px] h-[22px] text-muted-foreground" />
+          <span className="text-[10px] font-medium text-muted-foreground">More</span>
+        </button>
       </div>
+
+      {/* ── Mobile More Drawer ── */}
+      <AnimatePresence>
+        {isMobileDrawerOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+              onClick={() => setIsMobileDrawerOpen(false)}
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="md:hidden fixed bottom-0 left-0 right-0 bg-card z-[70] rounded-t-3xl border-t border-border shadow-2xl overflow-hidden max-h-[85vh] flex flex-col"
+            >
+              <div className="p-4 border-b border-border/50 flex items-center justify-between">
+                <span className="font-bold text-lg text-foreground">Menu</span>
+                <button 
+                  onClick={() => setIsMobileDrawerOpen(false)}
+                  className="p-2 bg-muted/50 hover:bg-muted rounded-full"
+                >
+                  <X className="w-5 h-5 text-muted-foreground" />
+                </button>
+              </div>
+              
+              <div className="overflow-y-auto p-4 space-y-2 pb-[100px]">
+                {NAV.filter(n => !MOBILE_TABS.includes(n)).map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <Link 
+                      key={item.href} 
+                      href={item.href}
+                      onClick={() => setIsMobileDrawerOpen(false)}
+                      className={`flex items-center gap-3 p-3 rounded-xl border border-transparent transition-all ${
+                        pathname === item.href 
+                          ? "bg-primary/10 border-primary/20 text-primary" 
+                          : "hover:bg-muted text-foreground"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span className="font-semibold">{item.label}</span>
+                    </Link>
+                  );
+                })}
+                
+                <div className="my-4 border-t border-border/50" />
+                
+                <button
+                  onClick={() => { setIsMobileDrawerOpen(false); handleLogout(); }}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-red-500/10 text-red-600 font-semibold"
+                >
+                  <LogOut className="w-5 h-5" />
+                  Log Out
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* ── Main Content ── */}
       <motion.div
