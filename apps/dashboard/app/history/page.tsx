@@ -100,6 +100,10 @@ export default function HistoryPage() {
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-200">
                         <Mail className="w-3 h-3" /> Replied
                       </span>
+                    ) : record.target?.status === "applied" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-purple-600 bg-purple-500/10 px-2 py-0.5 rounded-full border border-purple-200">
+                        <CheckCircle2 className="w-3 h-3" /> Auto-Applied
+                      </span>
                     ) : record.email.status === "sent" ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                         <Send className="w-3 h-3" /> Sent
