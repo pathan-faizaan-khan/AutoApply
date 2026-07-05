@@ -10,9 +10,10 @@ import {
   LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
   LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History,
-  Trophy, MoreHorizontal, X
+  Trophy, MoreHorizontal, X, Download
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
+import { ExtensionOnboardingModal } from "./ExtensionOnboardingModal";
 
 interface NavItem {
   label: string;
@@ -82,6 +83,7 @@ function NavLink({ item, collapsed, isActive }: { item: NavItem; collapsed: bool
 export function SidebarWithContent({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [isExtensionModalOpen, setIsExtensionModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
   const sidebarW = collapsed ? COLLAPSED : EXPANDED;
@@ -173,6 +175,28 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
           {BOTTOM.map((item) => (
             <NavLink key={item.href} item={item} collapsed={collapsed} isActive={pathname === item.href} />
           ))}
+
+          {/* Download Extension */}
+          <button
+            onClick={() => setIsExtensionModalOpen(true)}
+            title={collapsed ? "Download Extension" : undefined}
+            className="w-full relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-primary hover:text-primary/80 group overflow-hidden transition-colors"
+          >
+            <div className="absolute inset-0 bg-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Download className="w-[18px] h-[18px] relative z-10 shrink-0" />
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="relative z-10 whitespace-nowrap"
+                >
+                  Get Extension
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
 
           {/* Logout */}
           <button
@@ -312,6 +336,11 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
           {children}
         </div>
       </motion.div>
+
+      <ExtensionOnboardingModal 
+        isOpen={isExtensionModalOpen} 
+        onClose={() => setIsExtensionModalOpen(false)} 
+      />
     </div>
   );
 }

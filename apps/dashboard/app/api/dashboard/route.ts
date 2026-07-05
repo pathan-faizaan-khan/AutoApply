@@ -84,6 +84,7 @@ export async function GET(req: NextRequest) {
   
   const repliedSelected = history.filter((h: any) => h?.target?.status === "replied_positive").length;
   const repliedNotSelected = history.filter((h: any) => h?.target?.status === "replied_negative").length;
+  const jobsApplied = history.filter((h: any) => h?.email?.subject === 'Direct Application' || h?.email?.subject === 'Applied via Chrome Extension' || h?.email?.subject === 'Saved via Dashboard').length;
 
   const recentJobs = jobs.slice(0, 6).map((j: any) => ({
     id: j.id,
@@ -117,6 +118,7 @@ export async function GET(req: NextRequest) {
       acceptedProfiles,
       repliedSelected,
       repliedNotSelected,
+      jobsApplied,
     },
     recentJobs,
     recentActivity,

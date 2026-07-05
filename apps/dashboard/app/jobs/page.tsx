@@ -45,6 +45,17 @@ function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob;
   ];
   const accent = accentColors[index % accentColors.length]!;
 
+  const handleApplyClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const token = localStorage.getItem("token") || "";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://autoapply-backend-wkqq.onrender.com";
+    fetch(`${backendUrl}/api/jobs/apply-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      body: JSON.stringify({ jobTitle: title, companyName: company, jobUrl: url })
+    }).catch(console.error);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -105,7 +116,7 @@ function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob;
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={handleApplyClick}
             className="flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary/80 transition-colors shrink-0"
           >
             Apply <ArrowUpRight className="w-3 h-3" />
@@ -133,6 +144,17 @@ function JobListRow({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; ind
     "from-blue-400 to-indigo-400",
   ];
   const strip = accentStrips[index % accentStrips.length]!;
+
+  const handleApplyClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const token = localStorage.getItem("token") || "";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://autoapply-backend-wkqq.onrender.com";
+    fetch(`${backendUrl}/api/jobs/apply-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      body: JSON.stringify({ jobTitle: job.title, companyName: company, jobUrl: url })
+    }).catch(console.error);
+  };
 
   return (
     <motion.div
@@ -170,6 +192,7 @@ function JobListRow({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; ind
           href={url}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleApplyClick}
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-primary border border-primary/30 hover:bg-primary hover:text-white transition-all"
         >
           Apply <ArrowUpRight className="w-3 h-3" />

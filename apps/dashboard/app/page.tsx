@@ -39,6 +39,7 @@ interface DashboardStats {
   acceptedProfiles: number;
   repliedSelected: number;
   repliedNotSelected: number;
+  jobsApplied: number;
 }
 
 interface RecentJob {
@@ -202,11 +203,29 @@ function JobRow({ job, delay = 0 }: { job: RecentJob; delay?: number }) {
     return `${d}d ago`;
   })();
 
+  const handleJobClick = () => {
+    const token = localStorage.getItem("token") || "";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://autoapply-backend-wkqq.onrender.com";
+    fetch(`${backendUrl}/api/jobs/apply-click`, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      },
+      body: JSON.stringify({
+        jobTitle: job.title,
+        companyName: job.companyName,
+        jobUrl: job.jobUrl
+      })
+    }).catch(console.error);
+  };
+
   return (
     <motion.a
       href={job.jobUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleJobClick}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay, ease: [0.22, 1, 0.36, 1] }}
@@ -349,13 +368,13 @@ export default function DashboardHome() {
 
   const stats = [
     {
-      label: "Resumes Uploaded",
-      value: data?.stats.resumesUploaded ?? 0,
-      icon: FileText,
-      sub: "Stored in your vault",
+      label: "Jobs Applied",
+      value: data?.stats.jobsApplied ?? 0,
+      icon: Briefcase,
+      sub: "Total applications tracked",
       iconClass: "bg-primary/10 text-primary border-primary/20",
       accent: "bg-gradient-to-r from-primary to-blue-500",
-      href: "/resume",
+      href: "/history",
       delay: 0,
     },
     {
