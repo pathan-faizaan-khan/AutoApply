@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Terminal, ToggleRight, FolderOpen, X, Chrome } from "lucide-react";
+import { Download, Terminal, ToggleRight, FolderOpen, X, Puzzle } from "lucide-react";
 import { useEffect } from "react";
 
 interface ExtensionOnboardingModalProps {
@@ -41,7 +41,7 @@ export function ExtensionOnboardingModal({ isOpen, onClose }: ExtensionOnboardin
               <X className="w-5 h-5" />
             </button>
             <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-border flex items-center justify-center shrink-0">
-              <Chrome className="w-8 h-8 text-primary" />
+              <Puzzle className="w-8 h-8 text-primary" />
             </div>
             <div>
               <h2 className="text-2xl font-black text-foreground">Install Auto-Apply Extension</h2>
