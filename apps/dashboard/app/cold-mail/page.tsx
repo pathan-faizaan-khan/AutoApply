@@ -7,7 +7,7 @@ import {
   GitBranch, ChevronRight, Check, Copy, ExternalLink, Activity,
   FileText, Eye, Edit3, AlertCircle, Search, Building2,
   Shield, Clock, CheckCircle2, Users, ArrowRight, Loader2,
-  Star, Info, XCircle, X, Bot
+  Star, Info, XCircle, X, Bot, Briefcase
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -357,11 +357,12 @@ function ColdMailPageContent() {
   const preDomain = searchParams.get("domain") || "";
   const preRole = searchParams.get("role") || "";
   const preUrl = searchParams.get("url") || "";
+  const preDescription = searchParams.get("description") || "";
 
   const [company, setCompany] = useState(preCompany);
   const [domain, setDomain] = useState(preDomain);
   const [role, setRole] = useState(preRole);
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDescription, setJobDescription] = useState(preDescription);
 
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
@@ -378,13 +379,14 @@ function ColdMailPageContent() {
 
   const [googleAccessToken, setGoogleAccessToken] = useState("");
   const [fetchingJob, setFetchingJob] = useState(false);
-  const [jdOpen, setJdOpen] = useState(false);
+  const [jdOpen, setJdOpen] = useState(!!preDescription);
 
   useEffect(() => {
     if (preCompany && preDomain && preRole) {
       handleFindContacts();
     }
-    if (preUrl) {
+    // Only scrape URL for full description if we don't already have a description from URL params
+    if (preUrl && !preDescription) {
       handleScrapeJob(preUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -449,7 +451,7 @@ function ColdMailPageContent() {
           job_description: jobDescription,
           candidate_name: resumeCtx?.personalInfo?.name || "The Candidate",
           candidate_skills: resumeCtx?.skills || [],
-          candidate_summary: "",
+          candidate_summary: resumeCtx?.personalInfo?.summary || resumeCtx?.summary || "",
           candidate_experience_summary: resumeCtx?.experiences?.slice(0, 2)
             .map((e: any) => `${e.jobTitle} at ${e.companyName}`).join(", ") || "",
         }),
@@ -585,6 +587,12 @@ function ColdMailPageContent() {
         <div className="flex items-center gap-2 mb-4">
           <Building2 className="w-4 h-4 text-primary" />
           <h2 className="text-sm font-black text-foreground">Target Company</h2>
+          {preRole && preCompany && (
+            <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full bg-violet-500/10 text-violet-500 border border-violet-500/20">
+              <Briefcase className="w-3 h-3" />
+              {preRole} @ {preCompany}
+            </span>
+          )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <div>

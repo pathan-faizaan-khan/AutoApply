@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Briefcase, Search, RefreshCw, Layers, LayoutGrid, List,
   MapPin, Building2, SlidersHorizontal, X,
-  Users, ArrowUpRight, Zap, Globe,
+  Users, ArrowUpRight, Zap, Globe, Mail,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { ScrapedJob } from "./components/JobCard";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -25,8 +26,26 @@ type ViewMode = "grid" | "list";
 type JobTab = "scraped" | "google";
 
 
+// ─── Domain extractor helper ─────────────────────────────────────────────────
+function extractDomain(url: string): string {
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return ""; }
+}
+
+function buildOutreachUrl(title: string, company: string, jobUrl: string, description: string, domain: string): string {
+  const effectiveDomain = domain || extractDomain(jobUrl);
+  const params = new URLSearchParams({
+    company: company || "",
+    domain: effectiveDomain,
+    role: title,
+    url: jobUrl,
+    description: description?.slice(0, 2000) || "",
+  });
+  return `/cold-mail?${params.toString()}`;
+}
+
 // ─── Premium Job Card (Grid) ──────────────────────────────────────────────────
 function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; index: number; isGoogle?: boolean }) {
+  const router = useRouter();
   const gJob = job as GoogleJob;
   const sJob = job as ScrapedJob;
   const title = job.title;
@@ -112,15 +131,24 @@ function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob;
               </span>
             )}
           </div>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleApplyClick}
-            className="flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary/80 transition-colors shrink-0"
-          >
-            Apply <ArrowUpRight className="w-3 h-3" />
-          </a>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={(e) => { e.stopPropagation(); router.push(buildOutreachUrl(title, company, url, description, isGoogle ? (gJob.domain || "") : "")); }}
+              className="flex items-center gap-1 text-[11px] font-bold text-violet-500 hover:text-violet-400 transition-colors"
+              title="Find contacts & send cold email"
+            >
+              <Mail className="w-3 h-3" /> Outreach
+            </button>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleApplyClick}
+              className="flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary/80 transition-colors"
+            >
+              Apply <ArrowUpRight className="w-3 h-3" />
+            </a>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -129,6 +157,7 @@ function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob;
 
 // ─── List Row ─────────────────────────────────────────────────────────────────
 function JobListRow({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; index: number; isGoogle?: boolean }) {
+  const router = useRouter();
   const gJob = job as GoogleJob;
   const sJob = job as ScrapedJob;
   const company = isGoogle ? gJob.company_name : sJob.companyName;
@@ -188,6 +217,13 @@ function JobListRow({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; ind
         {isGoogle && (
           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20">G</span>
         )}
+        <button
+          onClick={(e) => { e.stopPropagation(); router.push(buildOutreachUrl(job.title, company, url, description, isGoogle ? (job as GoogleJob).domain || "" : "")); }}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-violet-500 border border-violet-500/30 hover:bg-violet-500 hover:text-white transition-all"
+          title="Find contacts & send cold email"
+        >
+          <Mail className="w-3 h-3" /> Outreach
+        </button>
         <a
           href={url}
           target="_blank"
@@ -358,7 +394,7 @@ export default function JobsPortalPage() {
   const handleTriggerScrape = async () => {
     setScraping(true);
     try {
-      const fastApiUrl = process.env.NEXT_PUBLIC_FASTAPI_URL || "https://autoapply-scraper-backend.onrender.com";
+      const fastApiUrl = process.env.NEXT_PUBLIC_FASTAPI_URL;
       await fetch(`${fastApiUrl}/api/scrape/run`, { method: "POST" });
     } finally {
       setScraping(false);
