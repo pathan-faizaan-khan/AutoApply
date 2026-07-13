@@ -11,6 +11,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const token = rawToken ? `Bearer ${rawToken}` : "";
     const body = await req.json();
     
+    body.fastApiUrl = process.env.FASTAPI_URL || "https://autoapply-scraper-backend.onrender.com";
+
     const res = await fetch(`${NODE_BACKEND}/api/outreach/campaigns/${id}/automate`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
