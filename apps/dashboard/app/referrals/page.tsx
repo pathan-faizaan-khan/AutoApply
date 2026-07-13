@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   UserCheck, ChevronRight, ChevronLeft, Briefcase, Clock,
-  Building2, MapPin, DollarSign, Search, Check,
+  Building2, MapPin, IndianRupee, Search, Check,
   ExternalLink, Globe, RefreshCw, Send, Lock, Star, Target,
   CheckCircle2, Plus, X, Settings, Activity
 } from "lucide-react";
@@ -42,10 +42,10 @@ const TIMELINE_OPTIONS = [
 ];
 
 const SALARY_PRESETS = [
-  { label: "$50k–$80k", min: 50000, max: 80000 },
-  { label: "$80k–$120k", min: 80000, max: 120000 },
-  { label: "$120k–$160k", min: 120000, max: 160000 },
-  { label: "$160k+", min: 160000, max: 300000 },
+  { label: "₹3L–₹6L",   min: 300000,  max: 600000  },
+  { label: "₹6L–₹12L",  min: 600000,  max: 1200000 },
+  { label: "₹12L–₹25L", min: 1200000, max: 2500000 },
+  { label: "₹25L+",     min: 2500000, max: 10000000 },
 ];
 
 // ─── Step Progress ────────────────────────────────────────────────────────────
@@ -90,8 +90,8 @@ function ReferralsPageContent() {
     workStyle: "Remote",
     location: "",
     timelineDays: 90,
-    salaryMin: 80000,
-    salaryMax: 150000,
+    salaryMin: 600000,
+    salaryMax: 1200000,
   });
   const [roleInput, setRoleInput] = useState("");
   const [searching, setSearching] = useState(false);
@@ -470,7 +470,7 @@ function ReferralsPageContent() {
                     <div>
                       <div className="flex items-center gap-3 mb-2">
                         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <DollarSign className="w-4 h-4 text-primary" />
+                          <IndianRupee className="w-4 h-4 text-primary" />
                         </div>
                         <h2 className="text-xl font-black text-foreground">What is your salary expectation?</h2>
                       </div>
