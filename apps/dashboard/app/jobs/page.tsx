@@ -27,21 +27,39 @@ type JobTab = "scraped" | "google";
 
 
 // ─── Domain extractor helper ─────────────────────────────────────────────────
+const AGGREGATOR_HOSTS = new Set([
+  "jobicy.com", "remotive.com", "remoteok.com", "remoteok.io",
+  "arbeitnow.com", "weworkremotely.com", "indeed.com", "linkedin.com",
+  "glassdoor.com", "monster.com", "ziprecruiter.com", "simplyhired.com",
+  "jooble.org", "wellfound.com", "angel.co", "builtin.com",
+  "stackoverflow.com", "greenhouse.io", "lever.co", "workday.com",
+  "myworkdayjobs.com", "jobvite.com", "smartrecruiters.com", "icims.com",
+  "breezy.hr", "bamboohr.com", "ashby.com", "dover.com",
+]);
+
 function extractDomain(url: string): string {
-  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return ""; }
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    // Never use a job aggregator's domain as the company domain
+    return AGGREGATOR_HOSTS.has(host) ? "" : host;
+  } catch {
+    return "";
+  }
 }
 
 function buildOutreachUrl(title: string, company: string, jobUrl: string, description: string, domain: string): string {
+  // Use API-provided company domain first; fall back to job URL only if it's NOT an aggregator
   const effectiveDomain = domain || extractDomain(jobUrl);
   const params = new URLSearchParams({
     company: company || "",
-    domain: effectiveDomain,
+    domain: effectiveDomain,   // may be "" — user fills it in on cold-mail page
     role: title,
     url: jobUrl,
     description: description?.slice(0, 2000) || "",
   });
   return `/cold-mail?${params.toString()}`;
 }
+
 
 // ─── Premium Job Card (Grid) ──────────────────────────────────────────────────
 function PremiumJobCard({ job, index, isGoogle }: { job: ScrapedJob | GoogleJob; index: number; isGoogle?: boolean }) {
