@@ -6,7 +6,7 @@ import {
   Mic, MicOff, X, Settings2, PhoneOff,
   Loader2, Check, ChevronDown, Volume2
 } from "lucide-react";
-import { RenderMarkdown } from "./page";
+import { RenderMarkdown } from "./RenderMarkdown";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type VoiceState = "idle" | "listening" | "processing" | "speaking";

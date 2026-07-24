@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BrainCircuit,
@@ -24,6 +24,7 @@ import {
   User,
   Mic,
 } from "lucide-react";
+import { RenderMarkdown } from "./RenderMarkdown";
 import { VoiceMode } from "./VoiceMode";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -68,85 +69,6 @@ function getSessionTitle(messages: Message[]): string {
   const first = messages.find((m) => m.role === "user");
   if (!first) return "New Chat";
   return first.content.slice(0, 45) + (first.content.length > 45 ? "…" : "");
-}
-
-// ─── Message Renderer ─────────────────────────────────────────────────────────
-export function RenderMarkdown({ text }: { text: string }) {
-  const lines = text.split("\n");
-  const elements: JSX.Element[] = [];
-  let i = 0;
-  let listBuffer: string[] = [];
-  let listType: "ul" | "ol" | null = null;
-
-  const flushList = () => {
-    if (listBuffer.length === 0) return;
-    const Tag = listType === "ul" ? "ul" : "ol";
-    elements.push(
-      <Tag key={`list-${i}`} className={`my-2 pl-5 space-y-0.5 ${listType === "ul" ? "list-disc" : "list-decimal"} text-foreground/90`}>
-        {listBuffer.map((item, idx) => (
-          <li key={idx} className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: inlineFormat(item) }} />
-        ))}
-      </Tag>
-    );
-    listBuffer = [];
-    listType = null;
-  };
-
-  const inlineFormat = (line: string): string =>
-    line
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/`(.+?)`/g, `<code class="bg-primary/10 text-primary px-1 py-0.5 rounded text-xs font-mono">$1</code>`);
-
-  while (i < lines.length) {
-    const line = lines[i]!;
-
-    // Heading ##
-    if (/^##\s/.test(line)) {
-      flushList();
-      elements.push(
-        <h3 key={`h-${i}`} className="text-sm font-bold text-foreground mt-4 mb-1.5 first:mt-0">
-          {line.replace(/^##\s/, "")}
-        </h3>
-      );
-    }
-    // Heading #
-    else if (/^#\s/.test(line)) {
-      flushList();
-      elements.push(
-        <h2 key={`h1-${i}`} className="text-base font-bold text-foreground mt-4 mb-2 first:mt-0">
-          {line.replace(/^#\s/, "")}
-        </h2>
-      );
-    }
-    // Bullet list
-    else if (/^[-*]\s/.test(line)) {
-      if (listType !== "ul") { flushList(); listType = "ul"; }
-      listBuffer.push(line.replace(/^[-*]\s/, ""));
-    }
-    // Ordered list
-    else if (/^\d+\.\s/.test(line)) {
-      if (listType !== "ol") { flushList(); listType = "ol"; }
-      listBuffer.push(line.replace(/^\d+\.\s/, ""));
-    }
-    // Empty line
-    else if (line.trim() === "") {
-      flushList();
-    }
-    // Normal paragraph
-    else {
-      flushList();
-      elements.push(
-        <p
-          key={`p-${i}`}
-          className="text-sm leading-relaxed text-foreground/90 my-1"
-          dangerouslySetInnerHTML={{ __html: inlineFormat(line) }}
-        />
-      );
-    }
-    i++;
-  }
-  flushList();
-  return <div className="space-y-0.5">{elements}</div>;
 }
 
 // ─── Speak Button (ElevenLabs Neural TTS) ────────────────────────────────────
@@ -305,67 +227,146 @@ function TypingIndicator() {
 }
 
 // ─── Roadmap Panel ────────────────────────────────────────────────────────────
-function RoadmapPanel({ onClose, roadmap, isLoading }: { onClose: () => void, roadmap: any, isLoading: boolean }) {
+function RoadmapPanel({ 
+  onClose, 
+  roadmap, 
+  isLoading,
+  completedSteps,
+  onMarkCompleted 
+}: { 
+  onClose: () => void; 
+  roadmap: any; 
+  isLoading: boolean;
+  completedSteps: number[];
+  onMarkCompleted: (stepId: number, title: string) => void;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 32 }}
+      initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 32 }}
+      exit={{ opacity: 0, x: 40 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="w-72 flex-shrink-0 glass border-l border-border/50 flex flex-col h-full overflow-hidden"
+      className="w-[380px] flex-shrink-0 glass border-l border-border/50 flex flex-col h-full overflow-hidden shadow-2xl relative"
     >
+      {/* Decorative gradient overlay */}
+      <div className="absolute top-0 right-0 w-full h-48 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border/50">
-        <div className="flex items-center gap-2">
-          <Map className="w-4 h-4 text-primary" />
-          <span className="text-sm font-bold text-foreground">Career Roadmap</span>
+      <div className="flex items-center justify-between p-5 border-b border-border/50 relative z-10 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-violet-500 flex items-center justify-center shadow-lg shadow-primary/20">
+            <Map className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-foreground">Career Roadmap</h2>
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">{roadmap?.career_path || "Your Journey"}</p>
+          </div>
         </div>
-        <button onClick={onClose} className="p-1 rounded-lg hover:bg-muted text-muted-foreground transition-colors">
+        <button onClick={onClose} className="p-1.5 rounded-xl hover:bg-muted text-muted-foreground transition-all hover:scale-105 active:scale-95">
           <X className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Steps */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-1 hide-scrollbar">
+      {/* Steps Container */}
+      <div className="flex-1 overflow-y-auto p-5 hide-scrollbar relative z-10">
         {isLoading ? (
-          <div className="flex items-center justify-center h-32">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+          <div className="flex flex-col items-center justify-center h-48 space-y-3">
+            <Loader2 className="w-8 h-8 animate-spin text-primary drop-shadow-md" />
+            <p className="text-xs font-semibold text-muted-foreground animate-pulse">Generating your path...</p>
           </div>
         ) : roadmap?.steps ? (
-          roadmap.steps.map((step: any, idx: number) => (
-            <div key={step.id} className="relative">
-              {/* Connector line */}
-              {idx < roadmap.steps.length - 1 && (
-                <div
-                  className="absolute left-[15px] top-8 w-[2px] h-full -mb-1 bg-border"
-                />
-              )}
+          <div className="space-y-4">
+            {roadmap.steps.map((step: any, idx: number) => {
+              const stepId = step.id || idx;
+              const isCompleted = completedSteps.includes(stepId) || step.status === 'completed';
+              const isNext = !isCompleted && (idx === 0 || completedSteps.includes(roadmap.steps[idx - 1]?.id || idx - 1));
 
-              <div className="flex gap-3 p-3 rounded-xl transition-all cursor-default hover:bg-muted/50">
-                {/* Status icon (Static upcoming for now) */}
-                <div className="shrink-0 mt-0.5">
-                  <Circle className="w-[18px] h-[18px] text-muted-foreground/40" />
-                </div>
-
-                <div className="min-w-0">
-                  {step.category && (
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">{step.category} • {step.estimated_days} days</p>
+              return (
+                <div key={stepId} className="relative group">
+                  {/* Connector line */}
+                  {idx < roadmap.steps.length - 1 && (
+                    <div
+                      className={`absolute left-[23px] top-12 w-[2px] h-[calc(100%+16px)] -mb-4 transition-colors duration-500
+                        ${isCompleted ? 'bg-gradient-to-b from-green-500 to-green-500/20' : 'bg-gradient-to-b from-border to-border/30'}`}
+                    />
                   )}
-                  <p className="text-xs font-bold text-foreground">
-                    {step.title}
-                  </p>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed mt-0.5">{step.description}</p>
+
+                  <div className={`relative flex gap-4 p-4 rounded-2xl transition-all duration-300 border backdrop-blur-sm shadow-sm
+                    ${isCompleted ? 'bg-green-500/5 border-green-500/20 shadow-green-500/10' : 
+                      isNext ? 'bg-background hover:bg-muted/30 border-primary/30 shadow-primary/5 hover:border-primary/50 translate-x-1' : 
+                      'bg-background/50 border-border/40 hover:bg-background'}`}
+                  >
+                    {/* Status icon (Interactive checkbox) */}
+                    <button
+                      onClick={() => onMarkCompleted(stepId, step.title)}
+                      disabled={isCompleted}
+                      className="shrink-0 mt-1 outline-none transition-transform active:scale-90 disabled:cursor-default disabled:active:scale-100 z-10 bg-background rounded-full h-fit"
+                    >
+                      {isCompleted ? (
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="relative">
+                          <div className="absolute inset-0 rounded-full bg-green-500 blur-sm opacity-40" />
+                          <CheckCircle2 className="relative w-6 h-6 text-green-500 drop-shadow-sm" />
+                        </motion.div>
+                      ) : isNext ? (
+                        <div className="relative">
+                          <div className="absolute inset-0 rounded-full bg-primary blur-sm animate-pulse opacity-40" />
+                          <Circle className="relative w-6 h-6 text-primary drop-shadow-sm cursor-pointer" />
+                        </div>
+                      ) : (
+                        <Circle className="w-6 h-6 text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors cursor-pointer" />
+                      )}
+                    </button>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        {step.category && (
+                          <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap
+                            ${isCompleted ? 'bg-green-500/10 text-green-500' : 
+                              isNext ? 'bg-primary/10 text-primary' : 
+                              'bg-muted text-muted-foreground'}`}>
+                            {step.category}
+                          </span>
+                        )}
+                        <span className="text-[10px] font-semibold text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {step.estimated_days}d
+                        </span>
+                      </div>
+                      <p className={`text-sm font-bold leading-tight mb-1 transition-colors
+                        ${isCompleted ? 'text-green-500/80' : isNext ? 'text-foreground' : 'text-foreground/80'}`}>
+                        {step.title}
+                      </p>
+                      <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))
+              );
+            })}
+          </div>
         ) : (
-          <p className="text-xs text-muted-foreground text-center pt-8">No roadmap generated yet.</p>
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-4 pt-10">
+            <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center">
+              <Map className="w-8 h-8 text-muted-foreground/50" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-foreground">No Roadmap Yet</p>
+              <p className="text-xs text-muted-foreground mt-1 max-w-[200px]">Ask the AI Counselor to generate a custom career roadmap for you.</p>
+            </div>
+          </div>
         )}
 
-        <p className="text-[10px] text-muted-foreground/50 text-center pt-2 pb-1">
-          Roadmap will update based on your conversations
-        </p>
+        {roadmap?.steps && (
+          <div className="mt-8 pb-4 text-center">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <p className="text-[10px] font-semibold text-muted-foreground">
+                Roadmap evolves with your progress
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -532,6 +533,7 @@ export default function AICounselorPage() {
   const [isLoadingRoadmap, setIsLoadingRoadmap] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showVoiceMode, setShowVoiceMode] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Fetch roadmap when panel is opened
@@ -636,6 +638,38 @@ export default function AICounselorPage() {
     checkOnboarding();
     loadSession();
   }, []);
+
+  const handleMarkCompleted = async (stepId: number, title: string) => {
+    if (completedSteps.includes(stepId)) return;
+    
+    // Optimistic UI update
+    setCompletedSteps(prev => [...prev, stepId]);
+    
+    try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || "" : "";
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/career/progress/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          step_id: stepId,
+          status: "completed",
+          completion_percentage: 100
+        })
+      });
+      
+      if (res.ok) {
+        // Send a message to the AI automatically so it gets context of the completion
+        sendMessage(`I have just completed the roadmap step: ${title}! What should I do next?`);
+      } else {
+        // Revert on failure
+        setCompletedSteps(prev => prev.filter(id => id !== stepId));
+      }
+    } catch (err) {
+      console.error("Failed to mark step as completed", err);
+      // Revert on failure
+      setCompletedSteps(prev => prev.filter(id => id !== stepId));
+    }
+  };
 
   const handleOnboardingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -979,7 +1013,13 @@ export default function AICounselorPage() {
         {/* ── Roadmap Panel ── */}
         <AnimatePresence>
           {showRoadmap && (
-            <RoadmapPanel onClose={() => setShowRoadmap(false)} roadmap={roadmap} isLoading={isLoadingRoadmap} />
+            <RoadmapPanel 
+              onClose={() => setShowRoadmap(false)} 
+              roadmap={roadmap} 
+              isLoading={isLoadingRoadmap} 
+              completedSteps={completedSteps}
+              onMarkCompleted={handleMarkCompleted}
+            />
           )}
         </AnimatePresence>
       </div>
