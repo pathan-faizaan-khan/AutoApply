@@ -720,7 +720,16 @@ export default function AICounselorPage() {
       timestamp: Date.now(),
     };
 
-    const updatedMessages = [...messages, userMsg];
+    // Auto-start new chat if limit reached
+    let baseMessages = messages;
+    let sessionId = activeSessionId;
+    if (messages.length >= 20) {
+      baseMessages = [];
+      sessionId = "";
+      setActiveSessionId("");
+    }
+
+    const updatedMessages = [...baseMessages, userMsg];
     setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
@@ -735,6 +744,7 @@ export default function AICounselorPage() {
         },
         body: JSON.stringify({
           message: text.trim(),
+          reset_session: messages.length >= 20
         }),
       });
 
@@ -759,20 +769,21 @@ export default function AICounselorPage() {
 
       // Save/update session
       const sessionTitle = getSessionTitle(finalMessages);
-      let sessionId = activeSessionId;
+      
+      let finalSessionId = sessionId;
 
       setSessions((prev) => {
         let updated: ChatSession[];
-        if (!sessionId || !prev.find((s) => s.id === sessionId)) {
-          sessionId = generateId();
-          setActiveSessionId(sessionId);
+        if (!finalSessionId || !prev.find((s) => s.id === finalSessionId)) {
+          finalSessionId = generateId();
+          setActiveSessionId(finalSessionId);
           updated = [
-            { id: sessionId, title: sessionTitle, messages: finalMessages, createdAt: Date.now() },
+            { id: finalSessionId, title: sessionTitle, messages: finalMessages, createdAt: Date.now() },
             ...prev,
           ];
         } else {
           updated = prev.map((s) =>
-            s.id === sessionId ? { ...s, title: sessionTitle, messages: finalMessages } : s
+            s.id === finalSessionId ? { ...s, title: sessionTitle, messages: finalMessages } : s
           );
         }
         persistSessions(updated);
