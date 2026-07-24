@@ -10,7 +10,7 @@ import {
   LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
   LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History,
-  Trophy, MoreHorizontal, X, Download
+  Trophy, MoreHorizontal, X, Download, BrainCircuit
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 import { ExtensionOnboardingModal } from "./ExtensionOnboardingModal";
@@ -31,6 +31,7 @@ const NAV: NavItem[] = [
   { label: "Outreach History",icon: History,         href: "/history" },
   { label: "Interviews",      icon: CalendarDays,    href: "/interviews" },
   { label: "AI Practice",     icon: MessageSquare,   href: "/mock-interviews" },
+  { label: "AI Counselor",    icon: BrainCircuit,    href: "/ai-counselor" },
 ];
 
 const BOTTOM: NavItem[] = [

@@ -20,6 +20,7 @@ import {
   Mail,
   History,
   Trophy,
+  BrainCircuit,
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
@@ -34,6 +35,7 @@ const navItems = [
   { label: "Interviews", icon: CalendarDays, href: "/interviews" },
   { label: "Selected", icon: Trophy, href: "/selected" },
   { label: "AI Practice", icon: MessageSquare, href: "/mock-interviews" },
+  { label: "AI Counselor", icon: BrainCircuit, href: "/ai-counselor" },
   { label: "Analytics", icon: BarChart2, href: "/analytics" },
 ];
 
