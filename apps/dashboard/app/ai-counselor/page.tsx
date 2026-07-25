@@ -748,8 +748,13 @@ export default function AICounselorPage() {
         }),
       });
 
-      const data = await res.json();
-      const replyContent = data.reply || "Sorry, I encountered an error. Please try again.";
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        throw new Error("Invalid response format");
+      }
+      const replyContent = data.reply || data.error || "Sorry, I encountered an error. Please try again.";
 
       // Handle server-side actions
       if (data.action_taken === "roadmap_generated") {
