@@ -521,7 +521,7 @@ function ContextWindowPill({ count }: { count: number }) {
 export default function AICounselorPage() {
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
   const [isSubmittingOnboarding, setIsSubmittingOnboarding] = useState(false);
-  const [onboardingData, setOnboardingData] = useState({ role: "", skills: "" });
+  const [onboardingData, setOnboardingData] = useState({ role: "" });
 
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string>("");
@@ -621,7 +621,7 @@ export default function AICounselorPage() {
         if (res.ok) {
           const data = await res.json();
           const p = data.profile;
-          if (!p || !p.skills || !p.jobTitle) {
+          if (!p || !p.jobTitle) {
             setIsOnboarded(false);
           } else {
             setIsOnboarded(true);
@@ -673,13 +673,12 @@ export default function AICounselorPage() {
 
   const handleOnboardingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!onboardingData.role.trim() || !onboardingData.skills.trim()) return;
+    if (!onboardingData.role.trim()) return;
     setIsSubmittingOnboarding(true);
     try {
       const token = localStorage.getItem("token") || "";
       const payload = {
         jobTitle: onboardingData.role.trim(),
-        skills: onboardingData.skills.trim(),
       };
       await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/profile`, {
         method: "PUT",
@@ -888,17 +887,7 @@ export default function AICounselorPage() {
                     onChange={(e) => setOnboardingData({ ...onboardingData, role: e.target.value })}
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold mb-1.5 ml-1">Top Skills</label>
-                  <input 
-                    type="text" 
-                    required
-                    placeholder="e.g. React, TypeScript, Node.js"
-                    className="w-full bg-background/50 border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary/50 transition-colors"
-                    value={onboardingData.skills}
-                    onChange={(e) => setOnboardingData({ ...onboardingData, skills: e.target.value })}
-                  />
-                </div>
+
                 <button 
                   type="submit"
                   disabled={isSubmittingOnboarding}
