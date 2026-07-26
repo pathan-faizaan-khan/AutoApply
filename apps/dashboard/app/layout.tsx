@@ -5,6 +5,7 @@ import { ThemeProvider } from "../components/providers/ThemeProvider";
 import { CacheProvider } from "../components/providers/CacheProvider";
 import { SidebarWithContent } from "../components/SidebarWithContent";
 import { TopLoadingBar } from "../components/TopLoadingBar";
+import { BackendWakeupProvider } from "../components/providers/BackendWakeupProvider";
 
 export const metadata: Metadata = {
   title: "Auto Apply AI — Dashboard",
@@ -25,14 +26,16 @@ export default function RootLayout({
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <Suspense fallback={null}>
-              <TopLoadingBar />
-            </Suspense>
-            <div className="h-full">
-              <SidebarWithContent>
-                {children}
-              </SidebarWithContent>
-            </div>
+            <BackendWakeupProvider>
+              <Suspense fallback={null}>
+                <TopLoadingBar />
+              </Suspense>
+              <div className="h-full">
+                <SidebarWithContent>
+                  {children}
+                </SidebarWithContent>
+              </div>
+            </BackendWakeupProvider>
           </ThemeProvider>
         </CacheProvider>
       </body>

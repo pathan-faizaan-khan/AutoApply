@@ -229,7 +229,7 @@ export function VoiceMode({ onClose, chatHistory, onExchangeComplete }: VoiceMod
       const res   = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/career/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ message: userText }),
+        body: JSON.stringify({ message: userText, voice_mode: true }),
       });
       const data  = await res.json();
       const reply = data.reply || "Could you repeat that? I didn't quite catch it.";
