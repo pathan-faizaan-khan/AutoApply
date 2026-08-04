@@ -17,6 +17,7 @@ export async function POST(
     else if (action === 'register') backendEndpoint = '/api/auth/register';
     else if (action === 'verify-otp') backendEndpoint = '/api/auth/verify-otp';
     else if (action === 'google') backendEndpoint = '/api/auth/google';
+    else if (action === 'guest') backendEndpoint = '/api/auth/guest';
     else {
       return NextResponse.json({ error: 'Not Found' }, { status: 404 });
     }

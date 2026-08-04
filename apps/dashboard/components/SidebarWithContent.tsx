@@ -10,7 +10,7 @@ import {
   LayoutDashboard, Briefcase, FileText,
   CalendarDays, User, MessageSquare,
   LogOut, ChevronLeft, ChevronRight, UserCheck, Mail, History,
-  Trophy, MoreHorizontal, X, Download, BrainCircuit
+  Trophy, MoreHorizontal, X, Download, BrainCircuit, UserRound, Sparkles
 } from "lucide-react";
 import { ThemeToggle } from "./ui/ThemeToggle";
 import { ExtensionOnboardingModal } from "./ExtensionOnboardingModal";
@@ -86,6 +86,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isExtensionModalOpen, setIsExtensionModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
   const pathname = usePathname();
   const sidebarW = collapsed ? COLLAPSED : EXPANDED;
 
@@ -110,12 +111,26 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
     const currentToken = localStorage.getItem("token");
     if (!currentToken) {
       window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
+      return;
+    }
+
+    // Decode isGuest from JWT payload
+    try {
+      const parts = currentToken.split(".");
+      if (parts[1]) {
+        const padded = parts[1] + "=" .repeat((4 - parts[1].length % 4) % 4);
+        const payload = JSON.parse(atob(padded.replace(/-/g, "+").replace(/_/g, "/")));
+        setIsGuest(payload.isGuest === true);
+      }
+    } catch {
+      // Ignore decode errors
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app/login";
+    const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app";
+    window.location.href = isGuest ? `${landingUrl}/signup` : `${landingUrl}/login`;
   };
 
   // Only offset on desktop — avoids window.innerWidth during SSR
@@ -166,6 +181,40 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
 
         {/* Main Nav */}
         <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto overflow-x-hidden hide-scrollbar">
+          {/* Guest Session Banner */}
+          {isGuest && !collapsed && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-3 mx-1 rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3"
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <UserRound className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Guest Session</span>
+              </div>
+              <p className="text-[11px] text-amber-700 dark:text-amber-300/80 leading-relaxed mb-2">
+                You're exploring as a guest. Sign up to save your data and unlock all features.
+              </p>
+              <a
+                href={`${process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app"}/signup`}
+                className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:underline"
+              >
+                <Sparkles className="w-3 h-3" />
+                Create free account →
+              </a>
+            </motion.div>
+          )}
+          {/* Collapsed guest indicator */}
+          {isGuest && collapsed && (
+            <div title="Guest Session — Click to sign up" className="flex justify-center mb-2">
+              <a
+                href={`${process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app"}/signup`}
+                className="p-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30"
+              >
+                <UserRound className="w-4 h-4 text-amber-500" />
+              </a>
+            </div>
+          )}
           {NAV.map((item) => (
             <NavLink key={item.href} item={item} collapsed={collapsed} isActive={pathname === item.href} />
           ))}
@@ -199,14 +248,24 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
             </AnimatePresence>
           </button>
 
-          {/* Logout */}
+          {/* Logout / Exit Guest */}
           <button
             onClick={handleLogout}
-            title={collapsed ? "Log Out" : undefined}
-            className="w-full relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-red-500 hover:text-red-600 group overflow-hidden transition-colors"
+            title={collapsed ? (isGuest ? "Exit & Sign Up" : "Log Out") : undefined}
+            className={`w-full relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold group overflow-hidden transition-colors ${
+              isGuest
+                ? "text-amber-600 dark:text-amber-400 hover:text-amber-700"
+                : "text-red-500 hover:text-red-600"
+            }`}
           >
-            <div className="absolute inset-0 bg-red-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-            <LogOut className="w-[18px] h-[18px] relative z-10 shrink-0" />
+            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity ${
+              isGuest ? "bg-amber-500/5" : "bg-red-500/5"
+            }`} />
+            {isGuest ? (
+              <Sparkles className="w-[18px] h-[18px] relative z-10 shrink-0" />
+            ) : (
+              <LogOut className="w-[18px] h-[18px] relative z-10 shrink-0" />
+            )}
             <AnimatePresence>
               {!collapsed && (
                 <motion.span
@@ -215,7 +274,7 @@ export function SidebarWithContent({ children }: { children: React.ReactNode }) 
                   exit={{ opacity: 0 }}
                   className="relative z-10 whitespace-nowrap"
                 >
-                  Log Out
+                  {isGuest ? "Exit & Sign Up" : "Log Out"}
                 </motion.span>
               )}
             </AnimatePresence>

@@ -331,6 +331,8 @@ function getGreeting() {
 
 export default function DashboardHome() {
   const [user, setUser] = useState<User | null>(null);
+  const [isGuest, setIsGuest] = useState(false);
+  const [guestBannerDismissed, setGuestBannerDismissed] = useState(false);
   
   const { data, loading, error, refetch, isRefreshing } = useCachedFetch<DashboardData>("/api/dashboard", null);
 
@@ -354,7 +356,13 @@ export default function DashboardHome() {
         const b64 = activeToken.split(".")[1];
         if (b64) {
           const json = JSON.parse(atob(b64.replace(/-/g, "+").replace(/_/g, "/")));
-          setUser({ id: json.userId, email: json.email, name: json.name || "User" });
+          const guest = json.isGuest === true;
+          setIsGuest(guest);
+          setUser({
+            id: json.userId,
+            email: json.email,
+            name: guest ? "Guest" : (json.name || "User"),
+          });
         }
       } catch {
         setUser({ id: 1, email: "user@example.com", name: "User" });
@@ -464,6 +472,8 @@ export default function DashboardHome() {
               ? "Fetching your latest data…"
               : error
               ? "Some data couldn't be loaded — retrying will help"
+              : isGuest
+              ? "Explore the dashboard — sign up to save your progress"
               : `${data?.stats.jobsAvailable ?? 0} jobs available · ${data?.stats.emailsSent ?? 0} emails sent`}
           </p>
         </div>
@@ -477,6 +487,49 @@ export default function DashboardHome() {
           {isRefreshing ? "Refreshing…" : "Refresh"}
         </button>
       </motion.div>
+
+      {/* ── Guest Onboarding Banner ────────────────────────────────────────── */}
+      <AnimatePresence>
+        {isGuest && !guestBannerDismissed && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-amber-500/10 p-4 flex items-center justify-between gap-4 relative overflow-hidden"
+          >
+            {/* Glow strip */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 shrink-0">
+                <Lightbulb className="w-4 h-4 text-amber-500" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-foreground">
+                  You're on a guest session <span className="text-amber-500">· 24-hour access</span>
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Your data won't be saved. Create a free account to unlock campaigns, resume uploads, cold emails, and more.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <a
+                href={`${process.env.NEXT_PUBLIC_LANDING_URL || "https://autoapply-web-ochre.vercel.app"}/signup`}
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+              >
+                Sign up free
+              </a>
+              <button
+                onClick={() => setGuestBannerDismissed(true)}
+                className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-muted-foreground hover:text-foreground"
+              >
+                <span className="text-base leading-none">&times;</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Stat cards ────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">

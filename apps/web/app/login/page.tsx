@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import Link from 'next/link';
-import { ArrowRight, Mail, Lock, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Mail, Lock, CheckCircle2, UserRound } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -83,6 +83,21 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Google login failed');
 
+      window.location.href = `${dashboardUrl}?token=${data.token}`;
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/auth/guest`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not start guest session');
       window.location.href = `${dashboardUrl}?token=${data.token}`;
     } catch (err: any) {
       setError(err.message);
@@ -178,7 +193,24 @@ export default function LoginPage() {
               />
             </div>
 
-            <p className="text-center text-muted-foreground font-medium mt-6 text-[14px]">
+            {/* Guest Login */}
+            <div className="relative flex pt-2 pb-2 items-center">
+              <div className="flex-grow border-t border-border" />
+              <span className="flex-shrink mx-4 text-muted-foreground text-xs uppercase tracking-wider font-medium">or</span>
+              <div className="flex-grow border-t border-border" />
+            </div>
+
+            <button
+              type="button"
+              disabled={loading}
+              onClick={handleGuestLogin}
+              className="w-full py-3.5 border border-border bg-transparent hover:bg-muted/50 disabled:opacity-50 transition-all rounded-[20px] font-medium flex items-center justify-center gap-2 text-[15px] text-muted-foreground hover:text-foreground"
+            >
+              <UserRound className="w-4 h-4" />
+              {loading ? 'Starting session...' : 'Continue as Guest'}
+            </button>
+
+            <p className="text-center text-muted-foreground font-medium mt-4 text-[14px]">
               Don't have an account?{' '}
               <Link href="/signup" className="text-foreground hover:text-primary transition-colors font-semibold">
                 Sign up
